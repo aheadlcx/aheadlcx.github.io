@@ -7,8 +7,7 @@
   <meta name="author" content="John Doe">
   
   <meta name="description" content="#背景    需要在安装系统上，实现对NFC标签的读取数据功能。
-#NFC简介    NFC，是Near Field Communication（近场通信）的简称。在api 9开始支持nfc，不过不完善，api 10支持比较完善了，建议目标app最小API 为10；
-#安卓手机支持的NFC标签类型 ">
+#NFC简介    NFC，是Near Field Communication（近场通信）的简称。在api 9开始支持nfc，不过不完善，api 10支持比较完善了，建议目标app最小API 为10；">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -65,7 +64,7 @@
     <div class="entry">
       
         <p>#背景<br>    需要在安装系统上，实现对NFC标签的读取数据功能。</p>
-<p>#NFC简介<br>    NFC，是Near Field Communication（近场通信）的简称。在api 9开始支持nfc，不过不完善，api 10支持比较完善了，建议目标app最小API 为10；</p>
+<p>#NFC简介<br>    NFC，是Near Field Communication（近场通信）的简称。在api 9开始支持nfc，不过不完善，api 10支持比较完善了，建议目标app最小API 为10；<br><a id="more"></a></p>
 <p>#安卓手机支持的NFC标签类型<br>    支持IsoDep、NfcA、NfcB、NfcF、NfcV、Ndef、NdefFormatable、MifareClassic和MifareUltralight类型。<br>如果是是仅仅实现读取数据，建议取MifareClassic类型的NFC 标签。</p>
 <p>#NFC标签和android设备的通信<br>他们之间的通信，在底层由谷歌实现了的，JNI层和native层的代码，针对各个芯片，是有不同的类实现的，没有很好的统一，可读性很差（本人没有去读，【深入理解Android：WiFi、NFC和GPS卷】书中原话）。在应用层，android系统都是讲读取到的信息，组装成了一个intent的。我们可能需要在activity的onCreate中对接受到的intent实现读取，或者在activity的onNewIntent方法中实现读取信息。接下来我们分析这个intent的分发系统</p>
 <p>#NFC权限<br>如果你的app需要使用nfc，必须在清单文件中注册权限。</p>
