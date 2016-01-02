@@ -1,16 +1,825 @@
-<a id="rocket" href="#top" class="show"></a><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/><meta content="telephone=no" name="format-detection"/><meta name="description"/><title>aheadlcx | null</title><link rel="stylesheet" type="text/css" href="/css/normalize.css"/><link rel="stylesheet" type="text/css" href="/css/pure-min.css"/><link rel="stylesheet" type="text/css" href="/css/grids-responsive-min.css"/><link rel="stylesheet" type="text/css" href="/css/style.css"/><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"/><link rel="apple-touch-icon" href="/apple-touch-icon.png"/><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"/><link rel="alternate" type="application/atom+xml" href="/atom.xml"/></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">aheadlcx</h1><a id="logo" href="/">aheadlcx</a><p class="description"></p></div><div id="nav-menu"><a href="/" class="current"><i class="icon-home"> 首页</i></a><a href="/archives"><i class="icon-archive"> 归档</i></a><a href="/about/"><i class="icon-about"> 关于</i></a><!--+a_with_current(config.feed.path, __('rss'), 'icon-rss')--></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h2 class="post-title"><a href="/2015/12/21/从源码去理解事件分发/">从源码去理解事件分发</a></h2><div class="post-meta">2015-12-21</div><span data-thread-key="2015/12/21/从源码去理解事件分发/" class="ds-thread-count"></span><div class="post-abstract"><!-- 此文，是从点击事件接受到层层分发角度，分析android上的事件分发，以及后面提到了几种常见的事件冲突处理 --></div><p class="readmore"><a href="/2015/12/21/从源码去理解事件分发/">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/2015/12/21/View绘制注意点以及重要生命周期方法/">View绘制注意点以及重要生命周期方法</a></h2><div class="post-meta">2015-12-21</div><span data-thread-key="2015/12/21/View绘制注意点以及重要生命周期方法/" class="ds-thread-count"></span><div class="post-abstract"><!-- 本文主要讲述对View的非常用用法以及自定义View要点 --></div><p class="readmore"><a href="/2015/12/21/View绘制注意点以及重要生命周期方法/">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/2015/12/21/post我所理解的View绘制-md/">我所理解的View绘制</a></h2><div class="post-meta">2015-12-21</div><span data-thread-key="2015/12/21/post我所理解的View绘制-md/" class="ds-thread-count"></span><div class="post-abstract"><!-- 本文是对View绘制的理解的笔记文章，以及一些三方View的源码分析 --></div><p class="readmore"><a href="/2015/12/21/post我所理解的View绘制-md/">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/2015/11/02/test-line/">test_line</a></h2><div class="post-meta">2015-11-02</div><span data-thread-key="2015/11/02/test-line/" class="ds-thread-count"></span><div class="post-abstract"><h1 id="第一级标题">第一级标题</h1><h2 id="第二级别标题">第二级别标题</h2><h3 id="三级标题">三级标题</h3></div><p class="readmore"><a href="/2015/11/02/test-line/">阅读更多</a></p></div><div class="post"><h2 class="post-title"><a href="/2015/11/01/test-post/">test post</a></h2><div class="post-meta">2015-11-01</div><span data-thread-key="2015/11/01/test-post/" class="ds-thread-count"></span><div class="post-abstract"><p>##title 测试下</p></div><p class="readmore"><a href="/2015/11/01/test-post/">阅读更多</a></p></div><div class="page-navigator"><a href="/page/2/" class="next">下一页</a></div></div></div><div class="pure-u-1-4"><div id="sidebar"><div class="widget"><div class="widget-title">分类</div></div><div class="widget"><div class="widget-title">标签</div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title">最新文章</div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/从源码去理解事件分发/">从源码去理解事件分发</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/View绘制注意点以及重要生命周期方法/">View绘制注意点以及重要生命周期方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/post我所理解的View绘制-md/">我所理解的View绘制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/02/test-line/">test_line</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/test-post/">test post</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/02/02/安卓上面的NFC简单应用实例/">安卓上面的NFC简单应用实例</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/21/my-analyse-about-volley/">my analyse about volley</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/14/postservice/">关于安卓中的服务service</a></li></ul></div><div class="widget"><div class="widget-title">友情链接</div><ul><a href="http://example1.com/" title="site-name 1" target="_blank" rel="external">site-name 1</a></ul><ul><a href="http://example2.com/" title="site-name 2" target="_blank" rel="external">site-name 2</a></ul><ul><a href="http://example3.com/" title="site-name 3" target="_blank" rel="external">site-name 3</a></ul></div></div></div></div><div id="footer">© <a href="/" rel="nofollow">aheadlcx.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></body><script src="/js/jquery.min.js" type="text/javascript"></script>
-<script src="/js/totop.js" type="text/javascript"></script><script src="/js/fancybox.pack.js" type="text/javascript"></script><link rel="stylesheet" href="/css/jquery.fancybox.css" type="text/css"><script>$(document).ready(function() {
-  $("img").wrap(function() {
-    if ($(this).hasClass('nofancybox')) return;
-    return '<a href="' + $(this).attr("src") + '" rel="group" />'});
-});</script><script>$(document).ready(function() {
-  $("a[href$='.jpg'],a[href$='.png'],a[href$='.gif']").attr('rel', 'gallery').fancybox({
-   helpers : {
-   title: { type: 'inside'}
-   },
-   afterLoad: function(){
-   this.title = this.title + ' ' + $(this.element).find('img').attr('alt');
-   }
- });
-});
-</script></html>
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="aheadlcx">
+<meta property="og:url" content="http://www.aheadlcx.xyz/index.html">
+<meta property="og:site_name" content="aheadlcx">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="aheadlcx">
+<meta name="twitter:description">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> aheadlcx </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">aheadlcx</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+  <section id="posts" class="posts-expand">
+
+    
+
+    
+    
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/21/从源码去理解事件分发/" itemprop="url">
+                  从源码去理解事件分发
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2015-12-21T19:47:37+08:00" content="2015-12-21">
+              2015-12-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <!-- 此文，是从点击事件接受到层层分发角度，分析android上的事件分发，以及后面提到了几种常见的事件冲突处理 -->
+<h1 id="首先做安全校验">首先做安全校验</h1><h2 id="onFilterTouchEventForSecurity方法会检查当前ViewGroup和此motionEvent是否已经被其他window挡着了">onFilterTouchEventForSecurity方法会检查当前ViewGroup和此motionEvent是否已经被其他window挡着了</h2><p>如果是的话，就不再进行，此motionEvent对当前ViewGroup的事件分发了。</p>
+<h2 id="如果是donw事件，就恢复状态">如果是donw事件，就恢复状态</h2><p>// Handle an initial down.<br>            if (actionMasked == MotionEvent.ACTION_DOWN) {<br>                // Throw away all previous state when starting a new touch gesture.<br>                // The framework may have dropped the up or cancel event for the previous gesture<br>                // due to an app switch, ANR, or some other state change.<br>                cancelAndClearTouchTargets(ev);<br>                resetTouchState();<br>            }</p>
+<h2 id="检查是否拦截事件，当时down事件，或者之前已经有对此事件感兴趣的子View（mFirstTouchTarget）">检查是否拦截事件，当时down事件，或者之前已经有对此事件感兴趣的子View（mFirstTouchTarget）</h2><p>// Check for interception.<br>            final boolean intercepted;<br>            if (actionMasked == MotionEvent.ACTION_DOWN<br>                    || mFirstTouchTarget != null) {<br>                    //如果为true，那就是之前down事件中，子view调用了，getParent().requestDisallowInterceptTouchEvent方法<br>                    //此方法意思就是，希望父viewGroup，不要对<br>                final boolean disallowIntercept = (mGroupFlags &amp; FLAG_DISALLOW_INTERCEPT) != 0;<br>                if (!disallowIntercept) {<br>                //这里调用viewgroup的拦截事件方法onInterceptTouchEvent<br>                //由此看出，onInterceptTouchEvent方法，不能确保可以收到所有的事件的，如果在down事件中不拦截，交给子view了，子view<br>                //调用了getParent().requestDisallowInterceptTouchEvent方法，就代表向父ViewGroup申请，一直交给子view来处理了<br>                    intercepted = onInterceptTouchEvent(ev);<br>                    ev.setAction(action); // restore action in case it was changed<br>                } else {<br>                    intercepted = false;<br>                }<br>            } else {<br>            //如果如果在down事件时，viewgroup就消费了事件，返回了true，那么mFirstTouchTarget = null<br>            //因此viewgroup会拦截事件，并且直接交由自己来处理剩下的事件<br>                // There are no touch targets and this action is not an initial down<br>                // so this view group continues to intercept touches.<br>                intercepted = true;<br>            }</p>
+<h2 id="如果事件还没有取消或者没有被拦截">如果事件还没有取消或者没有被拦截</h2><pre><code><span class="function_or_atom">if</span> (<span class="exclamation_mark">!</span><span class="function_or_atom">canceled</span> &amp;&amp; <span class="exclamation_mark">!</span><span class="function_or_atom">intercepted</span>) {
+</code></pre><h3 id="如果是down事件（实际上还有几个逻辑判断，未明）">如果是down事件（实际上还有几个逻辑判断，未明）</h3><p>if (actionMasked == MotionEvent.ACTION_DOWN<br>                        || (split &amp;&amp; actionMasked == MotionEvent.ACTION_POINTER_DOWN)<br>                        || actionMasked == MotionEvent.ACTION_HOVER_MOVE) {</p>
+<h4 id="遍历所有子view">遍历所有子view</h4><p>for (int i = childrenCount - 1; i &gt;= 0; i–) {</p>
+<h5 id="过滤掉不合适的子View">过滤掉不合适的子View</h5><ul>
+<li>如果不能接收事件的子View， 是Visible状态或者正在做动画的才可以接受事件</li>
+<li>点击不是在子View边界内</li>
+</ul>
+<h5 id="把事件传递到子View，看子View是否感兴趣，返回true代表，子View对此事件感兴趣">把事件传递到子View，看子View是否感兴趣，返回true代表，子View对此事件感兴趣</h5><p>if (dispatchTransformedTouchEvent(ev, false, child, idBitsToAssign)) {</p>
+<h6 id="如果对此事件感兴趣">如果对此事件感兴趣</h6><p>在此方法中给mFirstTouchTarget = target;赋值了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * Adds a touch target for specified child to the beginning of the list.</span><br><span class="line">     * Assumes the target child is not already present.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> TouchTarget <span class="title">addTouchTarget</span><span class="params">(View child, <span class="keyword">int</span> pointerIdBits)</span> </span>&#123;</span><br><span class="line">        TouchTarget target = TouchTarget.obtain(child, pointerIdBits);</span><br><span class="line">        target.next = mFirstTouchTarget;</span><br><span class="line">        mFirstTouchTarget = target;</span><br><span class="line">        <span class="keyword">return</span> target;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>给newTouchTarget赋值 并且设置 alreadyDispatchedToNewTouchTarget == true</p>
+<h2 id="如果mFirstTouchTarget_==_null，意味着down事件当中没有子View处理。">如果mFirstTouchTarget == null，意味着down事件当中没有子View处理。</h2><p>那么就有此ViewGroup来出来，此 ViewGroup就调用super.dispatchTouchEvent方法。</p>
+<h2 id="如果mFirstTouchTarget_！=_null，意味着down事件当中有子View处理。">如果mFirstTouchTarget ！= null，意味着down事件当中有子View处理。</h2><p>// Dispatch to touch targets, excluding the new touch target if we already<br>// dispatched to it.  Cancel touch targets if necessary.<br>继续分发事件下去，</p>
+<h1 id="dispatchTouchEvent方法">dispatchTouchEvent方法</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mInputEventConsistencyVerifier != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mInputEventConsistencyVerifier.onTouchEvent(ev, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If the event targets the accessibility focused view and this is it, start</span></span><br><span class="line">    <span class="comment">// normal event dispatch. Maybe a descendant is what will handle the click.</span></span><br><span class="line">    <span class="keyword">if</span> (ev.isTargetAccessibilityFocus() &amp;&amp; isAccessibilityFocusedViewOrHost()) &#123;</span><br><span class="line">        ev.setTargetAccessibilityFocus(<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span> handled = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (onFilterTouchEventForSecurity(ev)) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> action = ev.getAction();</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> actionMasked = action &amp; MotionEvent.ACTION_MASK;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Handle an initial down.</span></span><br><span class="line">        <span class="keyword">if</span> (actionMasked == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">            <span class="comment">// Throw away all previous state when starting a new touch gesture.</span></span><br><span class="line">            <span class="comment">// The framework may have dropped the up or cancel event for the previous gesture</span></span><br><span class="line">            <span class="comment">// due to an app switch, ANR, or some other state change.</span></span><br><span class="line">            cancelAndClearTouchTargets(ev);</span><br><span class="line">            resetTouchState();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Check for interception.</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> intercepted;</span><br><span class="line">        <span class="keyword">if</span> (actionMasked == MotionEvent.ACTION_DOWN</span><br><span class="line">                || mFirstTouchTarget != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">boolean</span> disallowIntercept = (mGroupFlags &amp; FLAG_DISALLOW_INTERCEPT) != <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (!disallowIntercept) &#123;</span><br><span class="line">                intercepted = onInterceptTouchEvent(ev);</span><br><span class="line">                ev.setAction(action); <span class="comment">// restore action in case it was changed</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                intercepted = <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// There are no touch targets and this action is not an initial down</span></span><br><span class="line">            <span class="comment">// so this view group continues to intercept touches.</span></span><br><span class="line">            intercepted = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If intercepted, start normal event dispatch. Also if there is already</span></span><br><span class="line">        <span class="comment">// a view that is handling the gesture, do normal event dispatch.</span></span><br><span class="line">        <span class="keyword">if</span> (intercepted || mFirstTouchTarget != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ev.setTargetAccessibilityFocus(<span class="keyword">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Check for cancelation.</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> canceled = resetCancelNextUpFlag(<span class="keyword">this</span>)</span><br><span class="line">                || actionMasked == MotionEvent.ACTION_CANCEL;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Update list of touch targets for pointer down, if needed.</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> split = (mGroupFlags &amp; FLAG_SPLIT_MOTION_EVENTS) != <span class="number">0</span>;</span><br><span class="line">        TouchTarget newTouchTarget = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">boolean</span> alreadyDispatchedToNewTouchTarget = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (!canceled &amp;&amp; !intercepted) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// If the event is targeting accessiiblity focus we give it to the</span></span><br><span class="line">            <span class="comment">// view that has accessibility focus and if it does not handle it</span></span><br><span class="line">            <span class="comment">// we clear the flag and dispatch the event to all children as usual.</span></span><br><span class="line">            <span class="comment">// We are looking up the accessibility focused host to avoid keeping</span></span><br><span class="line">            <span class="comment">// state since these events are very rare.</span></span><br><span class="line">            View childWithAccessibilityFocus = ev.isTargetAccessibilityFocus()</span><br><span class="line">                    ? findChildWithAccessibilityFocus() : <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (actionMasked == MotionEvent.ACTION_DOWN</span><br><span class="line">                    || (split &amp;&amp; actionMasked == MotionEvent.ACTION_POINTER_DOWN)</span><br><span class="line">                    || actionMasked == MotionEvent.ACTION_HOVER_MOVE) &#123;</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> actionIndex = ev.getActionIndex(); <span class="comment">// always 0 for down</span></span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> idBitsToAssign = split ? <span class="number">1</span> &lt;&lt; ev.getPointerId(actionIndex)</span><br><span class="line">                        : TouchTarget.ALL_POINTER_IDS;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// Clean up earlier touch targets for this pointer id in case they</span></span><br><span class="line">                <span class="comment">// have become out of sync.</span></span><br><span class="line">                removePointersFromTouchTargets(idBitsToAssign);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> childrenCount = mChildrenCount;</span><br><span class="line">                <span class="keyword">if</span> (newTouchTarget == <span class="keyword">null</span> &amp;&amp; childrenCount != <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">final</span> <span class="keyword">float</span> x = ev.getX(actionIndex);</span><br><span class="line">                    <span class="keyword">final</span> <span class="keyword">float</span> y = ev.getY(actionIndex);</span><br><span class="line">                    <span class="comment">// Find a child that can receive the event.</span></span><br><span class="line">                    <span class="comment">// Scan children from front to back.</span></span><br><span class="line">                    <span class="keyword">final</span> ArrayList&lt;View&gt; preorderedList = buildOrderedChildList();</span><br><span class="line">                    <span class="keyword">final</span> <span class="keyword">boolean</span> customOrder = preorderedList == <span class="keyword">null</span></span><br><span class="line">                            &amp;&amp; isChildrenDrawingOrderEnabled();</span><br><span class="line">                    <span class="keyword">final</span> View[] children = mChildren;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = childrenCount - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">                        <span class="keyword">final</span> <span class="keyword">int</span> childIndex = customOrder</span><br><span class="line">                                ? getChildDrawingOrder(childrenCount, i) : i;</span><br><span class="line">                        <span class="keyword">final</span> View child = (preorderedList == <span class="keyword">null</span>)</span><br><span class="line">                                ? children[childIndex] : preorderedList.get(childIndex);</span><br><span class="line"></span><br><span class="line">                        <span class="comment">// If there is a view that has accessibility focus we want it</span></span><br><span class="line">                        <span class="comment">// to get the event first and if not handled we will perform a</span></span><br><span class="line">                        <span class="comment">// normal dispatch. We may do a double iteration but this is</span></span><br><span class="line">                        <span class="comment">// safer given the timeframe.</span></span><br><span class="line">                        <span class="keyword">if</span> (childWithAccessibilityFocus != <span class="keyword">null</span>) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (childWithAccessibilityFocus != child) &#123;</span><br><span class="line">                                <span class="keyword">continue</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                            childWithAccessibilityFocus = <span class="keyword">null</span>;</span><br><span class="line">                            i = childrenCount - <span class="number">1</span>;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">if</span> (!canViewReceivePointerEvents(child)</span><br><span class="line">                                || !isTransformedTouchPointInView(x, y, child, <span class="keyword">null</span>)) &#123;</span><br><span class="line">                            ev.setTargetAccessibilityFocus(<span class="keyword">false</span>);</span><br><span class="line">                            <span class="keyword">continue</span>;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        newTouchTarget = getTouchTarget(child);</span><br><span class="line">                        <span class="keyword">if</span> (newTouchTarget != <span class="keyword">null</span>) &#123;</span><br><span class="line">                            <span class="comment">// Child is already receiving touch within its bounds.</span></span><br><span class="line">                            <span class="comment">// Give it the new pointer in addition to the ones it is handling.</span></span><br><span class="line">                            newTouchTarget.pointerIdBits |= idBitsToAssign;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        resetCancelNextUpFlag(child);</span><br><span class="line">                        <span class="comment">//下面这个方法就是，判断这个子view到底对这个down事件，敢不敢兴趣，感兴趣就必须返回true</span></span><br><span class="line">                        <span class="comment">//在这个方法里面会调用子view的dispatchTouchEvent方法</span></span><br><span class="line">                        <span class="keyword">if</span> (dispatchTransformedTouchEvent(ev, <span class="keyword">false</span>, child, idBitsToAssign)) &#123;</span><br><span class="line">                            <span class="comment">// Child wants to receive touch within its bounds.</span></span><br><span class="line">                            mLastTouchDownTime = ev.getDownTime();</span><br><span class="line">                            <span class="keyword">if</span> (preorderedList != <span class="keyword">null</span>) &#123;</span><br><span class="line">                                <span class="comment">// childIndex points into presorted list, find original index</span></span><br><span class="line">                                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; childrenCount; j++) &#123;</span><br><span class="line">                                    <span class="keyword">if</span> (children[childIndex] == mChildren[j]) &#123;</span><br><span class="line">                                        mLastTouchDownIndex = j;</span><br><span class="line">                                        <span class="keyword">break</span>;</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                                mLastTouchDownIndex = childIndex;</span><br><span class="line">                            &#125;</span><br><span class="line">                            mLastTouchDownX = ev.getX();</span><br><span class="line">                            mLastTouchDownY = ev.getY();</span><br><span class="line">                            newTouchTarget = addTouchTarget(child, idBitsToAssign);</span><br><span class="line">                            alreadyDispatchedToNewTouchTarget = <span class="keyword">true</span>;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        <span class="comment">// The accessibility focus didn't handle the event, so clear</span></span><br><span class="line">                        <span class="comment">// the flag and do a normal dispatch to all children.</span></span><br><span class="line">                        ev.setTargetAccessibilityFocus(<span class="keyword">false</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (preorderedList != <span class="keyword">null</span>) preorderedList.clear();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (newTouchTarget == <span class="keyword">null</span> &amp;&amp; mFirstTouchTarget != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="comment">// Did not find a child to receive the event.</span></span><br><span class="line">                    <span class="comment">// Assign the pointer to the least recently added target.</span></span><br><span class="line">                    newTouchTarget = mFirstTouchTarget;</span><br><span class="line">                    <span class="keyword">while</span> (newTouchTarget.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        newTouchTarget = newTouchTarget.next;</span><br><span class="line">                    &#125;</span><br><span class="line">                    newTouchTarget.pointerIdBits |= idBitsToAssign;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Dispatch to touch targets.</span></span><br><span class="line">        <span class="keyword">if</span> (mFirstTouchTarget == <span class="keyword">null</span>) &#123;<span class="comment">//在down事件中，发现没有任何子view对这个事件感兴趣（返回true）</span></span><br><span class="line">            <span class="comment">// No touch targets so treat this as an ordinary view.</span></span><br><span class="line">            handled = dispatchTransformedTouchEvent(ev, canceled, <span class="keyword">null</span>,</span><br><span class="line">                    TouchTarget.ALL_POINTER_IDS);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Dispatch to touch targets, excluding the new touch target if we already</span></span><br><span class="line">            <span class="comment">// dispatched to it.  Cancel touch targets if necessary.</span></span><br><span class="line">            TouchTarget predecessor = <span class="keyword">null</span>;</span><br><span class="line">            TouchTarget target = mFirstTouchTarget;</span><br><span class="line">            <span class="keyword">while</span> (target != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">final</span> TouchTarget next = target.next;</span><br><span class="line">                <span class="keyword">if</span> (alreadyDispatchedToNewTouchTarget &amp;&amp; target == newTouchTarget) &#123;</span><br><span class="line">                    handled = <span class="keyword">true</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">final</span> <span class="keyword">boolean</span> cancelChild = resetCancelNextUpFlag(target.child)</span><br><span class="line">                            || intercepted;</span><br><span class="line">                    <span class="keyword">if</span> (dispatchTransformedTouchEvent(ev, cancelChild,</span><br><span class="line">                            target.child, target.pointerIdBits)) &#123;</span><br><span class="line">                        handled = <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (cancelChild) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (predecessor == <span class="keyword">null</span>) &#123;</span><br><span class="line">                            mFirstTouchTarget = next;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            predecessor.next = next;</span><br><span class="line">                        &#125;</span><br><span class="line">                        target.recycle();</span><br><span class="line">                        target = next;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                predecessor = target;</span><br><span class="line">                target = next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Update list of touch targets for pointer up or cancel, if needed.</span></span><br><span class="line">        <span class="keyword">if</span> (canceled</span><br><span class="line">                || actionMasked == MotionEvent.ACTION_UP</span><br><span class="line">                || actionMasked == MotionEvent.ACTION_HOVER_MOVE) &#123;</span><br><span class="line">            resetTouchState();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (split &amp;&amp; actionMasked == MotionEvent.ACTION_POINTER_UP) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> actionIndex = ev.getActionIndex();</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> idBitsToRemove = <span class="number">1</span> &lt;&lt; ev.getPointerId(actionIndex);</span><br><span class="line">            removePointersFromTouchTargets(idBitsToRemove);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!handled &amp;&amp; mInputEventConsistencyVerifier != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mInputEventConsistencyVerifier.onUnhandledEvent(ev, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> handled;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="dispatchTransformedTouchEvent方法">dispatchTransformedTouchEvent方法</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * Transforms a motion event into the coordinate space of a particular child view,</span><br><span class="line">     * filters out irrelevant pointer ids, and overrides its action if necessary.</span><br><span class="line">     * If child is null, assumes the MotionEvent will be sent to this ViewGroup instead.</span><br><span class="line">     * 这个是判断这个event，view child对他到底敢不敢兴趣。子View的dispatchTouchEvent就是在这里调用的</span><br><span class="line">     * </span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">dispatchTransformedTouchEvent</span><span class="params">(MotionEvent event, <span class="keyword">boolean</span> cancel,</span><br><span class="line">            View child, <span class="keyword">int</span> desiredPointerIdBits)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> handled;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Canceling motions is a special case.  We don't need to perform any transformations</span></span><br><span class="line">        <span class="comment">// or filtering.  The important part is the action, not the contents.</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> oldAction = event.getAction();</span><br><span class="line">        <span class="keyword">if</span> (cancel || oldAction == MotionEvent.ACTION_CANCEL) &#123;</span><br><span class="line">            event.setAction(MotionEvent.ACTION_CANCEL);</span><br><span class="line">            <span class="keyword">if</span> (child == <span class="keyword">null</span>) &#123;</span><br><span class="line">                handled = <span class="keyword">super</span>.dispatchTouchEvent(event);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                handled = child.dispatchTouchEvent(event);</span><br><span class="line">            &#125;</span><br><span class="line">            event.setAction(oldAction);</span><br><span class="line">            <span class="keyword">return</span> handled;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Calculate the number of pointers to deliver.</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> oldPointerIdBits = event.getPointerIdBits();</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> newPointerIdBits = oldPointerIdBits &amp; desiredPointerIdBits;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If for some reason we ended up in an inconsistent state where it looks like we</span></span><br><span class="line">        <span class="comment">// might produce a motion event with no pointers in it, then drop the event.</span></span><br><span class="line">        <span class="keyword">if</span> (newPointerIdBits == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If the number of pointers is the same and we don't need to perform any fancy</span></span><br><span class="line">        <span class="comment">// irreversible transformations, then we can reuse the motion event for this</span></span><br><span class="line">        <span class="comment">// dispatch as long as we are careful to revert any changes we make.</span></span><br><span class="line">        <span class="comment">// Otherwise we need to make a copy.</span></span><br><span class="line">        <span class="keyword">final</span> MotionEvent transformedEvent;</span><br><span class="line">        <span class="keyword">if</span> (newPointerIdBits == oldPointerIdBits) &#123;</span><br><span class="line">            <span class="keyword">if</span> (child == <span class="keyword">null</span> || child.hasIdentityMatrix()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (child == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    handled = <span class="keyword">super</span>.dispatchTouchEvent(event);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">final</span> <span class="keyword">float</span> offsetX = mScrollX - child.mLeft;</span><br><span class="line">                    <span class="keyword">final</span> <span class="keyword">float</span> offsetY = mScrollY - child.mTop;</span><br><span class="line">                    event.offsetLocation(offsetX, offsetY);</span><br><span class="line"></span><br><span class="line">                    handled = child.dispatchTouchEvent(event);</span><br><span class="line"></span><br><span class="line">                    event.offsetLocation(-offsetX, -offsetY);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> handled;</span><br><span class="line">            &#125;</span><br><span class="line">            transformedEvent = MotionEvent.obtain(event);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            transformedEvent = event.split(newPointerIdBits);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Perform any necessary transformations and dispatch.</span></span><br><span class="line">        <span class="keyword">if</span> (child == <span class="keyword">null</span>) &#123;</span><br><span class="line">            handled = <span class="keyword">super</span>.dispatchTouchEvent(transformedEvent);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">float</span> offsetX = mScrollX - child.mLeft;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">float</span> offsetY = mScrollY - child.mTop;</span><br><span class="line">            transformedEvent.offsetLocation(offsetX, offsetY);</span><br><span class="line">            <span class="keyword">if</span> (! child.hasIdentityMatrix()) &#123;</span><br><span class="line">                transformedEvent.transform(child.getInverseMatrix());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            handled = child.dispatchTouchEvent(transformedEvent);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Done.</span></span><br><span class="line">        transformedEvent.recycle();</span><br><span class="line">        <span class="keyword">return</span> handled;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="onFilterTouchEventForSecurity方法">onFilterTouchEventForSecurity方法</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * Filter the touch event to apply security policies.</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> event The motion event to be filtered.</span><br><span class="line">     * <span class="doctag">@return</span> True if the event should be dispatched, false if the event should be dropped.</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@see</span> #getFilterTouchesWhenObscured</span><br><span class="line">     *这个是为了防止一些恶意应用，如果这个view已经不在顶层，被其他window挡着了，就不应该继续处理这个touch。</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onFilterTouchEventForSecurity</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//noinspection RedundantIfStatement</span></span><br><span class="line">        <span class="keyword">if</span> ((mViewFlags &amp; FILTER_TOUCHES_WHEN_OBSCURED) != <span class="number">0</span></span><br><span class="line">                &amp;&amp; (event.getFlags() &amp; MotionEvent.FLAG_WINDOW_IS_OBSCURED) != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// Window is obscured, drop this touch.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="canViewReceivePotnterEvents方法">canViewReceivePotnterEvents方法</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * Returns true if a child view can receive pointer events.</span><br><span class="line">    * <span class="doctag">@hide</span></span><br><span class="line">    * 就是view的状态是visible或者正在做动画的，才可以接收事件</span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">canViewReceivePointerEvents</span><span class="params">(View child)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> (child.mViewFlags &amp; VISIBILITY_MASK) == VISIBLE</span><br><span class="line">               || child.getAnimation() != <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="addTouchTarget方法">addTouchTarget方法</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * Adds a touch target for specified child to the beginning of the list.</span><br><span class="line">     * Assumes the target child is not already present.</span><br><span class="line">     * 就是在这里，为mFirstTouchTarget赋值的</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> TouchTarget <span class="title">addTouchTarget</span><span class="params">(View child, <span class="keyword">int</span> pointerIdBits)</span> </span>&#123;</span><br><span class="line">        TouchTarget target = TouchTarget.obtain(child, pointerIdBits);</span><br><span class="line">        target.next = mFirstTouchTarget;</span><br><span class="line">        mFirstTouchTarget = target;</span><br><span class="line">        <span class="keyword">return</span> target;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/21/View绘制注意点以及重要生命周期方法/" itemprop="url">
+                  View绘制注意点以及重要生命周期方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2015-12-21T19:38:09+08:00" content="2015-12-21">
+              2015-12-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <!-- 本文主要讲述对View的非常用用法以及自定义View要点 -->
+<blockquote>
+<p>本文参考了众多前辈的文章和书籍</p>
+<blockquote>
+<p><a href="http://blog.csdn.net/singwhatiwanna" target="_blank" rel="external">任玉刚的相关文章和书籍</a><br><a href="http://blog.csdn.net/guolin_blog" target="_blank" rel="external">郭霖博客</a></p>
+</blockquote>
+</blockquote>
+<h1 id="拿到view的测试宽高">拿到view的测试宽高</h1><ul>
+<li>activity的onWindowFocusChanged<br>onWindowFocusChanged方法，会被调用多次，每次失去焦点或者获得焦点，都会调用。（频繁onResune和Onpause，就会多次调用）  </li>
+<li><p>View.post(new Runnable(){//- [ ] 为什么投递到消息队列的尾部，就一定可以获取到宽高</p>
+<p>public void run(){<br>  view.GetMeasureWidth;<br>}<br>})</p>
+</li>
+<li>ViewTreeObserver<br>加布局监听回调，<strong><em>切记，在activity或者fragment销毁时，必须移除此监听</em></strong></li>
+<li>手动measure,只有是具体数值或者wrap-content才可以手动测量。wrap-content 情况下是用如下代码测量的<br>这是因为View的measureSpec是使用低30位来算的，最大值就是2#30 -1 ,也就是 （1 &lt;&lt; 30） -1.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> widthMeasureSpec = measureSpec.makeMeasureSpec((<span class="number">1</span> &lt;&lt; <span class="number">30</span>) -<span class="number">1</span> , measureSpec.AT_MOST)</span><br><span class="line">view.measure(widthMeasureSpec, heightMeasureSpec);</span><br></pre></td></tr></table></figure>
+<h1 id="View绘制注意点">View绘制注意点</h1><ul>
+<li>子View（如果是继承view，没有复写onMeasure 方法）绘制的时候，宽高，都是父View的剩余空间，不管是Match-parent还是wrap-content<br>自定义View，如果继承与View，可以参考TextView的onMeasure 方法<br>这是因为，在AT_MOST和EXACTLY下，父View调用getChildMeasureSpec方法时，主要子View不是写死的dp，给子View返回的measureSpec中<br>的SpecSize都是父View的SpecSize - （父padding 和子view的margin）。view的onMeasure方法，在AT_MOST和EXACTLY下，都是直接SpecSize</li>
+</ul>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/21/post我所理解的View绘制-md/" itemprop="url">
+                  我所理解的View绘制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2015-12-21T19:25:49+08:00" content="2015-12-21">
+              2015-12-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <!-- 本文是对View绘制的理解的笔记文章，以及一些三方View的源码分析 -->
+<blockquote>
+<p>本文参考了众多前辈的文章和书籍</p>
+<blockquote>
+<p><a href="http://blog.csdn.net/singwhatiwanna" target="_blank" rel="external">任玉刚的相关文章和书籍</a><br><a href="http://blog.csdn.net/guolin_blog" target="_blank" rel="external">郭霖博客</a></p>
+</blockquote>
+</blockquote>
+<h1 id="Activity的window，ViewRootImpl,DecorView">Activity的window，ViewRootImpl,DecorView</h1><ul>
+<li>ViewRoot对应于ViewRoortImpl,连接WindowManager和DecorView</li>
+<li>View的绘制流程，是从ViewRoot的performTraversals方法开始，先后调用，<br>1,performMeasure<br>2,performLayout<br>3,performDraw</li>
+</ul>
+<h1 id="MeasureSpec在View绘制中的作用">MeasureSpec在View绘制中的作用</h1><p>childView.measure(childWidthMeasureSpec, childHeightMeasureSpec)</p>
+<h2 id="MeasureSpec本身的含义">MeasureSpec本身的含义</h2><p>本身代表一个32位的int值，高二位代表SpecMode，低30位代表SpecSize，SpecMode有三个类</p>
+<ul>
+<li>UNSPECIFIED, 父容器不对View有任何限制。</li>
+<li>EXACTLY 精确值，已经对View检测出精确的大小。这个时候View的最终大小就是SpecSize，这个一般对应LayoutParams中的Match-parent，以及具体写死的dp值。</li>
+<li>AT_MOST 最多多少，给出一个值SpecSize，表示view最大可以这么多。一般对应LayoutParams中的wrap-content</li>
+</ul>
+<h2 id="MeasureSpec和LayoutParams的关系">MeasureSpec和LayoutParams的关系</h2><p>MeasureSpec可以决定view的宽高，我们布局中的LayoutParams可以影响MeasureSpec, 但不是唯一可以影响MeasureSpec的</p>
+<ul>
+<li>对于DecorView，他的MeasureSpec是由窗口的大小（其实就是屏幕的宽高）和自身的LayoutParams来决定的</li>
+<li>对于普通的View来说，MeasureSpec是由父View的MeasureSpec 和父View的padding和margin， 以及自身的LayoutParams有关。可以参考ViewGroup代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">measureChildWithMargins</span><span class="params">(View child,</span><br><span class="line">            <span class="keyword">int</span> parentWidthMeasureSpec, <span class="keyword">int</span> widthUsed,</span><br><span class="line">            <span class="keyword">int</span> parentHeightMeasureSpec, <span class="keyword">int</span> heightUsed)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,</span><br><span class="line">                mPaddingLeft + mPaddingRight + lp.leftMargin + lp.rightMargin</span><br><span class="line">                        + widthUsed, lp.width);</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,</span><br><span class="line">                mPaddingTop + mPaddingBottom + lp.topMargin + lp.bottomMargin</span><br><span class="line">                        + heightUsed, lp.height);</span><br><span class="line"></span><br><span class="line">        child.measure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ViewGroup的measure过程">ViewGroup的measure过程</h2><p>ViewGroup没有实现，交给子View去实现。<br><strong><em>值得注意的是， 在measure之后，拿GetMeasureWidth(),在极端情况下，拿不到或者不准确或者需要系统多次Measure之后才可以拿到，<br>建议在Layout过程之后在去拿GetMeasureWidth</em></strong></p>
+<h2 id="View在ViewGroup中，被出发measure的过程">View在ViewGroup中，被出发measure的过程</h2><p>由此可见，计算宽高的时候，是把父View的padding和子View的margin算进去的，如果给子View设置背景，<br>margin值部分是没有背景的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">measureChildWithMargins</span><span class="params">(View child,</span><br><span class="line">        <span class="keyword">int</span> parentWidthMeasureSpec, <span class="keyword">int</span> widthUsed,</span><br><span class="line">        <span class="keyword">int</span> parentHeightMeasureSpec, <span class="keyword">int</span> heightUsed)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,</span><br><span class="line">            mPaddingLeft + mPaddingRight + lp.leftMargin + lp.rightMargin</span><br><span class="line">                    + widthUsed, lp.width);</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,</span><br><span class="line">            mPaddingTop + mPaddingBottom + lp.topMargin + lp.bottomMargin</span><br><span class="line">                    + heightUsed, lp.height);</span><br><span class="line"></span><br><span class="line">    child.measure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面代码可以看出父View的MeasureSpec和子View的LayoutParams(下面代码体现为childDimension，这个值，这个值在子View构造方法中就从XML中加载出来了)，  共同来决定子View的MeasureSpec值。<br>在不考了UNSPECIFIED情况下，只有子View的宽高是写死dp的情况下，子View的MeasureSpec中的specSize都是<br>父View的可用宽高（其实就是，父View宽高减去（padding和子View的margin值）之和）//- [需要注意，未明 ]</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getChildMeasureSpec</span><span class="params">(<span class="keyword">int</span> spec, <span class="keyword">int</span> padding, <span class="keyword">int</span> childDimension)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> specMode = MeasureSpec.getMode(spec);</span><br><span class="line">    <span class="keyword">int</span> specSize = MeasureSpec.getSize(spec);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> size = Math.max(<span class="number">0</span>, specSize - padding);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> resultSize = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> resultMode = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">    <span class="comment">// Parent has imposed an exact size on us</span></span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">        <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            resultSize = childDimension;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to be our size. So be it.</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to determine its own size. It can't be</span></span><br><span class="line">            <span class="comment">// bigger than us.</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Parent has imposed a maximum size on us</span></span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// Child wants a specific size... so be it</span></span><br><span class="line">            resultSize = childDimension;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to be our size, but our size is not fixed.</span></span><br><span class="line">            <span class="comment">// Constrain child to not be bigger than us.</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to determine its own size. It can't be</span></span><br><span class="line">            <span class="comment">// bigger than us.</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Parent asked to see how big we want to be</span></span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">        <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// Child wants a specific size... let him have it</span></span><br><span class="line">            resultSize = childDimension;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to be our size... find out how big it should</span></span><br><span class="line">            <span class="comment">// be</span></span><br><span class="line">            resultSize = View.sUseZeroUnspecifiedMeasureSpec ? <span class="number">0</span> : size;</span><br><span class="line">            resultMode = MeasureSpec.UNSPECIFIED;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">            <span class="comment">// Child wants to determine its own size.... find out how</span></span><br><span class="line">            <span class="comment">// big it should be</span></span><br><span class="line">            resultSize = View.sUseZeroUnspecifiedMeasureSpec ? <span class="number">0</span> : size;</span><br><span class="line">            resultMode = MeasureSpec.UNSPECIFIED;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> MeasureSpec.makeMeasureSpec(resultSize, resultMode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="View的自身measure过程">View的自身measure过程</h2><p>widthMeasureSpec和heightMeasureSpec，都是由父View传递过来的。<br>下面方法就是设置宽高值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">    setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),</span><br><span class="line">            getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由下面代码可以看出，返回的值，就是specSize(在UNSPECIFIED情况选，就是size)<br><strong>值得注意的是AT_MOST和EXACTLY返回的值是一样的</strong><br>所以自定义View直接继承View的话，需要自己处理区分这2种情况，可以参考TextView的写法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getDefaultSize</span><span class="params">(<span class="keyword">int</span> size, <span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = size;</span><br><span class="line">    <span class="keyword">int</span> specMode = MeasureSpec.getMode(measureSpec);</span><br><span class="line">    <span class="keyword">int</span> specSize = MeasureSpec.getSize(measureSpec);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">        result = size;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">        result = specSize;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>没有背景就取android:minWidth,这个值就是mMinWidth</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getSuggestedMinimumWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (mBackground == <span class="keyword">null</span>) ? mMinWidth : max(mMinWidth, mBackground.getMinimumWidth());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>获得图片的原始宽度，其中，shapwDrawable没有原始宽度，BitmapDrawable则有原始宽度</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMinimumWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> intrinsicWidth = getIntrinsicWidth();</span><br><span class="line">    <span class="keyword">return</span> intrinsicWidth &gt; <span class="number">0</span> ? intrinsicWidth : <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/02/test-line/" itemprop="url">
+                  test_line
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2015-11-02T14:21:41+08:00" content="2015-11-02">
+              2015-11-02
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="第一级标题">第一级标题</h1><h2 id="第二级别标题">第二级别标题</h2><h3 id="三级标题">三级标题</h3>
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/01/test-post/" itemprop="url">
+                  test post
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2015-11-01T14:38:51+08:00" content="2015-11-01">
+              2015-11-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>##title 测试下</p>
+<p>hello world</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+        </div>
+
+        
+
+
+        
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="John Doe" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">John Doe</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分類</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
