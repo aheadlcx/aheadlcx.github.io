@@ -53,22 +53,16 @@
 
 
 
-<meta name="description" content="&amp;lt;!-- 此文，是从点击事件接受到层层分发角度，分析android上的事件分发，以及后面提到了几种常见的事件冲突处理 --&amp;gt;
-&amp;lt;!--more test  --&amp;gt;
-首先做安全校验onFilterTouchEventForSecurity方法会检查当前ViewGroup和此motionEvent是否已经被其他window挡着了如果是的话，就不再进行，此motionEvent对当前ViewGroup的">
+<meta name="description" content="此文，是从点击事件接受到层层分发角度，分析android上的事件分发，以及后面提到了几种常见的事件冲突处理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从源码去理解事件分发">
 <meta property="og:url" content="http://www.aheadlcx.xyz/2015/12/21/从源码去理解事件分发/index.html">
 <meta property="og:site_name" content="aheadlcx">
-<meta property="og:description" content="&amp;lt;!-- 此文，是从点击事件接受到层层分发角度，分析android上的事件分发，以及后面提到了几种常见的事件冲突处理 --&amp;gt;
-&amp;lt;!--more test  --&amp;gt;
-首先做安全校验onFilterTouchEventForSecurity方法会检查当前ViewGroup和此motionEvent是否已经被其他window挡着了如果是的话，就不再进行，此motionEvent对当前ViewGroup的">
-<meta property="og:updated_time" content="2016-01-02T03:24:04.000Z">
+<meta property="og:description" content="此文，是从点击事件接受到层层分发角度，分析android上的事件分发，以及后面提到了几种常见的事件冲突处理">
+<meta property="og:updated_time" content="2016-01-02T03:38:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从源码去理解事件分发">
-<meta name="twitter:description" content="&amp;lt;!-- 此文，是从点击事件接受到层层分发角度，分析android上的事件分发，以及后面提到了几种常见的事件冲突处理 --&amp;gt;
-&amp;lt;!--more test  --&amp;gt;
-首先做安全校验onFilterTouchEventForSecurity方法会检查当前ViewGroup和此motionEvent是否已经被其他window挡着了如果是的话，就不再进行，此motionEvent对当前ViewGroup的">
+<meta name="twitter:description" content="此文，是从点击事件接受到层层分发角度，分析android上的事件分发，以及后面提到了几种常见的事件冲突处理">
 
 
 
@@ -233,8 +227,7 @@
       
 
       
-        <span itemprop="articleBody"><!-- 此文，是从点击事件接受到层层分发角度，分析android上的事件分发，以及后面提到了几种常见的事件冲突处理 -->
-<!--more test  -->
+        <span itemprop="articleBody"><p>此文，是从点击事件接受到层层分发角度，分析android上的事件分发，以及后面提到了几种常见的事件冲突处理<br><a id="more"></a></p>
 <h1 id="首先做安全校验">首先做安全校验</h1><h2 id="onFilterTouchEventForSecurity方法会检查当前ViewGroup和此motionEvent是否已经被其他window挡着了">onFilterTouchEventForSecurity方法会检查当前ViewGroup和此motionEvent是否已经被其他window挡着了</h2><p>如果是的话，就不再进行，此motionEvent对当前ViewGroup的事件分发了。</p>
 <h2 id="如果是donw事件，就恢复状态">如果是donw事件，就恢复状态</h2><p>// Handle an initial down.<br>            if (actionMasked == MotionEvent.ACTION_DOWN) {<br>                // Throw away all previous state when starting a new touch gesture.<br>                // The framework may have dropped the up or cancel event for the previous gesture<br>                // due to an app switch, ANR, or some other state change.<br>                cancelAndClearTouchTargets(ev);<br>                resetTouchState();<br>            }</p>
 <h2 id="检查是否拦截事件，当时down事件，或者之前已经有对此事件感兴趣的子View（mFirstTouchTarget）">检查是否拦截事件，当时down事件，或者之前已经有对此事件感兴趣的子View（mFirstTouchTarget）</h2><p>// Check for interception.<br>            final boolean intercepted;<br>            if (actionMasked == MotionEvent.ACTION_DOWN<br>                    || mFirstTouchTarget != null) {<br>                    //如果为true，那就是之前down事件中，子view调用了，getParent().requestDisallowInterceptTouchEvent方法<br>                    //此方法意思就是，希望父viewGroup，不要对<br>                final boolean disallowIntercept = (mGroupFlags &amp; FLAG_DISALLOW_INTERCEPT) != 0;<br>                if (!disallowIntercept) {<br>                //这里调用viewgroup的拦截事件方法onInterceptTouchEvent<br>                //由此看出，onInterceptTouchEvent方法，不能确保可以收到所有的事件的，如果在down事件中不拦截，交给子view了，子view<br>                //调用了getParent().requestDisallowInterceptTouchEvent方法，就代表向父ViewGroup申请，一直交给子view来处理了<br>                    intercepted = onInterceptTouchEvent(ev);<br>                    ev.setAction(action); // restore action in case it was changed<br>                } else {<br>                    intercepted = false;<br>                }<br>            } else {<br>            //如果如果在down事件时，viewgroup就消费了事件，返回了true，那么mFirstTouchTarget = null<br>            //因此viewgroup会拦截事件，并且直接交由自己来处理剩下的事件<br>                // There are no touch targets and this action is not an initial down<br>                // so this view group continues to intercept touches.<br>                intercepted = true;<br>            }</p>
