@@ -51,16 +51,16 @@
 
 
 
-<meta name="description" content="第一级标题第二级别标题三级标题">
+<meta name="description" content="Measure 过程View的Measure过程View的measure方法view的measure方法为final，意味着，子view不可以复写此方法。此外，onMeasure方法会在measure方法中调用。并且子View 必须复写onMeasure方法（源码注解提到，至于为何，下面分析下去）。widthMeasureSpec和heightMeasureSpec是父View传递过来的宽高参数（">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test_line">
-<meta property="og:url" content="http://www.aheadlcx.xyz/2015/11/02/test-line/index.html">
+<meta property="og:title" content="从绘制流程理解View绘制">
+<meta property="og:url" content="http://www.aheadlcx.xyz/2016/01/07/从绘制流程理解View绘制/index.html">
 <meta property="og:site_name" content="believe yourself">
-<meta property="og:description" content="第一级标题第二级别标题三级标题">
-<meta property="og:updated_time" content="2015-11-02T06:38:34.000Z">
+<meta property="og:description" content="Measure 过程View的Measure过程View的measure方法view的measure方法为final，意味着，子view不可以复写此方法。此外，onMeasure方法会在measure方法中调用。并且子View 必须复写onMeasure方法（源码注解提到，至于为何，下面分析下去）。widthMeasureSpec和heightMeasureSpec是父View传递过来的宽高参数（">
+<meta property="og:updated_time" content="2016-01-07T14:59:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="test_line">
-<meta name="twitter:description" content="第一级标题第二级别标题三级标题">
+<meta name="twitter:title" content="从绘制流程理解View绘制">
+<meta name="twitter:description" content="Measure 过程View的Measure过程View的measure方法view的measure方法为final，意味着，子view不可以复写此方法。此外，onMeasure方法会在measure方法中调用。并且子View 必须复写onMeasure方法（源码注解提到，至于为何，下面分析下去）。widthMeasureSpec和heightMeasureSpec是父View传递过来的宽高参数（">
 
 
 
@@ -72,7 +72,7 @@
   };
 </script>
 
-  <title> test_line | believe yourself </title>
+  <title> 从绘制流程理解View绘制 | believe yourself </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -192,7 +192,7 @@
             
             
               
-                test_line
+                从绘制流程理解View绘制
               
             
           </h1>
@@ -201,8 +201,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-11-02T14:21:41+08:00" content="2015-11-02">
-              2015-11-02
+            <time itemprop="dateCreated" datetime="2016-01-07T11:59:09+08:00" content="2016-01-07">
+              2016-01-07
             </time>
           </span>
 
@@ -225,7 +225,28 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="第一级标题">第一级标题</h1><h2 id="第二级别标题">第二级别标题</h2><h3 id="三级标题">三级标题</h3></span>
+        <span itemprop="articleBody"><h1 id="Measure_过程">Measure 过程</h1><h2 id="View的Measure过程">View的Measure过程</h2><h3 id="View的measure方法">View的measure方法</h3><p>view的measure方法为final，意味着，子view不可以复写此方法。此外，onMeasure方法会在measure<br>方法中调用。并且子View <strong><em>必须复写onMeasure方法</em></strong>（源码注解提到，至于为何，下面分析下去）。<br>widthMeasureSpec和heightMeasureSpec是父View传递过来的宽高参数（32位，高2位表示模式，低30位表示大小），<br> 源码可以理解为下面代码（仅截取部分代码，方便理解，下同）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">measure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">  ....</span><br><span class="line">  onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">  ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="View的onMeasure方法">View的onMeasure方法</h3><p>源码注释中提到</p>
+<ul>
+<li>setMeasuredDimension(int, int)，这是必须调用的，这是决定view宽高的方法</li>
+<li>子View都应该复写此方法。</li>
+<li>子View复写此方法时，应该确保宽高最小是View的最小宽高。（getSuggestedMinimumWidth，getSuggestedMinimumHeight）</li>
+<li>The base class implementation of measure defaults to the background size,<br>unless a larger size is allowed by the MeasureSpec<br> 翻译过来就是，除非父View给的MeasureSpec提供了一个更大的值，View的默认测量宽高都是背景宽高值</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">       setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),</span><br><span class="line">               getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>下面方法，意思就是，选择最小宽度和背景（mBackground）最小宽度之间的最大值。而mBackground是的最小宽度<br>则是图片的原始宽度，而不同的drawable，原始宽度是不同的。其中，shapwDrawable没有原始宽度，BitmapDrawable则有原始宽度</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getSuggestedMinimumWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (mBackground == <span class="keyword">null</span>) ? mMinWidth : max(mMinWidth, mBackground.getMinimumWidth());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>下面方法，意思是，当模式是UNSPECIFIED时，就是入参size（View默认传入值就是，view的最小宽高值），<br>当模式是AT_MOST或者EXACTLY时，返回值都是父View给的大小specSize。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getDefaultSize</span><span class="params">(<span class="keyword">int</span> size, <span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = size;</span><br><span class="line">        <span class="keyword">int</span> specMode = MeasureSpec.getMode(measureSpec);</span><br><span class="line">        <span class="keyword">int</span> specSize = MeasureSpec.getSize(measureSpec);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">            result = size;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">            result = specSize;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="View的measure过程总结">View的measure过程总结</h2><p>子View都应该复写onMeasure方法，并且需要注意，宽高应该大于等于，View的建议最小宽高。计算完宽高之后，<br>必须调用setMeasuredDimension(int, int)，设定宽高。<strong><em>需要特别处理wrap-content的情况</em></strong><br>默认情况下，wrap-content和Match-parent的效果是一样的，都是取的父View给的measureSpec的specSize宽高值。  </p>
+<h1 id="MeasureSpec本身的含义">MeasureSpec本身的含义</h1><p>本身代表一个32位的int值，高二位代表SpecMode，低30位代表SpecSize，SpecMode有三个类</p>
+<ul>
+<li>UNSPECIFIED, 父容器不对View有任何限制。</li>
+<li>EXACTLY 精确值，已经对View检测出精确的大小。这个时候View的最终大小就是SpecSize，这个一般对应LayoutParams中的Match-parent，以及具体写死的dp值。</li>
+<li>AT_MOST 最多多少，给出一个值SpecSize，表示view最大可以这么多。一般对应LayoutParams中的wrap-content</li>
+</ul>
+</span>
       
     </div>
 
@@ -236,17 +257,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/11/01/test-post/" rel="next" title="test post">
-                <i class="fa fa-chevron-left"></i> test post
+              <a href="/2015/12/21/从源码去理解事件分发/" rel="next" title="从源码去理解事件分发">
+                <i class="fa fa-chevron-left"></i> 从源码去理解事件分发
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/12/21/post我所理解的View绘制-md/" rel="prev" title="我所理解的View绘制">
-                我所理解的View绘制 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -360,7 +377,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一级标题"><span class="nav-number">1.</span> <span class="nav-text">第一级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二级别标题"><span class="nav-number">1.1.</span> <span class="nav-text">第二级别标题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三级标题"><span class="nav-number">1.1.1.</span> <span class="nav-text">三级标题</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Measure_过程"><span class="nav-number">1.</span> <span class="nav-text">Measure 过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#View的Measure过程"><span class="nav-number">1.1.</span> <span class="nav-text">View的Measure过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#View的measure方法"><span class="nav-number">1.1.1.</span> <span class="nav-text">View的measure方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View的onMeasure方法"><span class="nav-number">1.1.2.</span> <span class="nav-text">View的onMeasure方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的measure过程总结"><span class="nav-number">1.2.</span> <span class="nav-text">View的measure过程总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MeasureSpec本身的含义"><span class="nav-number">2.</span> <span class="nav-text">MeasureSpec本身的含义</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
