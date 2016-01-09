@@ -37,7 +37,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content=",,,,,,," />
 
 
 
@@ -62,9 +62,9 @@
 Activity的window，ViewRootImpl,DecorView
 ViewRoot对应于ViewRoortImpl,连接WindowManager和DecorView
 View的绘制流程，是">
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:title" content="我所理解的View绘制">
-<meta property="og:url" content="http://www.aheadlcx.xyz/2015/12/21/post我所理解的View绘制-md/index.html">
+<meta property="og:url" content="http://www.aheadlcx.xyz/post我所理解的View绘制-md.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="&amp;lt;!-- 本文是对View绘制的理解的笔记文章，以及一些三方View的源码分析 --&amp;gt;
 &amp;lt;!--more test  --&amp;gt;
@@ -77,7 +77,7 @@ View的绘制流程，是">
 Activity的window，ViewRootImpl,DecorView
 ViewRoot对应于ViewRoortImpl,连接WindowManager和DecorView
 View的绘制流程，是">
-<meta property="og:updated_time" content="2016-01-09T14:48:55.000Z">
+<meta property="og:updated_time" content="2016-01-09T14:56:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我所理解的View绘制">
 <meta name="twitter:description" content="&amp;lt;!-- 本文是对View绘制的理解的笔记文章，以及一些三方View的源码分析 --&amp;gt;
@@ -102,7 +102,13 @@ View的绘制流程，是">
   };
 </script>
 
-  <title> 我所理解的View绘制 | believe yourself </title>
+  <title>
+  
+
+  
+    我所理解的View绘制 | believe yourself
+  
+</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -123,7 +129,7 @@ View的绘制流程，是">
 
 
 
-  <div class="container one-column page-post-detail">
+  <div class="container one-column ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -203,59 +209,8 @@ View的绘制流程，是">
 
   <div id="posts" class="posts-expand">
     
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                我所理解的View绘制
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-12-21T19:25:49+08:00" content="2015-12-21">
-              2015-12-21
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        <span itemprop="articleBody"><!-- 本文是对View绘制的理解的笔记文章，以及一些三方View的源码分析 -->
+      <!-- 本文是对View绘制的理解的笔记文章，以及一些三方View的源码分析 -->
 <!--more test  -->
 <blockquote>
 <p>本文参考了众多前辈的文章和书籍</p>
@@ -293,43 +248,8 @@ View的绘制流程，是">
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getSuggestedMinimumWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (mBackground == <span class="keyword">null</span>) ? mMinWidth : max(mMinWidth, mBackground.getMinimumWidth());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>获得图片的原始宽度，其中，shapwDrawable没有原始宽度，BitmapDrawable则有原始宽度</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMinimumWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> intrinsicWidth = getIntrinsicWidth();</span><br><span class="line">    <span class="keyword">return</span> intrinsicWidth &gt; <span class="number">0</span> ? intrinsicWidth : <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</span>
-      
-    </div>
 
-    <footer class="post-footer">
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/11/02/test-line/" rel="next" title="test_line">
-                <i class="fa fa-chevron-left"></i> test_line
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/12/21/View绘制注意点以及重要生命周期方法/" rel="prev" title="View绘制注意点以及重要生命周期方法">
-                View绘制注意点以及重要生命周期方法 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -363,17 +283,8 @@ View的绘制流程，是">
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/32269?v=3&s=460" alt="aheadlcx" itemprop="image"/>
           <p class="site-author-name" itemprop="name">aheadlcx</p>
@@ -382,7 +293,7 @@ View的绘制流程，是">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -418,23 +329,6 @@ View的绘制流程，是">
 
       </section>
 
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc-indicator-top post-toc-indicator">
-            <i class="fa fa-angle-double-up"></i>
-          </div>
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Activity的window，ViewRootImpl,DecorView"><span class="nav-number">1.</span> <span class="nav-text">Activity的window，ViewRootImpl,DecorView</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MeasureSpec在View绘制中的作用"><span class="nav-number">2.</span> <span class="nav-text">MeasureSpec在View绘制中的作用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MeasureSpec本身的含义"><span class="nav-number">2.1.</span> <span class="nav-text">MeasureSpec本身的含义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MeasureSpec和LayoutParams的关系"><span class="nav-number">2.2.</span> <span class="nav-text">MeasureSpec和LayoutParams的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ViewGroup的measure过程"><span class="nav-number">2.3.</span> <span class="nav-text">ViewGroup的measure过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View在ViewGroup中，被出发measure的过程"><span class="nav-number">2.4.</span> <span class="nav-text">View在ViewGroup中，被出发measure的过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的自身measure过程"><span class="nav-number">2.5.</span> <span class="nav-text">View的自身measure过程</span></a></li></ol></li></ol></div>
-            
-          </div>
-          <div class="post-toc-indicator-bottom post-toc-indicator">
-            <i class="fa fa-angle-double-down"></i>
-          </div>
-        </section>
       
 
     </div>
@@ -505,167 +399,6 @@ View的绘制流程，是">
   <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
   
-  
-<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
-
-
-<script type="text/javascript" id="sidebar.toc.highlight">
-  $(document).ready(function () {
-    var tocSelector = '.post-toc';
-    var $tocSelector = $(tocSelector);
-    var activeCurrentSelector = '.active-current';
-
-    $tocSelector
-      .on('activate.bs.scrollspy', function () {
-        var $currentActiveElement = $(tocSelector + ' .active').last();
-
-        removeCurrentActiveClass();
-        $currentActiveElement.addClass('active-current');
-
-        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
-      })
-      .on('clear.bs.scrollspy', function () {
-        removeCurrentActiveClass();
-      });
-
-    function removeCurrentActiveClass () {
-      $(tocSelector + ' ' + activeCurrentSelector)
-        .removeClass(activeCurrentSelector.substring(1));
-    }
-
-    function processTOC () {
-      getTOCMaxHeight();
-      toggleTOCOverflowIndicators();
-    }
-
-    function getTOCMaxHeight () {
-      var height = $('.sidebar').height() -
-                   $tocSelector.position().top -
-                   $('.post-toc-indicator-bottom').height();
-
-      $tocSelector.css('height', height);
-
-      return height;
-    }
-
-    function toggleTOCOverflowIndicators () {
-      tocOverflowIndicator(
-        '.post-toc-indicator-top',
-        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
-      );
-
-      tocOverflowIndicator(
-        '.post-toc-indicator-bottom',
-        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
-      )
-    }
-
-    $(document).on('sidebar.motion.complete', function () {
-      processTOC();
-    });
-
-    $('body').scrollspy({ target: tocSelector });
-    $(window).on('resize', function () {
-      if ( $('.sidebar').hasClass('sidebar-active') ) {
-        processTOC();
-      }
-    });
-
-    onScroll($tocSelector);
-
-    function onScroll (element) {
-      element.on('mousewheel DOMMouseScroll', function (event) {
-          var oe = event.originalEvent;
-          var delta = oe.wheelDelta || -oe.detail;
-
-          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
-          event.preventDefault();
-
-          toggleTOCOverflowIndicators();
-      });
-    }
-
-    function tocOverflowIndicator (indicator, action) {
-      var $indicator = $(indicator);
-      var opacity = action === 'show' ? 1 : 0;
-      $indicator.velocity ?
-        $indicator.velocity('stop').velocity({
-          opacity: opacity
-        }, { duration: 100 }) :
-        $indicator.stop().animate({
-          opacity: opacity
-        }, 100);
-    }
-
-  });
-</script>
-
-<script type="text/javascript" id="sidebar.nav">
-  $(document).ready(function () {
-    var html = $('html');
-    var TAB_ANIMATE_DURATION = 200;
-    var hasVelocity = $.isFunction(html.velocity);
-
-    $('.sidebar-nav li').on('click', function () {
-      var item = $(this);
-      var activeTabClassName = 'sidebar-nav-active';
-      var activePanelClassName = 'sidebar-panel-active';
-      if (item.hasClass(activeTabClassName)) {
-        return;
-      }
-
-      var currentTarget = $('.' + activePanelClassName);
-      var target = $('.' + item.data('target'));
-
-      hasVelocity ?
-        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
-          target
-            .velocity('stop')
-            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
-            .addClass(activePanelClassName);
-        }) :
-        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
-          currentTarget.hide();
-          target
-            .stop()
-            .css({'opacity': 0, 'display': 'block'})
-            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
-              currentTarget.removeClass(activePanelClassName);
-              target.addClass(activePanelClassName);
-            });
-        });
-
-      item.siblings().removeClass(activeTabClassName);
-      item.addClass(activeTabClassName);
-    });
-
-    $('.post-toc a').on('click', function (e) {
-      e.preventDefault();
-      var targetSelector = escapeSelector(this.getAttribute('href'));
-      var offset = $(targetSelector).offset().top;
-      hasVelocity ?
-        html.velocity('stop').velocity('scroll', {
-          offset: offset  + 'px',
-          mobileHA: false
-        }) :
-        $('html, body').stop().animate({
-          scrollTop: offset
-        }, 500);
-    });
-
-    // Expand sidebar on post detail page by default, when post has a toc.
-    motionMiddleWares.sidebar = function () {
-      var $tocContent = $('.post-toc-content');
-      if (CONFIG.sidebar === 'post') {
-        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
-          displaySidebar();
-        }
-      }
-    };
-  });
-</script>
-
-
 
   <script type="text/javascript" src="/js/bootstrap.js"></script>
 
