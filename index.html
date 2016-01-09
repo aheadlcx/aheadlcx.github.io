@@ -238,7 +238,12 @@
         
           <span itemprop="articleBody">
             
-              <h1 id="Measure_过程">Measure 过程</h1><h2 id="View的Measure过程">View的Measure过程</h2><h3 id="View的measure方法">View的measure方法</h3><p>view的measure方法为final，意味着，子view不可以复写此方法。此外，onMeasure方法会在measure<br>方法中调用。并且子View <strong>必须复写onMeasure方法</strong>（源码注解提到，至于为何，下面分析下去）。<br>widthMeasureSpec和heightMeasureSpec是父View传递过来的宽高参数（32位，高2位表示模式，低30位表示大小），<br> 源码可以理解为下面代码（仅截取部分代码，方便理解，下同）</p>
+              <!-- 本文是本人对View绘制的学习的笔记文章，借鉴了一些前辈的经验-->
+<!--more test  -->
+<blockquote>
+<p>本文参考了众多前辈的文章和书籍<br><a href="http://blog.csdn.net/singwhatiwanna" target="_blank" rel="external">任玉刚的相关文章和书籍</a><br><a href="http://blog.csdn.net/guolin_blog" target="_blank" rel="external">郭霖博客</a></p>
+</blockquote>
+<h1 id="Measure_过程">Measure 过程</h1><h2 id="View的Measure过程">View的Measure过程</h2><h3 id="View的measure方法">View的measure方法</h3><p>view的measure方法为final，意味着，子view不可以复写此方法。此外，onMeasure方法会在measure<br>方法中调用。并且子View <strong>必须复写onMeasure方法</strong>（源码注解提到，至于为何，下面分析下去）。<br>widthMeasureSpec和heightMeasureSpec是父View传递过来的宽高参数（32位，高2位表示模式，低30位表示大小），<br> 源码可以理解为下面代码（仅截取部分代码，方便理解，下同）</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">measure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">  ....</span><br><span class="line">  onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">  ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="View的onMeasure方法">View的onMeasure方法</h3><p>源码注释中提到</p>
 <ul>
