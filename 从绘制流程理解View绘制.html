@@ -37,7 +37,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="android," />
+  <meta name="keywords" content=",,,,,,," />
 
 
 
@@ -52,12 +52,12 @@
 
 
 <meta name="description" content="本文是本人对View绘制的学习的笔记文章，借鉴了一些前辈的经验">
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:title" content="从绘制流程理解View绘制">
-<meta property="og:url" content="http://www.aheadlcx.xyz/2016/01/07/从绘制流程理解View绘制/index.html">
+<meta property="og:url" content="http://www.aheadlcx.xyz/从绘制流程理解View绘制.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="本文是本人对View绘制的学习的笔记文章，借鉴了一些前辈的经验">
-<meta property="og:updated_time" content="2016-01-09T16:30:53.000Z">
+<meta property="og:updated_time" content="2016-01-09T16:07:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从绘制流程理解View绘制">
 <meta name="twitter:description" content="本文是本人对View绘制的学习的笔记文章，借鉴了一些前辈的经验">
@@ -72,7 +72,13 @@
   };
 </script>
 
-  <title> 从绘制流程理解View绘制 | believe yourself </title>
+  <title>
+  
+
+  
+    从绘制流程理解View绘制 | believe yourself
+  
+</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -93,7 +99,7 @@
 
 
 
-  <div class="container one-column page-post-detail">
+  <div class="container one-column ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -193,81 +199,8 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                从绘制流程理解View绘制
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-07T11:59:09+08:00" content="2016-01-07">
-              2016-01-07
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/07/从绘制流程理解View绘制/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/07/从绘制流程理解View绘制/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        <span itemprop="articleBody"><p>本文是本人对View绘制的学习的笔记文章，借鉴了一些前辈的经验<br><a id="more"></a></p>
+      <p>本文是本人对View绘制的学习的笔记文章，借鉴了一些前辈的经验<br><a id="more"></a></p>
 <blockquote>
 <p>本文参考了众多前辈的文章和书籍<br><a href="http://blog.csdn.net/singwhatiwanna" target="_blank" rel="external">任玉刚的相关文章和书籍</a><br><a href="http://blog.csdn.net/guolin_blog" target="_blank" rel="external">郭霖博客</a></p>
 </blockquote>
@@ -366,45 +299,8 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> privateFlags = mPrivateFlags;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> dirtyOpaque = (privateFlags &amp; PFLAG_DIRTY_MASK) == PFLAG_DIRTY_OPAQUE &amp;&amp;</span><br><span class="line">                (mAttachInfo == <span class="keyword">null</span> || !mAttachInfo.mIgnoreDirtyState);</span><br><span class="line">        mPrivateFlags = (privateFlags &amp; ~PFLAG_DIRTY_MASK) | PFLAG_DRAWN;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span><br><span class="line">         * Draw traversal performs several drawing steps which must be executed</span><br><span class="line">         * in the appropriate order:</span><br><span class="line">         *</span><br><span class="line">         *      1. Draw the background</span><br><span class="line">         *      2. If necessary, save the canvas' layers to prepare for fading</span><br><span class="line">         *      3. Draw view's content</span><br><span class="line">         *      4. Draw children</span><br><span class="line">         *      5. If necessary, draw the fading edges and restore layers</span><br><span class="line">         *      6. Draw decorations (scrollbars for instance)</span><br><span class="line">         */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 1, draw the background, if needed</span></span><br><span class="line">        <span class="keyword">int</span> saveCount;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!dirtyOpaque) &#123;</span><br><span class="line">            drawBackground(canvas);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// skip step 2 &amp; 5 if possible (common case)</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> viewFlags = mViewFlags;</span><br><span class="line">        <span class="keyword">boolean</span> horizontalEdges = (viewFlags &amp; FADING_EDGE_HORIZONTAL) != <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">boolean</span> verticalEdges = (viewFlags &amp; FADING_EDGE_VERTICAL) != <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (!verticalEdges &amp;&amp; !horizontalEdges) &#123;</span><br><span class="line">            <span class="comment">// Step 3, draw the content</span></span><br><span class="line">            <span class="keyword">if</span> (!dirtyOpaque) onDraw(canvas);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Step 4, draw the children</span></span><br><span class="line">            dispatchDraw(canvas);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Overlay is part of the content and draws beneath Foreground</span></span><br><span class="line">            <span class="keyword">if</span> (mOverlay != <span class="keyword">null</span> &amp;&amp; !mOverlay.isEmpty()) &#123;</span><br><span class="line">                mOverlay.getOverlayView().dispatchDraw(canvas);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Step 6, draw decorations (foreground, scrollbars)</span></span><br><span class="line">            onDrawForeground(canvas);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// we're done...</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span><br><span class="line">         * Here we do the full fledged routine...</span><br><span class="line">         * (this is an uncommon case where speed matters less,</span><br><span class="line">         * this is why we repeat some of the tests that have been</span><br><span class="line">         * done above)</span><br><span class="line">         */</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">boolean</span> drawTop = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">boolean</span> drawBottom = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">boolean</span> drawLeft = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">boolean</span> drawRight = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">float</span> topFadeStrength = <span class="number">0.0f</span>;</span><br><span class="line">        <span class="keyword">float</span> bottomFadeStrength = <span class="number">0.0f</span>;</span><br><span class="line">        <span class="keyword">float</span> leftFadeStrength = <span class="number">0.0f</span>;</span><br><span class="line">        <span class="keyword">float</span> rightFadeStrength = <span class="number">0.0f</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 2, save the canvas' layers</span></span><br><span class="line">        <span class="keyword">int</span> paddingLeft = mPaddingLeft;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> offsetRequired = isPaddingOffsetRequired();</span><br><span class="line">        <span class="keyword">if</span> (offsetRequired) &#123;</span><br><span class="line">            paddingLeft += getLeftPaddingOffset();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> left = mScrollX + paddingLeft;</span><br><span class="line">        <span class="keyword">int</span> right = left + mRight - mLeft - mPaddingRight - paddingLeft;</span><br><span class="line">        <span class="keyword">int</span> top = mScrollY + getFadeTop(offsetRequired);</span><br><span class="line">        <span class="keyword">int</span> bottom = top + getFadeHeight(offsetRequired);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (offsetRequired) &#123;</span><br><span class="line">            right += getRightPaddingOffset();</span><br><span class="line">            bottom += getBottomPaddingOffset();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> ScrollabilityCache scrollabilityCache = mScrollCache;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">float</span> fadeHeight = scrollabilityCache.fadingEdgeLength;</span><br><span class="line">        <span class="keyword">int</span> length = (<span class="keyword">int</span>) fadeHeight;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// clip the fade length if top and bottom fades overlap</span></span><br><span class="line">        <span class="comment">// overlapping fades produce odd-looking artifacts</span></span><br><span class="line">        <span class="keyword">if</span> (verticalEdges &amp;&amp; (top + length &gt; bottom - length)) &#123;</span><br><span class="line">            length = (bottom - top) / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// also clip horizontal fades if necessary</span></span><br><span class="line">        <span class="keyword">if</span> (horizontalEdges &amp;&amp; (left + length &gt; right - length)) &#123;</span><br><span class="line">            length = (right - left) / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (verticalEdges) &#123;</span><br><span class="line">            topFadeStrength = Math.max(<span class="number">0.0f</span>, Math.min(<span class="number">1.0f</span>, getTopFadingEdgeStrength()));</span><br><span class="line">            drawTop = topFadeStrength * fadeHeight &gt; <span class="number">1.0f</span>;</span><br><span class="line">            bottomFadeStrength = Math.max(<span class="number">0.0f</span>, Math.min(<span class="number">1.0f</span>, getBottomFadingEdgeStrength()));</span><br><span class="line">            drawBottom = bottomFadeStrength * fadeHeight &gt; <span class="number">1.0f</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (horizontalEdges) &#123;</span><br><span class="line">            leftFadeStrength = Math.max(<span class="number">0.0f</span>, Math.min(<span class="number">1.0f</span>, getLeftFadingEdgeStrength()));</span><br><span class="line">            drawLeft = leftFadeStrength * fadeHeight &gt; <span class="number">1.0f</span>;</span><br><span class="line">            rightFadeStrength = Math.max(<span class="number">0.0f</span>, Math.min(<span class="number">1.0f</span>, getRightFadingEdgeStrength()));</span><br><span class="line">            drawRight = rightFadeStrength * fadeHeight &gt; <span class="number">1.0f</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        saveCount = canvas.getSaveCount();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> solidColor = getSolidColor();</span><br><span class="line">        <span class="keyword">if</span> (solidColor == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> flags = Canvas.HAS_ALPHA_LAYER_SAVE_FLAG;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (drawTop) &#123;</span><br><span class="line">                canvas.saveLayer(left, top, right, top + length, <span class="keyword">null</span>, flags);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (drawBottom) &#123;</span><br><span class="line">                canvas.saveLayer(left, bottom - length, right, bottom, <span class="keyword">null</span>, flags);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (drawLeft) &#123;</span><br><span class="line">                canvas.saveLayer(left, top, left + length, bottom, <span class="keyword">null</span>, flags);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (drawRight) &#123;</span><br><span class="line">                canvas.saveLayer(right - length, top, right, bottom, <span class="keyword">null</span>, flags);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            scrollabilityCache.setFadeColor(solidColor);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 3, draw the content</span></span><br><span class="line">        <span class="keyword">if</span> (!dirtyOpaque) onDraw(canvas);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 4, draw the children</span></span><br><span class="line">        dispatchDraw(canvas);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 5, draw the fade effect and restore layers</span></span><br><span class="line">        <span class="keyword">final</span> Paint p = scrollabilityCache.paint;</span><br><span class="line">        <span class="keyword">final</span> Matrix matrix = scrollabilityCache.matrix;</span><br><span class="line">        <span class="keyword">final</span> Shader fade = scrollabilityCache.shader;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (drawTop) &#123;</span><br><span class="line">            matrix.setScale(<span class="number">1</span>, fadeHeight * topFadeStrength);</span><br><span class="line">            matrix.postTranslate(left, top);</span><br><span class="line">            fade.setLocalMatrix(matrix);</span><br><span class="line">            p.setShader(fade);</span><br><span class="line">            canvas.drawRect(left, top, right, top + length, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (drawBottom) &#123;</span><br><span class="line">            matrix.setScale(<span class="number">1</span>, fadeHeight * bottomFadeStrength);</span><br><span class="line">            matrix.postRotate(<span class="number">180</span>);</span><br><span class="line">            matrix.postTranslate(left, bottom);</span><br><span class="line">            fade.setLocalMatrix(matrix);</span><br><span class="line">            p.setShader(fade);</span><br><span class="line">            canvas.drawRect(left, bottom - length, right, bottom, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (drawLeft) &#123;</span><br><span class="line">            matrix.setScale(<span class="number">1</span>, fadeHeight * leftFadeStrength);</span><br><span class="line">            matrix.postRotate(-<span class="number">90</span>);</span><br><span class="line">            matrix.postTranslate(left, top);</span><br><span class="line">            fade.setLocalMatrix(matrix);</span><br><span class="line">            p.setShader(fade);</span><br><span class="line">            canvas.drawRect(left, top, left + length, bottom, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (drawRight) &#123;</span><br><span class="line">            matrix.setScale(<span class="number">1</span>, fadeHeight * rightFadeStrength);</span><br><span class="line">            matrix.postRotate(<span class="number">90</span>);</span><br><span class="line">            matrix.postTranslate(right, top);</span><br><span class="line">            fade.setLocalMatrix(matrix);</span><br><span class="line">            p.setShader(fade);</span><br><span class="line">            canvas.drawRect(right - length, top, right, bottom, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        canvas.restoreToCount(saveCount);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Overlay is part of the content and draws beneath Foreground</span></span><br><span class="line">        <span class="keyword">if</span> (mOverlay != <span class="keyword">null</span> &amp;&amp; !mOverlay.isEmpty()) &#123;</span><br><span class="line">            mOverlay.getOverlayView().dispatchDraw(canvas);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 6, draw decorations (foreground, scrollbars)</span></span><br><span class="line">        onDrawForeground(canvas);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <h2 id="ViewGroup_的draw过程">ViewGroup 的draw过程</h2><p>viewgroup，没有重写draw 和ondraw方法，仅仅重写了 dispatchDraw 方法，在这个方法里面， 绘制子view。<br><strong>任玉刚</strong> 的开发艺术中，提到，有个特殊的方法，如果你不希望绘制自身，就设置为true。view默认关闭，viewgroup默认打开。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * If this view doesn't do any drawing on its own, set this flag to</span><br><span class="line">    * allow further optimizations. By default, this flag is not set on</span><br><span class="line">    * View, but could be set on some View subclasses such as ViewGroup.</span><br><span class="line">    *</span><br><span class="line">    * Typically, if you override &#123;<span class="doctag">@link</span> #onDraw(android.graphics.Canvas)&#125;</span><br><span class="line">    * you should clear this flag.</span><br><span class="line">    *  翻译如下，如果你复写了onDraw方法，你就应该清楚此flag。简单理解就是，这个标示位  </span><br><span class="line">    * 是用来判断是否绘制ondraw方法的。</span><br><span class="line">    *</span><br><span class="line">    * <span class="doctag">@param</span> willNotDraw whether or not this View draw on its own</span><br><span class="line">    */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWillNotDraw</span><span class="params">(<span class="keyword">boolean</span> willNotDraw)</span> </span>&#123;</span><br><span class="line">        setFlags(willNotDraw ? WILL_NOT_DRAW : <span class="number">0</span>, DRAW_MASK);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-</span>
-      
-    </div>
 
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/android/" rel="tag">#android</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/12/21/从源码去理解事件分发/" rel="next" title="从源码去理解事件分发">
-                <i class="fa fa-chevron-left"></i> 从源码去理解事件分发
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -416,8 +312,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/01/07/从绘制流程理解View绘制/"
-           data-title="从绘制流程理解View绘制" data-url="http://www.aheadlcx.xyz/2016/01/07/从绘制流程理解View绘制/">
+      <div class="ds-thread" data-thread-key="从绘制流程理解View绘制.html"
+           data-title="从绘制流程理解View绘制" data-url="http://www.aheadlcx.xyz/从绘制流程理解View绘制.html">
       </div>
     
   </div>
@@ -442,17 +338,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/32269?v=3&s=460" alt="aheadlcx" itemprop="image"/>
           <p class="site-author-name" itemprop="name">aheadlcx</p>
@@ -497,23 +384,6 @@
 
       </section>
 
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc-indicator-top post-toc-indicator">
-            <i class="fa fa-angle-double-up"></i>
-          </div>
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Measure_过程"><span class="nav-number">1.</span> <span class="nav-text">Measure 过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#View的Measure过程"><span class="nav-number">1.1.</span> <span class="nav-text">View的Measure过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#View的measure方法"><span class="nav-number">1.1.1.</span> <span class="nav-text">View的measure方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View的onMeasure方法"><span class="nav-number">1.1.2.</span> <span class="nav-text">View的onMeasure方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的measure过程总结"><span class="nav-number">1.2.</span> <span class="nav-text">View的measure过程总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ViewGroup的Measure过程"><span class="nav-number">1.3.</span> <span class="nav-text">ViewGroup的Measure过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinearLayout的measure_过程"><span class="nav-number">1.4.</span> <span class="nav-text">LinearLayout的measure 过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MeasureSpec_本身的含义"><span class="nav-number">2.</span> <span class="nav-text">MeasureSpec 本身的含义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#view_的_Layout_过程"><span class="nav-number">3.</span> <span class="nav-text">view 的 Layout 过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#view的layout方法"><span class="nav-number">3.1.</span> <span class="nav-text">view的layout方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ViewGroup_的_layout"><span class="nav-number">3.2.</span> <span class="nav-text">ViewGroup 的 layout</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FrameLayout_的layout"><span class="nav-number">3.2.1.</span> <span class="nav-text">FrameLayout 的layout</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View_的_draw_过程"><span class="nav-number">4.</span> <span class="nav-text">View 的 draw 过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#先看view的draw_方法"><span class="nav-number">4.1.</span> <span class="nav-text">先看view的draw 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ViewGroup_的draw过程"><span class="nav-number">4.2.</span> <span class="nav-text">ViewGroup 的draw过程</span></a></li></ol></li></ol></div>
-            
-          </div>
-          <div class="post-toc-indicator-bottom post-toc-indicator">
-            <i class="fa fa-angle-double-down"></i>
-          </div>
-        </section>
       
 
     </div>
@@ -601,167 +471,6 @@
   <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
   
-  
-<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
-
-
-<script type="text/javascript" id="sidebar.toc.highlight">
-  $(document).ready(function () {
-    var tocSelector = '.post-toc';
-    var $tocSelector = $(tocSelector);
-    var activeCurrentSelector = '.active-current';
-
-    $tocSelector
-      .on('activate.bs.scrollspy', function () {
-        var $currentActiveElement = $(tocSelector + ' .active').last();
-
-        removeCurrentActiveClass();
-        $currentActiveElement.addClass('active-current');
-
-        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
-      })
-      .on('clear.bs.scrollspy', function () {
-        removeCurrentActiveClass();
-      });
-
-    function removeCurrentActiveClass () {
-      $(tocSelector + ' ' + activeCurrentSelector)
-        .removeClass(activeCurrentSelector.substring(1));
-    }
-
-    function processTOC () {
-      getTOCMaxHeight();
-      toggleTOCOverflowIndicators();
-    }
-
-    function getTOCMaxHeight () {
-      var height = $('.sidebar').height() -
-                   $tocSelector.position().top -
-                   $('.post-toc-indicator-bottom').height();
-
-      $tocSelector.css('height', height);
-
-      return height;
-    }
-
-    function toggleTOCOverflowIndicators () {
-      tocOverflowIndicator(
-        '.post-toc-indicator-top',
-        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
-      );
-
-      tocOverflowIndicator(
-        '.post-toc-indicator-bottom',
-        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
-      )
-    }
-
-    $(document).on('sidebar.motion.complete', function () {
-      processTOC();
-    });
-
-    $('body').scrollspy({ target: tocSelector });
-    $(window).on('resize', function () {
-      if ( $('.sidebar').hasClass('sidebar-active') ) {
-        processTOC();
-      }
-    });
-
-    onScroll($tocSelector);
-
-    function onScroll (element) {
-      element.on('mousewheel DOMMouseScroll', function (event) {
-          var oe = event.originalEvent;
-          var delta = oe.wheelDelta || -oe.detail;
-
-          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
-          event.preventDefault();
-
-          toggleTOCOverflowIndicators();
-      });
-    }
-
-    function tocOverflowIndicator (indicator, action) {
-      var $indicator = $(indicator);
-      var opacity = action === 'show' ? 1 : 0;
-      $indicator.velocity ?
-        $indicator.velocity('stop').velocity({
-          opacity: opacity
-        }, { duration: 100 }) :
-        $indicator.stop().animate({
-          opacity: opacity
-        }, 100);
-    }
-
-  });
-</script>
-
-<script type="text/javascript" id="sidebar.nav">
-  $(document).ready(function () {
-    var html = $('html');
-    var TAB_ANIMATE_DURATION = 200;
-    var hasVelocity = $.isFunction(html.velocity);
-
-    $('.sidebar-nav li').on('click', function () {
-      var item = $(this);
-      var activeTabClassName = 'sidebar-nav-active';
-      var activePanelClassName = 'sidebar-panel-active';
-      if (item.hasClass(activeTabClassName)) {
-        return;
-      }
-
-      var currentTarget = $('.' + activePanelClassName);
-      var target = $('.' + item.data('target'));
-
-      hasVelocity ?
-        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
-          target
-            .velocity('stop')
-            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
-            .addClass(activePanelClassName);
-        }) :
-        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
-          currentTarget.hide();
-          target
-            .stop()
-            .css({'opacity': 0, 'display': 'block'})
-            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
-              currentTarget.removeClass(activePanelClassName);
-              target.addClass(activePanelClassName);
-            });
-        });
-
-      item.siblings().removeClass(activeTabClassName);
-      item.addClass(activeTabClassName);
-    });
-
-    $('.post-toc a').on('click', function (e) {
-      e.preventDefault();
-      var targetSelector = escapeSelector(this.getAttribute('href'));
-      var offset = $(targetSelector).offset().top;
-      hasVelocity ?
-        html.velocity('stop').velocity('scroll', {
-          offset: offset  + 'px',
-          mobileHA: false
-        }) :
-        $('html, body').stop().animate({
-          scrollTop: offset
-        }, 500);
-    });
-
-    // Expand sidebar on post detail page by default, when post has a toc.
-    motionMiddleWares.sidebar = function () {
-      var $tocContent = $('.post-toc-content');
-      if (CONFIG.sidebar === 'post') {
-        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
-          displaySidebar();
-        }
-      }
-    };
-  });
-</script>
-
-
 
   <script type="text/javascript" src="/js/bootstrap.js"></script>
 
