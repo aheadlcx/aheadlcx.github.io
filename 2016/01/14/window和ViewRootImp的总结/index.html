@@ -37,7 +37,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="PhoneWindow,ViewRootImp,Window,android," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -57,7 +57,7 @@
 <meta property="og:url" content="http://www.aheadlcx.xyz/2016/01/14/Window和ViewRootImp的总结/index.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="本文是View绘制和事件分发的知识整理收尾篇，顺便也简单的整理了一下window相关的知识。">
-<meta property="og:updated_time" content="2016-01-14T12:26:26.000Z">
+<meta property="og:updated_time" content="2016-01-14T12:29:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Window和ViewRootImp的总结">
 <meta name="twitter:description" content="本文是View绘制和事件分发的知识整理收尾篇，顺便也简单的整理了一下window相关的知识。">
@@ -221,26 +221,11 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-01-14T20:25:48+08:00" content="2016-01-14">
+            <time itemprop="dateCreated" datetime="2016-01-14T20:28:38+08:00" content="2016-01-14">
               2016-01-14
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
@@ -273,7 +258,7 @@
 </blockquote>
 <h1 id="activity的View_视图创建。">activity的View 视图创建。</h1><p>我们先来看看activity的 setContentView 方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(@LayoutRes <span class="keyword">int</span> layoutResID)</span> </span>&#123;</span><br><span class="line">        getWindow().setContentView(layoutResID);</span><br><span class="line">        initWindowDecorActionBar();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>这个getWindow 拿到的window对象，对于activity来说就是 PhoneWindow （这点，目前是通过任玉刚的数据，android开发艺术，初步确定的，<br>从PhoneWindow代码以及注解来看，也侧面认证了这点），那我们接着来看看 PhoneWindow 的 setContentView 方法   </p>
+<p>这个getWindow 拿到的window对象，对于activity来说就是 PhoneWindow （这点，目前是通过任玉刚的书籍，android开发艺术，初步确定的，<br>从PhoneWindow代码以及注解来看，也侧面认证了这点），那我们接着来看看 PhoneWindow 的 setContentView 方法   </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(<span class="keyword">int</span> layoutResID)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mContentParent == <span class="keyword">null</span>) &#123;</span><br><span class="line">            installDecor();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mContentParent.removeAllViews();</span><br><span class="line">        &#125;</span><br><span class="line">        mLayoutInflater.inflate(layoutResID, mContentParent);</span><br><span class="line">        <span class="keyword">final</span> Callback cb = getCallback();</span><br><span class="line">        <span class="keyword">if</span> (cb != <span class="keyword">null</span>) &#123;</span><br><span class="line">            cb.onContentChanged();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>mContentParent == null，就调用 installDecor 方法，那我们继续看下面的方法。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">installDecor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mDecor == <span class="keyword">null</span>) &#123;</span><br><span class="line">            mDecor = generateDecor();</span><br><span class="line">            mDecor.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);</span><br><span class="line">            mDecor.setIsRootNamespace(<span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mContentParent == <span class="keyword">null</span>) &#123;</span><br><span class="line">            mContentParent = generateLayout(mDecor);</span><br><span class="line"></span><br><span class="line">            mTitleView = (TextView)findViewById(com.android.internal.R.id.title);</span><br><span class="line">            <span class="keyword">if</span> (mTitleView != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> ((getLocalFeatures() &amp; (<span class="number">1</span> &lt;&lt; FEATURE_NO_TITLE)) != <span class="number">0</span>) &#123;</span><br><span class="line">                    View titleContainer = findViewById(com.android.internal.R.id.title_container);</span><br><span class="line">                    <span class="keyword">if</span> (titleContainer != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        titleContainer.setVisibility(View.GONE);</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        mTitleView.setVisibility(View.GONE);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (mContentParent <span class="keyword">instanceof</span> FrameLayout) &#123;</span><br><span class="line">                        ((FrameLayout)mContentParent).setForeground(<span class="keyword">null</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    mTitleView.setText(mTitle);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
@@ -338,18 +323,6 @@
     </div>
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/PhoneWindow/" rel="tag">#PhoneWindow</a>
-          
-            <a href="/tags/ViewRootImp/" rel="tag">#ViewRootImp</a>
-          
-            <a href="/tags/Window/" rel="tag">#Window</a>
-          
-            <a href="/tags/android/" rel="tag">#android</a>
-          
-        </div>
       
 
       
@@ -448,7 +421,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">1</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
