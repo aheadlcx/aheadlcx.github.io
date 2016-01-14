@@ -37,7 +37,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="PhoneWindow,ViewRootImp,Window,android," />
+  <meta name="keywords" content=",,,," />
 
 
 
@@ -52,12 +52,12 @@
 
 
 <meta name="description" content="本文是View绘制和事件分发的知识整理收尾篇，顺便也简单的整理了一下window相关的知识。">
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Window和ViewRootImp的总结">
-<meta property="og:url" content="http://www.aheadlcx.xyz/2016/01/14/Window和ViewRootImp的总结/index.html">
+<meta property="og:url" content="http://www.aheadlcx.xyz/window和ViewRootImp的总结.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="本文是View绘制和事件分发的知识整理收尾篇，顺便也简单的整理了一下window相关的知识。">
-<meta property="og:updated_time" content="2016-01-14T09:28:44.000Z">
+<meta property="og:updated_time" content="2016-01-14T09:24:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Window和ViewRootImp的总结">
 <meta name="twitter:description" content="本文是View绘制和事件分发的知识整理收尾篇，顺便也简单的整理了一下window相关的知识。">
@@ -72,7 +72,13 @@
   };
 </script>
 
-  <title> Window和ViewRootImp的总结 | believe yourself </title>
+  <title>
+  
+
+  
+    Window和ViewRootImp的总结 | believe yourself
+  
+</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -93,7 +99,7 @@
 
 
 
-  <div class="container one-column page-post-detail">
+  <div class="container one-column ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -193,81 +199,8 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Window和ViewRootImp的总结
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-14T14:18:48+08:00" content="2016-01-14">
-              2016-01-14
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/14/Window和ViewRootImp的总结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/14/Window和ViewRootImp的总结/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        <span itemprop="articleBody"><p>本文是View绘制和事件分发的知识整理收尾篇，顺便也简单的整理了一下window相关的知识。<br><a id="more"></a></p>
+      <p>本文是View绘制和事件分发的知识整理收尾篇，顺便也简单的整理了一下window相关的知识。<br><a id="more"></a></p>
 <blockquote>
 <p>本文参考了众多前辈的文章和书籍<br><a href="http://blog.csdn.net/singwhatiwanna" target="_blank" rel="external">任玉刚的相关文章和书籍</a><br><a href="http://blog.csdn.net/guolin_blog" target="_blank" rel="external">郭霖博客</a></p>
 </blockquote>
@@ -319,51 +252,8 @@
 <h1 id="ViewRootImpl">ViewRootImpl</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> 我们先来看看类的注解</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * The top of a view hierarchy, implementing the needed protocol between View</span><br><span class="line"> * and the WindowManager.  This is for the most part an internal implementation</span><br><span class="line"> * detail of &#123;<span class="doctag">@link</span> WindowManagerGlobal&#125;.</span><br><span class="line"> *</span><br><span class="line"> * &#123;<span class="doctag">@hide</span>&#125;</span><br><span class="line"> */</span></span><br></pre></td></tr></table></figure>
 <p>大概意思就是，这是view 二叉树的顶级。连接了 View 和 WindowManager 之间的协议。他是大部分 WindowManagerGlobal<br>中的内部实现细节。</p>
  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * We have one child</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setView</span><span class="params">(View view, WindowManager.LayoutParams attrs, View panelParentView)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (mView == <span class="keyword">null</span>) &#123;</span><br><span class="line">                mView = view;</span><br><span class="line"></span><br><span class="line">                mAttachInfo.mDisplayState = mDisplay.getState();</span><br><span class="line">                mDisplayManager.registerDisplayListener(mDisplayListener, mHandler);</span><br><span class="line"></span><br><span class="line">                mViewLayoutDirectionInitial = mView.getRawLayoutDirection();</span><br><span class="line">                mFallbackEventHandler.setView(view);</span><br><span class="line">                mWindowAttributes.copyFrom(attrs);</span><br><span class="line">                <span class="keyword">if</span> (mWindowAttributes.packageName == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    mWindowAttributes.packageName = mBasePackageName;</span><br><span class="line">                &#125;</span><br><span class="line">                attrs = mWindowAttributes;</span><br><span class="line">                <span class="comment">// Keep track of the actual window flags supplied by the client.</span></span><br><span class="line">                mClientWindowLayoutFlags = attrs.flags;</span><br><span class="line"></span><br><span class="line">                setAccessibilityFocus(<span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (view <span class="keyword">instanceof</span> RootViewSurfaceTaker) &#123;</span><br><span class="line">                    mSurfaceHolderCallback =</span><br><span class="line">                            ((RootViewSurfaceTaker)view).willYouTakeTheSurface();</span><br><span class="line">                    <span class="keyword">if</span> (mSurfaceHolderCallback != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        mSurfaceHolder = <span class="keyword">new</span> TakenSurfaceHolder();</span><br><span class="line">                        mSurfaceHolder.setFormat(PixelFormat.UNKNOWN);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// Compute surface insets required to draw at specified Z value.</span></span><br><span class="line">                <span class="comment">// <span class="doctag">TODO:</span> Use real shadow insets for a constant max Z.</span></span><br><span class="line">                <span class="keyword">if</span> (!attrs.hasManualSurfaceInsets) &#123;</span><br><span class="line">                    <span class="keyword">final</span> <span class="keyword">int</span> surfaceInset = (<span class="keyword">int</span>) Math.ceil(view.getZ() * <span class="number">2</span>);</span><br><span class="line">                    attrs.surfaceInsets.set(surfaceInset, surfaceInset, surfaceInset, surfaceInset);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                CompatibilityInfo compatibilityInfo = mDisplayAdjustments.getCompatibilityInfo();</span><br><span class="line">                mTranslator = compatibilityInfo.getTranslator();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// If the application owns the surface, don't enable hardware acceleration</span></span><br><span class="line">                <span class="keyword">if</span> (mSurfaceHolder == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    enableHardwareAcceleration(attrs);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">boolean</span> restore = <span class="keyword">false</span>;</span><br><span class="line">                <span class="keyword">if</span> (mTranslator != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    mSurface.setCompatibilityTranslator(mTranslator);</span><br><span class="line">                    restore = <span class="keyword">true</span>;</span><br><span class="line">                    attrs.backup();</span><br><span class="line">                    mTranslator.translateWindowLayout(attrs);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (DEBUG_LAYOUT) Log.d(TAG, <span class="string">"WindowLayout in setView:"</span> + attrs);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (!compatibilityInfo.supportsScreen()) &#123;</span><br><span class="line">                    attrs.privateFlags |= WindowManager.LayoutParams.PRIVATE_FLAG_COMPATIBLE_WINDOW;</span><br><span class="line">                    mLastInCompatMode = <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                mSoftInputMode = attrs.softInputMode;</span><br><span class="line">                mWindowAttributesChanged = <span class="keyword">true</span>;</span><br><span class="line">                mWindowAttributesChangesFlag = WindowManager.LayoutParams.EVERYTHING_CHANGED;</span><br><span class="line">                mAttachInfo.mRootView = view;</span><br><span class="line">                mAttachInfo.mScalingRequired = mTranslator != <span class="keyword">null</span>;</span><br><span class="line">                mAttachInfo.mApplicationScale =</span><br><span class="line">                        mTranslator == <span class="keyword">null</span> ? <span class="number">1.0f</span> : mTranslator.applicationScale;</span><br><span class="line">                <span class="keyword">if</span> (panelParentView != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    mAttachInfo.mPanelParentWindowToken</span><br><span class="line">                            = panelParentView.getApplicationWindowToken();</span><br><span class="line">                &#125;</span><br><span class="line">                mAdded = <span class="keyword">true</span>;</span><br><span class="line">                <span class="keyword">int</span> res; <span class="comment">/* = WindowManagerImpl.ADD_OKAY; */</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// Schedule the first layout -before- adding to the window</span></span><br><span class="line">                <span class="comment">// manager, to make sure we do the relayout before receiving</span></span><br><span class="line">                <span class="comment">// any other events from the system.</span></span><br><span class="line">                requestLayout();</span><br><span class="line">                <span class="keyword">if</span> ((mWindowAttributes.inputFeatures</span><br><span class="line">                        &amp; WindowManager.LayoutParams.INPUT_FEATURE_NO_INPUT_CHANNEL) == <span class="number">0</span>) &#123;</span><br><span class="line">                    mInputChannel = <span class="keyword">new</span> InputChannel();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    mOrigWindowType = mWindowAttributes.type;</span><br><span class="line">                    mAttachInfo.mRecomputeGlobalAttributes = <span class="keyword">true</span>;</span><br><span class="line">                    collectViewAttributes();</span><br><span class="line">                    res = mWindowSession.addToDisplay(mWindow, mSeq, mWindowAttributes,</span><br><span class="line">                            getHostVisibility(), mDisplay.getDisplayId(),</span><br><span class="line">                            mAttachInfo.mContentInsets, mAttachInfo.mStableInsets,</span><br><span class="line">                            mAttachInfo.mOutsets, mInputChannel);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                    mAdded = <span class="keyword">false</span>;</span><br><span class="line">                    mView = <span class="keyword">null</span>;</span><br><span class="line">                    mAttachInfo.mRootView = <span class="keyword">null</span>;</span><br><span class="line">                    mInputChannel = <span class="keyword">null</span>;</span><br><span class="line">                    mFallbackEventHandler.setView(<span class="keyword">null</span>);</span><br><span class="line">                    unscheduleTraversals();</span><br><span class="line">                    setAccessibilityFocus(<span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Adding window failed"</span>, e);</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (restore) &#123;</span><br><span class="line">                        attrs.restore();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (mTranslator != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    mTranslator.translateRectInScreenToAppWindow(mAttachInfo.mContentInsets);</span><br><span class="line">                &#125;</span><br><span class="line">                mPendingOverscanInsets.set(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">                mPendingContentInsets.set(mAttachInfo.mContentInsets);</span><br><span class="line">                mPendingStableInsets.set(mAttachInfo.mStableInsets);</span><br><span class="line">                mPendingVisibleInsets.set(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">if</span> (DEBUG_LAYOUT) Log.v(TAG, <span class="string">"Added window "</span> + mWindow);</span><br><span class="line">                <span class="keyword">if</span> (res &lt; WindowManagerGlobal.ADD_OKAY) &#123;</span><br><span class="line">                    mAttachInfo.mRootView = <span class="keyword">null</span>;</span><br><span class="line">                    mAdded = <span class="keyword">false</span>;</span><br><span class="line">                    mFallbackEventHandler.setView(<span class="keyword">null</span>);</span><br><span class="line">                    unscheduleTraversals();</span><br><span class="line">                    setAccessibilityFocus(<span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">                    <span class="keyword">switch</span> (res) &#123;</span><br><span class="line">                        <span class="keyword">case</span> WindowManagerGlobal.ADD_BAD_APP_TOKEN:</span><br><span class="line">                        <span class="keyword">case</span> WindowManagerGlobal.ADD_BAD_SUBWINDOW_TOKEN:</span><br><span class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> WindowManager.BadTokenException(</span><br><span class="line">                                    <span class="string">"Unable to add window -- token "</span> + attrs.token</span><br><span class="line">                                            + <span class="string">" is not valid; is your activity running?"</span>);</span><br><span class="line">                        <span class="keyword">case</span> WindowManagerGlobal.ADD_NOT_APP_TOKEN:</span><br><span class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> WindowManager.BadTokenException(</span><br><span class="line">                                    <span class="string">"Unable to add window -- token "</span> + attrs.token</span><br><span class="line">                                            + <span class="string">" is not for an application"</span>);</span><br><span class="line">                        <span class="keyword">case</span> WindowManagerGlobal.ADD_APP_EXITING:</span><br><span class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> WindowManager.BadTokenException(</span><br><span class="line">                                    <span class="string">"Unable to add window -- app for token "</span> + attrs.token</span><br><span class="line">                                            + <span class="string">" is exiting"</span>);</span><br><span class="line">                        <span class="keyword">case</span> WindowManagerGlobal.ADD_DUPLICATE_ADD:</span><br><span class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> WindowManager.BadTokenException(</span><br><span class="line">                                    <span class="string">"Unable to add window -- window "</span> + mWindow</span><br><span class="line">                                            + <span class="string">" has already been added"</span>);</span><br><span class="line">                        <span class="keyword">case</span> WindowManagerGlobal.ADD_STARTING_NOT_NEEDED:</span><br><span class="line">                            <span class="comment">// Silently ignore -- we would have just removed it</span></span><br><span class="line">                            <span class="comment">// right away, anyway.</span></span><br><span class="line">                            <span class="keyword">return</span>;</span><br><span class="line">                        <span class="keyword">case</span> WindowManagerGlobal.ADD_MULTIPLE_SINGLETON:</span><br><span class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> WindowManager.BadTokenException(</span><br><span class="line">                                    <span class="string">"Unable to add window "</span> + mWindow +</span><br><span class="line">                                            <span class="string">" -- another window of this type already exists"</span>);</span><br><span class="line">                        <span class="keyword">case</span> WindowManagerGlobal.ADD_PERMISSION_DENIED:</span><br><span class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> WindowManager.BadTokenException(</span><br><span class="line">                                    <span class="string">"Unable to add window "</span> + mWindow +</span><br><span class="line">                                            <span class="string">" -- permission denied for this window type"</span>);</span><br><span class="line">                        <span class="keyword">case</span> WindowManagerGlobal.ADD_INVALID_DISPLAY:</span><br><span class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> WindowManager.InvalidDisplayException(</span><br><span class="line">                                    <span class="string">"Unable to add window "</span> + mWindow +</span><br><span class="line">                                            <span class="string">" -- the specified display can not be found"</span>);</span><br><span class="line">                        <span class="keyword">case</span> WindowManagerGlobal.ADD_INVALID_TYPE:</span><br><span class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> WindowManager.InvalidDisplayException(</span><br><span class="line">                                    <span class="string">"Unable to add window "</span> + mWindow</span><br><span class="line">                                            + <span class="string">" -- the specified window type is not valid"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(</span><br><span class="line">                            <span class="string">"Unable to add window -- unknown error code "</span> + res);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (view <span class="keyword">instanceof</span> RootViewSurfaceTaker) &#123;</span><br><span class="line">                    mInputQueueCallback =</span><br><span class="line">                            ((RootViewSurfaceTaker)view).willYouTakeTheInputQueue();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (mInputChannel != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (mInputQueueCallback != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        mInputQueue = <span class="keyword">new</span> InputQueue();</span><br><span class="line">                        mInputQueueCallback.onInputQueueCreated(mInputQueue);</span><br><span class="line">                    &#125;</span><br><span class="line">                    mInputEventReceiver = <span class="keyword">new</span> WindowInputEventReceiver(mInputChannel,</span><br><span class="line">                            Looper.myLooper());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                view.assignParent(<span class="keyword">this</span>);</span><br><span class="line">                mAddedTouchMode = (res &amp; WindowManagerGlobal.ADD_FLAG_IN_TOUCH_MODE) != <span class="number">0</span>;</span><br><span class="line">                mAppVisible = (res &amp; WindowManagerGlobal.ADD_FLAG_APP_VISIBLE) != <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (mAccessibilityManager.isEnabled()) &#123;</span><br><span class="line">                    mAccessibilityInteractionConnectionManager.ensureConnection();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (view.getImportantForAccessibility() == View.IMPORTANT_FOR_ACCESSIBILITY_AUTO) &#123;</span><br><span class="line">                    view.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// Set up the input pipeline.</span></span><br><span class="line">                CharSequence counterSuffix = attrs.getTitle();</span><br><span class="line">                mSyntheticInputStage = <span class="keyword">new</span> SyntheticInputStage();</span><br><span class="line">                InputStage viewPostImeStage = <span class="keyword">new</span> ViewPostImeInputStage(mSyntheticInputStage);</span><br><span class="line">                InputStage nativePostImeStage = <span class="keyword">new</span> NativePostImeInputStage(viewPostImeStage,</span><br><span class="line">                        <span class="string">"aq:native-post-ime:"</span> + counterSuffix);</span><br><span class="line">                InputStage earlyPostImeStage = <span class="keyword">new</span> EarlyPostImeInputStage(nativePostImeStage);</span><br><span class="line">                InputStage imeStage = <span class="keyword">new</span> ImeInputStage(earlyPostImeStage,</span><br><span class="line">                        <span class="string">"aq:ime:"</span> + counterSuffix);</span><br><span class="line">                InputStage viewPreImeStage = <span class="keyword">new</span> ViewPreImeInputStage(imeStage);</span><br><span class="line">                InputStage nativePreImeStage = <span class="keyword">new</span> NativePreImeInputStage(viewPreImeStage,</span><br><span class="line">                        <span class="string">"aq:native-pre-ime:"</span> + counterSuffix);</span><br><span class="line"></span><br><span class="line">                mFirstInputStage = nativePreImeStage;</span><br><span class="line">                mFirstPostImeInputStage = earlyPostImeStage;</span><br><span class="line">                mPendingInputEventQueueLengthCounterName = <span class="string">"aq:pending:"</span> + counterSuffix;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-</span>
-      
-    </div>
 
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/PhoneWindow/" rel="tag">#PhoneWindow</a>
-          
-            <a href="/tags/ViewRootImp/" rel="tag">#ViewRootImp</a>
-          
-            <a href="/tags/Window/" rel="tag">#Window</a>
-          
-            <a href="/tags/android/" rel="tag">#android</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/01/07/从绘制流程理解View绘制/" rel="next" title="从绘制流程理解View绘制">
-                <i class="fa fa-chevron-left"></i> 从绘制流程理解View绘制
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -375,8 +265,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/01/14/Window和ViewRootImp的总结/"
-           data-title="Window和ViewRootImp的总结" data-url="http://www.aheadlcx.xyz/2016/01/14/Window和ViewRootImp的总结/">
+      <div class="ds-thread" data-thread-key="window和ViewRootImp的总结.html"
+           data-title="Window和ViewRootImp的总结" data-url="http://www.aheadlcx.xyz/window和ViewRootImp的总结.html">
       </div>
     
   </div>
@@ -401,17 +291,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/32269?v=3&s=460" alt="aheadlcx" itemprop="image"/>
           <p class="site-author-name" itemprop="name">aheadlcx</p>
@@ -456,23 +337,6 @@
 
       </section>
 
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc-indicator-top post-toc-indicator">
-            <i class="fa fa-angle-double-up"></i>
-          </div>
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#activity的View_视图创建。"><span class="nav-number">1.</span> <span class="nav-text">activity的View 视图创建。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#activity_的绑定_（_attach方法_）"><span class="nav-number">2.</span> <span class="nav-text">activity 的绑定 （ attach方法 ）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#activity_的_makeVisible_方法。"><span class="nav-number">3.</span> <span class="nav-text">activity 的 makeVisible 方法。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ViewRootImpl"><span class="nav-number">4.</span> <span class="nav-text">ViewRootImpl</span></a></li></ol></div>
-            
-          </div>
-          <div class="post-toc-indicator-bottom post-toc-indicator">
-            <i class="fa fa-angle-double-down"></i>
-          </div>
-        </section>
       
 
     </div>
@@ -560,167 +424,6 @@
   <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
   
-  
-<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
-
-
-<script type="text/javascript" id="sidebar.toc.highlight">
-  $(document).ready(function () {
-    var tocSelector = '.post-toc';
-    var $tocSelector = $(tocSelector);
-    var activeCurrentSelector = '.active-current';
-
-    $tocSelector
-      .on('activate.bs.scrollspy', function () {
-        var $currentActiveElement = $(tocSelector + ' .active').last();
-
-        removeCurrentActiveClass();
-        $currentActiveElement.addClass('active-current');
-
-        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
-      })
-      .on('clear.bs.scrollspy', function () {
-        removeCurrentActiveClass();
-      });
-
-    function removeCurrentActiveClass () {
-      $(tocSelector + ' ' + activeCurrentSelector)
-        .removeClass(activeCurrentSelector.substring(1));
-    }
-
-    function processTOC () {
-      getTOCMaxHeight();
-      toggleTOCOverflowIndicators();
-    }
-
-    function getTOCMaxHeight () {
-      var height = $('.sidebar').height() -
-                   $tocSelector.position().top -
-                   $('.post-toc-indicator-bottom').height();
-
-      $tocSelector.css('height', height);
-
-      return height;
-    }
-
-    function toggleTOCOverflowIndicators () {
-      tocOverflowIndicator(
-        '.post-toc-indicator-top',
-        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
-      );
-
-      tocOverflowIndicator(
-        '.post-toc-indicator-bottom',
-        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
-      )
-    }
-
-    $(document).on('sidebar.motion.complete', function () {
-      processTOC();
-    });
-
-    $('body').scrollspy({ target: tocSelector });
-    $(window).on('resize', function () {
-      if ( $('.sidebar').hasClass('sidebar-active') ) {
-        processTOC();
-      }
-    });
-
-    onScroll($tocSelector);
-
-    function onScroll (element) {
-      element.on('mousewheel DOMMouseScroll', function (event) {
-          var oe = event.originalEvent;
-          var delta = oe.wheelDelta || -oe.detail;
-
-          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
-          event.preventDefault();
-
-          toggleTOCOverflowIndicators();
-      });
-    }
-
-    function tocOverflowIndicator (indicator, action) {
-      var $indicator = $(indicator);
-      var opacity = action === 'show' ? 1 : 0;
-      $indicator.velocity ?
-        $indicator.velocity('stop').velocity({
-          opacity: opacity
-        }, { duration: 100 }) :
-        $indicator.stop().animate({
-          opacity: opacity
-        }, 100);
-    }
-
-  });
-</script>
-
-<script type="text/javascript" id="sidebar.nav">
-  $(document).ready(function () {
-    var html = $('html');
-    var TAB_ANIMATE_DURATION = 200;
-    var hasVelocity = $.isFunction(html.velocity);
-
-    $('.sidebar-nav li').on('click', function () {
-      var item = $(this);
-      var activeTabClassName = 'sidebar-nav-active';
-      var activePanelClassName = 'sidebar-panel-active';
-      if (item.hasClass(activeTabClassName)) {
-        return;
-      }
-
-      var currentTarget = $('.' + activePanelClassName);
-      var target = $('.' + item.data('target'));
-
-      hasVelocity ?
-        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
-          target
-            .velocity('stop')
-            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
-            .addClass(activePanelClassName);
-        }) :
-        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
-          currentTarget.hide();
-          target
-            .stop()
-            .css({'opacity': 0, 'display': 'block'})
-            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
-              currentTarget.removeClass(activePanelClassName);
-              target.addClass(activePanelClassName);
-            });
-        });
-
-      item.siblings().removeClass(activeTabClassName);
-      item.addClass(activeTabClassName);
-    });
-
-    $('.post-toc a').on('click', function (e) {
-      e.preventDefault();
-      var targetSelector = escapeSelector(this.getAttribute('href'));
-      var offset = $(targetSelector).offset().top;
-      hasVelocity ?
-        html.velocity('stop').velocity('scroll', {
-          offset: offset  + 'px',
-          mobileHA: false
-        }) :
-        $('html, body').stop().animate({
-          scrollTop: offset
-        }, 500);
-    });
-
-    // Expand sidebar on post detail page by default, when post has a toc.
-    motionMiddleWares.sidebar = function () {
-      var $tocContent = $('.post-toc-content');
-      if (CONFIG.sidebar === 'post') {
-        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
-          displaySidebar();
-        }
-      }
-    };
-  });
-</script>
-
-
 
   <script type="text/javascript" src="/js/bootstrap.js"></script>
 
