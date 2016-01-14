@@ -57,7 +57,7 @@
 <meta property="og:url" content="http://www.aheadlcx.xyz/2016/01/14/我所理解的Window和ViewRootImp/index.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="本文是View绘制和事件分发的知识整理收尾篇，顺便也简单的整理了一下window相关的知识。">
-<meta property="og:updated_time" content="2016-01-14T12:47:10.000Z">
+<meta property="og:updated_time" content="2016-01-14T12:49:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Window和ViewRootImp的总结">
 <meta name="twitter:description" content="本文是View绘制和事件分发的知识整理收尾篇，顺便也简单的整理了一下window相关的知识。">
@@ -267,7 +267,12 @@
       
 
       
-        <span itemprop="articleBody"><p>本文是View绘制和事件分发的知识整理收尾篇，顺便也简单的整理了一下window相关的知识。</p>
+        <span itemprop="articleBody"><p>本文是View绘制和事件分发的知识整理收尾篇，顺便也简单的整理了一下window相关的知识。<br><a id="more"></a></p>
+<blockquote>
+<p>本文参考了众多前辈的文章和书籍<br><a href="http://blog.csdn.net/singwhatiwanna" target="_blank" rel="external">任玉刚的相关文章和书籍</a><br><a href="http://blog.csdn.net/guolin_blog" target="_blank" rel="external">郭霖博客</a></p>
+</blockquote>
+<h1 id="activity的View_视图创建。">activity的View 视图创建。</h1><p>我们先来看看activity的 setContentView 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(@LayoutRes <span class="keyword">int</span> layoutResID)</span> </span>&#123;</span><br><span class="line">        getWindow().setContentView(layoutResID);</span><br><span class="line">        initWindowDecorActionBar();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -415,7 +420,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#activity的View_视图创建。"><span class="nav-number">1.</span> <span class="nav-text">activity的View 视图创建。</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
