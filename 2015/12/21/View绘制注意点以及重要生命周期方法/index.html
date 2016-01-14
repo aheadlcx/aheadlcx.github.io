@@ -57,7 +57,7 @@
 <meta property="og:url" content="http://www.aheadlcx.xyz/2015/12/21/View绘制注意点以及重要生命周期方法/index.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="本文主要讲述对View的非常用用法以及自定义View要点">
-<meta property="og:updated_time" content="2016-01-09T15:01:23.000Z">
+<meta property="og:updated_time" content="2016-01-13T08:12:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="View绘制注意点以及重要生命周期方法">
 <meta name="twitter:description" content="本文主要讲述对View的非常用用法以及自定义View要点">
@@ -271,6 +271,12 @@
 <h1 id="View绘制注意点">View绘制注意点</h1><ul>
 <li>子View（如果是继承view，没有复写onMeasure 方法）绘制的时候，宽高，都是父View的剩余空间，不管是Match-parent还是wrap-content<br>自定义View，如果继承与View，可以参考TextView的onMeasure 方法<br>这是因为，在AT_MOST和EXACTLY下，父View调用getChildMeasureSpec方法时，主要子View不是写死的dp，给子View返回的measureSpec中<br>的SpecSize都是父View的SpecSize - （父padding 和子view的margin）。view的onMeasure方法，在AT_MOST和EXACTLY下，都是直接SpecSize</li>
 </ul>
+<h1 id="View_的一些重要方法">View 的一些重要方法</h1><ol>
+<li><p>requestLayout<br>如果没有做其他的操作，requestLayout 方法仅仅会出发measure 和 layout 过程。</p>
+</li>
+<li><p>invalidate<br>invalidate 方法 仅仅会出发draw过程。</p>
+</li>
+</ol>
 </span>
       
     </div>
@@ -370,7 +376,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -384,7 +390,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -416,7 +422,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#拿到view的测试宽高"><span class="nav-number">1.</span> <span class="nav-text">拿到view的测试宽高</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View绘制注意点"><span class="nav-number">2.</span> <span class="nav-text">View绘制注意点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#拿到view的测试宽高"><span class="nav-number">1.</span> <span class="nav-text">拿到view的测试宽高</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View绘制注意点"><span class="nav-number">2.</span> <span class="nav-text">View绘制注意点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View_的一些重要方法"><span class="nav-number">3.</span> <span class="nav-text">View 的一些重要方法</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
