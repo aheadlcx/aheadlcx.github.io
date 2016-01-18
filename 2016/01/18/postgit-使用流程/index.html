@@ -37,7 +37,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="git," />
+  <meta name="keywords" content="git,工作流," />
 
 
 
@@ -57,7 +57,7 @@
 <meta property="og:url" content="http://www.aheadlcx.xyz/2016/01/18/postgit-使用流程/index.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="记录git个人操作实践。多用命令行，少用GUI，可以有助理解git的工作原理。">
-<meta property="og:updated_time" content="2016-01-18T08:38:43.000Z">
+<meta property="og:updated_time" content="2016-01-18T08:44:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git 使用流程">
 <meta name="twitter:description" content="记录git个人操作实践。多用命令行，少用GUI，可以有助理解git的工作原理。">
@@ -305,6 +305,7 @@
 <li>推送feature A分支到个人库。并且pull request feature A 分支到项目库 的公共feature C分支。<br>这个公共featuer分支，可以按照迭代版本来设定。</li>
 <li>leader，review 代码，审核开发者提交的pr。merge feature A 分支到 公共feature C 分支。</li>
 <li>然后leader，merger 公共feature C分支到dev分支。</li>
+<li>每次把功能基本做完的时候，就从dev拉取出来一个分支 release，提交给测试组。在这之后，从release拉取代码，<br>开展bug分支作业。稳定可以发布之后，就从release merge到dev分支。再merge dev分支到master分支。以供发布。</li>
 </ol>
 </span>
       
@@ -315,6 +316,8 @@
         <div class="post-tags">
           
             <a href="/tags/git/" rel="tag">#git</a>
+          
+            <a href="/tags/工作流/" rel="tag">#工作流</a>
           
         </div>
       
@@ -415,7 +418,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
