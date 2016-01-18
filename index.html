@@ -278,33 +278,12 @@
 
       
         
-          <span itemprop="articleBody">
-            
-              <h1 id="git远程仓库">git远程仓库</h1><p>我们一般clone下来的仓库，默认都是origin的，其实git是可以支持多远程仓库的。</p>
-<ol>
-<li>git remote -v 是可以查看本地库，有那些远程库。</li>
-<li>git remote add [shortname] [url] 这是添加远程库。<br>例如git remote add pd  <a href="https://github.com/xiongwei-git/Inputer" target="_blank" rel="external">https://github.com/xiongwei-git/Inputer</a>  </li>
-<li>git fetch pd 意思就是把远程库pd，所有分支都拉到本地，如果远程库pd分支master，<br>那么对应的本地分支，就是pd/master. 如果需要用到此分支，需要自行自行合并。最后删除本地分支。</li>
-<li>git remote show [shortname] 这个是查看远程仓库的信息。[shortname] 代表的是远程仓库。</li>
-<li>git remote rename oldshortname newshortname 把远程仓库改名字。</li>
-<li>git remote rm [shortname] 删除远程仓库。</li>
-</ol>
-<h1 id="git_日常的操作">git 日常的操作</h1><ol>
-<li>git push [shortname] localBranch:remoteBranch 这是把本地分支推送到远程分支的格式<br>其实就是 git push 仓库名 本地分支:远程分支</li>
-<li>git pull [shortname] localBranch:remoteBranch 同上。</li>
-<li>git push [shortname] :remoteBranch 删除远程分支</li>
-<li>git checkout -b localBranch shortname/remoteBranch 拉取远程分支到本地，并且本地分支<br>跟踪远程分支。这个好处就是，以后直接调用git push和git pull，就可以直接推送和拉取代码了。<br>其实我们一般clone下来的仓库，都是自动创建了master分支，并且跟踪远程的master分支。</li>
-</ol>
-<h1 id="git_紧急修bug场景相关操作">git 紧急修bug场景相关操作</h1><ol>
-<li>git stash 此命令可以保存现场环境，可以切换到其他分支，继续工作，以后再切换回来此分支，可以再回复<br>现场环境。</li>
-<li>git stash pop 恢复现场环境，并且删除现场。</li>
-<li>git stash list 是查看有哪些保存的现场</li>
-<li>git stash apply 是恢复现场，但是不删除</li>
-<li>git stash drop 是删除现场。</li>
-</ol>
-
-            
-          </span>
+          <p>记录git个人操作实践。多用命令行，少用GUI，可以有助理解git的工作原理。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/01/18/postgit-使用流程/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
