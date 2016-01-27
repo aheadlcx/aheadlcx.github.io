@@ -220,6 +220,129 @@
             
               
                 
+                <a class="post-title-link" href="/2016/01/27/android挡板数据层设计/" itemprop="url">
+                  android挡板数据层设计
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-01-27T14:36:10+08:00" content="2016-01-27">
+              2016-01-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/27/android挡板数据层设计/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/27/android挡板数据层设计/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="挡板数据的重要性">挡板数据的重要性</h1><p>调试不依赖服务端等。</p>
+<h1 id="挡板数据设计几个关注点">挡板数据设计几个关注点</h1><ol>
+<li>挡板数据仅仅适用于开发阶段，给开发人员使用。</li>
+<li>提交测试之后，挡板数据不应该呈现出来。</li>
+<li>挡板数据相关代码，甚至在测试环境、预生成环境和生成，都不应该出现。</li>
+</ol>
+<h2 id="挡板层设计雏形">挡板层设计雏形</h2><ol>
+<li>利用 productFlavors 做文章<br>其实不同的 productFlavors 会有不同的java代码路径，例如有 productFlavors product 和 dev.<br>你的代码文件夹应该有如下java代码路径</li>
+</ol>
+<ul>
+<li>src.main.java.packagename</li>
+<li>src.product.java.packagename</li>
+<li>src.dev.java.packagename</li>
+</ul>
+<p>在IDE环境下（指as）,左下角点击 Build Variants 选择不同的build变量，这个build变量是由<br>product 和 buidTypes 组成。我们选择不同的build 变量，就会根据 productFlavors 编译对应的java文件路径。<br>这样，我们就解决了，<strong>挡板数据仅仅在开发环境下有用</strong>。</p>
+<ol>
+<li><p>利用 productFlavorsCompile 做文章<br>如上述有2个 productFlavors ，productCompile 会仅仅在 product相关的 Build Variants 下起作用。<br>同样的，dev 下也如此。因此，<strong>我们可以仅仅在dev下，编译挡板数据代码</strong>。</p>
+</li>
+<li><p>一种可以选择的综合方案<br>为挡板数据新建module mockServer ，根据上述方案，仅仅选择dev下编译此module mockServer ，此 mockServer<br>依赖我们 baseLib （目前我设想的是， 所有基类和 modle， 都放在baseLib 中，业务module，再依赖 baseLib）。<br>发送服务，可以封装一层send层，每个发服务都封装一个 serviceModle过来。 这个 serviceModle 包含一个字符串字段 targetMockModleApi ，标识<br>哪一个 mockModleApi.在业务module的 dev 分支代码中，根据 targetMockModleApi ，通过映射来拿到 mockModleApi ,<br>然后 mockModleApi 直接返回 mockModle 。</p>
+</li>
+</ol>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/01/18/postgit-使用流程/" itemprop="url">
                   git 使用流程
                 </a>
@@ -596,94 +719,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/21/View绘制注意点以及重要生命周期方法/" itemprop="url">
-                  View绘制注意点以及重要生命周期方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-12-21T19:38:09+08:00" content="2015-12-21">
-              2015-12-21
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/12/21/View绘制注意点以及重要生命周期方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/21/View绘制注意点以及重要生命周期方法/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>本文主要讲述对View的非常用用法以及自定义View要点<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/12/21/View绘制注意点以及重要生命周期方法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -730,7 +765,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -744,7 +779,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
