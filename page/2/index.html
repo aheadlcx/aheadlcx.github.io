@@ -220,6 +220,109 @@
             
               
                 
+                <a class="post-title-link" href="/2016/01/07/从绘制流程理解View绘制/" itemprop="url">
+                  从绘制流程理解View绘制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-01-07T11:59:09+08:00" content="2016-01-07">
+              2016-01-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/07/从绘制流程理解View绘制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/07/从绘制流程理解View绘制/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>本文是本人对View绘制的学习的笔记文章，借鉴了一些前辈的经验<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/01/07/从绘制流程理解View绘制/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/21/从源码去理解事件分发/" itemprop="url">
                   从源码去理解事件分发
                 </a>
@@ -803,252 +906,12 @@ public</span><span class="function"> DiskBasedCache(</span>File rootDirectory<sp
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/12/14/postservice/" itemprop="url">
-                  关于安卓中的服务service
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2014-12-14T20:54:44+08:00" content="2014-12-14">
-              2014-12-14
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/12/14/postservice/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/14/postservice/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="服务的2种启动方式以及区别">服务的2种启动方式以及区别</h1><p>service 可以用startService和bindService来启动。<br>startService开始了服务，开始者就不能直接控制service了。<br>bindservice方式，可以返回一个自定义binder给开始者，java中非静态内部类保持外部类的引用，这样开始者可以可以直接控制service了。<br>bindService方式，意思是让activity和service关联在一起，一般是要求在同一个进程中的。</p>
-<h1 id="服务所在线程和进程">服务所在线程和进程</h1><h2 id="主线程中的service">主线程中的service</h2><p>service必须在清单文件中注册，如果没有特别指定，service是处于UI线程和，当然了，进程和UI线程一致。这个可以通过Looper.mainLooper()和Looper.myLooper()，android.os.Process.myPid(),来验证。</p>
-<h2 id="远程service">远程service</h2><p>在清单文件中注册的时候，加上属性android:process=”:remote”即可，验证方式同上，进程ID变了，而且应用程序的包名也变了，多了.remote标识。</p>
-<h1 id="service和activity之间的通信">service和activity之间的通信</h1><p>service和activity之间的通信，必须是由bindService方式启动的。</p>
-<h2 id="【方式一】，利用广播。">【方式一】，利用广播。</h2><p>广播效率比较低，一般而言，不是首选。</p>
-<h2 id="【方式二】，利用binder和结合service的接口内部类。">【方式二】，利用binder和结合service的接口内部类。</h2><p>activity（作为开始者举例），bindService方式启动服务之后，服务会返回一个binder子类，activity实现service的内部类接口，然后通过binder拿到service的实例，设置内部接口实现类为activity，最后，在service中，需要更新UI的时候或者需要告诉activity一些信息的时候，就可以调用内部类的对象的方法了。</p>
-<h2 id="【方式三】使用messenger通信">【方式三】使用messenger通信</h2><p>messenger在构造方法中可以实现和handle关联，使用messenger通信可以发送message，使用messenger通信发送的message交给与之关联的handle处理。我们可以注意到Message里面有个messenger变量replyTo。我们可以在activity和service中各实现一个messenger和关联的handle。首先，service中onBinder返回的binder可以通过service中的messenger Smessenger.getBinder(),那么activity就可以拿到了service中的Smessenger了。那么service怎么拿到activity中的messenger呢，这个就得通过message中的replyTo变量了。在activity中拿到的Service引用，发送一个message，这个message的replyTo为activity的messenger，这样这个message就带有了activity中的messenger了，这个message是service中的Smessenger发送的，也就是交给service的handle处理了。<br>文字比较累赘，词不达意的地方，敬请谅解。代码如下。</p>
-<p>这里是activity</p>
-<p>#java<br>        public class MessengerAct extends Activity {</p>
-<pre><code>    <span class="keyword">private</span> <span class="type">Messenger</span> sMessenger = <span class="literal">null</span>;
-
-    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Messenger</span> aMessenger = <span class="keyword">new</span> <span class="type">Messenger</span>(<span class="keyword">new</span> <span class="type">ActHandler</span>());
-
-    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ActHandler</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Handler</span> {</span>
-        <span class="annotation">@Override</span>
-        public void handleMessage(<span class="type">Message</span> msg) {
-            <span class="comment">// TODO Auto-generated method stub</span>
-            <span class="keyword">super</span>.handleMessage(msg);
-        }
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) {
-        <span class="comment">// TODO Auto-generated method stub</span>
-        <span class="keyword">super</span>.onCreate(savedInstanceState);
-
-        initReceiver();
-        initMsg();
-    }
-
-    <span class="keyword">private</span> void initReceiver() {
-        <span class="type">Intent</span> <span class="type">ReI</span> = <span class="keyword">new</span> <span class="type">Intent</span>(<span class="keyword">this</span>, <span class="type">MessengerReceiver</span>.<span class="keyword">class</span>);
-        bindService(<span class="type">ReI</span>, <span class="keyword">new</span> <span class="type">ServiceConnection</span>() {
-
-            <span class="annotation">@Override</span>
-            public void onServiceDisconnected(<span class="type">ComponentName</span> name) {
-                <span class="comment">// TODO Auto-generated method stub</span>
-
-            }
-
-            <span class="annotation">@Override</span>
-            public void onServiceConnected(<span class="type">ComponentName</span> name, <span class="type">IBinder</span> service) {
-                <span class="comment">// 拿到服务器的Messenger实例</span>
-                sMessenger = <span class="keyword">new</span> <span class="type">Messenger</span>(service);
-
-            }
-        }, <span class="type">Context</span>.<span class="type">BIND_AUTO_CREATE</span>);
-    }
-
-    <span class="keyword">private</span> void initMsg() {
-        <span class="type">Bundle</span> actBundle = <span class="keyword">new</span> <span class="type">Bundle</span>();
-        actBundle.putString(<span class="string">"test"</span>, <span class="string">"从act发来的消息"</span>);
-        <span class="type">Message</span> msg = <span class="type">Message</span>.obtain();
-        msg.setData(actBundle);
-        msg.replyTo = aMessenger;
-        <span class="keyword">try</span> {
-            sMessenger.send(msg);
-        } <span class="keyword">catch</span> (<span class="type">RemoteException</span> e) {
-            <span class="comment">// TODO Auto-generated catch block</span>
-            e.printStackTrace();
-        }
-
-    }
-    <span class="annotation">@Override</span>
-    <span class="keyword">protected</span> void onStop() {
-        <span class="comment">// TODO Auto-generated method stub</span>
-        <span class="keyword">super</span>.onStop();
-    }
-}
-此为service
-
-public <span class="class"><span class="keyword">class</span> <span class="title">MessengerReceiver</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Service</span>{</span>
-
-    public static <span class="type">String</span> <span class="type">TAG</span> = <span class="type">MessengerReceiver</span>.<span class="keyword">class</span>.getSimpleName();
-
-    <span class="keyword">private</span> <span class="type">Messenger</span> aMessenger = <span class="literal">null</span>;
-
-    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Messenger</span> sMessenger = <span class="keyword">new</span> <span class="type">Messenger</span>(<span class="keyword">new</span> <span class="type">RecHandler</span>());
-
-    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">RecHandler</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Handler</span>{</span>
-
-        <span class="annotation">@Override</span>
-        public void handleMessage(<span class="type">Message</span> msg) {
-            <span class="comment">// TODO Auto-generated method stub</span>
-            <span class="keyword">super</span>.handleMessage(msg);
-            <span class="comment">//拿到activity的Messenger实例</span>
-            aMessenger = msg.replyTo;
-            <span class="type">Message</span> msg1 = <span class="type">Message</span>.obtain();
-            <span class="keyword">try</span> {
-                aMessenger.send(msg1);
-            } <span class="keyword">catch</span> (<span class="type">RemoteException</span> e) {
-                <span class="comment">// TODO Auto-generated catch block</span>
-                e.printStackTrace();
-            }
-        }
-    }
-    <span class="annotation">@Override</span>
-    public <span class="type">IBinder</span> onBind(<span class="type">Intent</span> intent) {
-        <span class="comment">// TODO Auto-generated method stub</span>
-        <span class="keyword">return</span> sMessenger.getBinder();
-    }
-
-    <span class="annotation">@Override</span>
-    public void onCreate() {
-        <span class="comment">// TODO Auto-generated method stub</span>
-        <span class="keyword">super</span>.onCreate();
-        <span class="type">Log</span>.i(<span class="type">TAG</span>, <span class="string">"process id is "</span>+android.os.<span class="type">Process</span>.myPid());
-
-        <span class="type">Notification</span> mNotification = <span class="keyword">new</span> <span class="type">Notification</span>(<span class="type">R</span>.drawable.ic_launcher, <span class="string">"通知come"</span>, <span class="type">System</span>.currentTimeMillis());
-
-        <span class="type">Intent</span> n= <span class="keyword">new</span> <span class="type">Intent</span>(<span class="keyword">this</span>,<span class="type">SecondAct</span>.<span class="keyword">class</span>);
-        <span class="type">PendingIntent</span> mPendingIntent = <span class="type">PendingIntent</span>.getActivity(<span class="keyword">this</span>, <span class="number">0</span>, n, <span class="number">0</span>);
-        mNotification.setLatestEventInfo(<span class="keyword">this</span>, <span class="string">"title"</span>, <span class="string">" content text"</span>, mPendingIntent);
-        startForeground(<span class="number">1</span>, mNotification);
-    }
-
-
-
-}
-</code></pre><p>##【方式四】AIDL，一般用于实现多个应用程序共享同一个Service的功能。</p>
-<p>首先需要建立aidl文件，基本和java语言类似。<br>    package com.example.mycode.aidl;<br>    interface MyAIDLService{<br>        int incre(int a, int b);</p>
-<pre><code>    <span class="function"><span class="keyword">int</span> <span class="title">decre</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;
-
-}
-</code></pre><p>APP A中的AService aservice，在清单文件中注册个action，因为在APP B中是没有APP中的service这个类的，必须隐式调用。</p>
-<p>#java<br>    <service android:name=".receiver.MessengerReceiver" android:process=":remote"><br>     <intent-filter><br>    <action android:name="com.example.mycode.test.aidlservice"><br>    </action></intent-filter><br>     </service><br>在A中的 AService的onbind方法中，返回<br>    MyAIDLService.Stub aidlBinder = new Stub() {</p>
-<pre><code>    @<span class="type">Override</span>
-    public <span class="type">int</span> incre(<span class="type">int</span> a, <span class="type">int</span> b) throws <span class="type">RemoteException</span> {
-        // <span class="type">TODO</span> <span class="type">Auto</span>-generated <span class="keyword">method</span> stub
-        <span class="keyword">return</span> a + b;
-    }
-
-    @<span class="type">Override</span>
-    public <span class="type">int</span> decre(<span class="type">int</span> a, <span class="type">int</span> b) throws <span class="type">RemoteException</span> {
-        // <span class="type">TODO</span> <span class="type">Auto</span>-generated <span class="keyword">method</span> stub
-        <span class="keyword">return</span> a - b;
-    }
-};
-
-其中stub，就是binder的抽象子类。
-在<span class="type">APP</span> B中，把<span class="type">APP</span>中的<span class="type">AIDL</span>文件copy过来，必须把原来的包路径也copy过来。这样在<span class="type">APP</span> B中就可以调用service中的函数了。
-private <span class="type">ServiceConnection</span> connection = new  <span class="type">ServiceConnection</span>() {
-
-    @<span class="type">Override</span>
-    public <span class="type">void</span> onServiceDisconnected(<span class="type">ComponentName</span> name) {
-
-    }
-
-    @<span class="type">Override</span>
-    public <span class="type">void</span> onServiceConnected(<span class="type">ComponentName</span> name, <span class="type">IBinder</span> service) {
-</code></pre><p>//          myBinder = (MyBinder) service;<br>            mMyAIDLService = MyAIDLService.Stub.asInterface(service);<br>            try {<br>                int result = mMyAIDLService.incre(2, 5);<br>                Log.i(TAG, “result”+result+””);<br>            } catch (Exception e) {<br>                // TODO: handle exception<br>            }<br>        }<br>    };</p>
-<pre><code>这样就实现了多APP操作一个<span class="class"><span class="keyword">service</span>了。就是比较麻烦点。</span>
-</code></pre><p>引用<a href="http://blog.csdn.net/guolin_blog/article/details/11952435" target="_blank" rel="external">第一行代码作者guolin</a></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1089,7 +952,7 @@ private <span class="type">ServiceConnection</span> connection = new  <span clas
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1103,7 +966,7 @@ private <span class="type">ServiceConnection</span> connection = new  <span clas
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
