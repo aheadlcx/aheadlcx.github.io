@@ -57,7 +57,7 @@
 <meta property="og:url" content="http://www.aheadlcx.xyz/2016/03/01/postdata-binding笔记/index.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="本文，记述使用 data-binding 的一些注意事项（主要是，期待的特性，而没有的部分）">
-<meta property="og:updated_time" content="2016-03-01T15:25:41.000Z">
+<meta property="og:updated_time" content="2016-03-02T06:31:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="data-binding笔记">
 <meta name="twitter:description" content="本文，记述使用 data-binding 的一些注意事项（主要是，期待的特性，而没有的部分）">
@@ -272,6 +272,10 @@
 <p><a href="https://github.com/LyndonChin/MasteringAndroidDataBinding" target="_blank" rel="external">参考链接</a><br><a href="http://yanghui.name/blog/2016/02/17/data-binding-guide/" target="_blank" rel="external">杨辉的译文</a></p>
 </blockquote>
 <p>1， 带 id 的 View<br>在 ViewDataBinding 类中，只要一个 View 有id（例如id是 txtContent），那么就会有一个对应的<br>成员变量，并且是 public final 的，txtContent .<br>这个虽然可以在外部使用，但是如果你 Refactor rename 这个id，会期望这个 ViewDataBinding 类的txtContent<br>变量，也一起 rename ,可是事实并不会。因此，重构 rename 的时候，这点会很坑爹。</p>
+<p>2, xml布局写错了，导致相应的databinding类生成不了<br>xml布局写错了，导致所有的databinding类生成不了，因此，会说找不到 databinding 这个包。<br>最坑爹的是，<strong>xml里面并没有提示那里错了</strong>。。。</p>
+<p>3，注意 import 的导入<br>例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:visibility=<span class="string">"@&#123;user.isAdult ? View.GONE : View.VISIBLE&#125;"</span></span><br></pre></td></tr></table></figure></p>
+<p>如果你想把一些逻辑，直接写到xml里面去，这是可以，但是你必须导入相应的包。<br>如果你不到加上这个<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">import</span> type=<span class="string">"android.view.View"</span>/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在你写 View.Gone 的时候，是不会有智能提示的，而且run的时候会报错。</p>
 </span>
       
     </div>
@@ -298,6 +302,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/04/postFlux-学习笔记/" rel="prev" title="Flux 学习笔记">
+                Flux 学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -369,7 +377,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -383,7 +391,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
