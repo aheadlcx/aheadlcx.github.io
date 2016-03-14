@@ -51,22 +51,37 @@
 
 
 
-<meta name="description" content="数据流是单向的Action - Dispatcher - Store - View疑惑 如果是列表这种获取数据，展示数据，的确是可以单向数据流。 如果是修改用户信息相关的，需要先查询数据展示出来，根据用户的修改，再发送修改后的数据到服务器。 这个情况，数据是怎么走呢。
-Dispatcher 解决 store 之间的依赖。
-全局唯一一个Dispatcher，还是每个业务界面一个 Dispatcher">
+<meta name="description" content="Flux 架构关键特点。
+app分层如下
+
+
+View : 界面，和 MVP 一样，一般就是 Activity 或者 fragment 。
+Dispatcher ： 处理中心，负责分发 Action 给 Store 的。
+Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 data 和 type 作不同的业务逻辑处理，并且发出不同的 change 事件，通知">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flux 学习笔记">
 <meta property="og:url" content="http://www.aheadlcx.xyz/2016/03/04/postFlux-学习笔记/index.html">
 <meta property="og:site_name" content="believe yourself">
-<meta property="og:description" content="数据流是单向的Action - Dispatcher - Store - View疑惑 如果是列表这种获取数据，展示数据，的确是可以单向数据流。 如果是修改用户信息相关的，需要先查询数据展示出来，根据用户的修改，再发送修改后的数据到服务器。 这个情况，数据是怎么走呢。
-Dispatcher 解决 store 之间的依赖。
-全局唯一一个Dispatcher，还是每个业务界面一个 Dispatcher">
-<meta property="og:updated_time" content="2016-03-04T03:52:22.000Z">
+<meta property="og:description" content="Flux 架构关键特点。
+app分层如下
+
+
+View : 界面，和 MVP 一样，一般就是 Activity 或者 fragment 。
+Dispatcher ： 处理中心，负责分发 Action 给 Store 的。
+Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 data 和 type 作不同的业务逻辑处理，并且发出不同的 change 事件，通知">
+<meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/flux_data_forward.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/flux_store.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/flux_data_synchronous.jpg">
+<meta property="og:updated_time" content="2016-03-14T06:21:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flux 学习笔记">
-<meta name="twitter:description" content="数据流是单向的Action - Dispatcher - Store - View疑惑 如果是列表这种获取数据，展示数据，的确是可以单向数据流。 如果是修改用户信息相关的，需要先查询数据展示出来，根据用户的修改，再发送修改后的数据到服务器。 这个情况，数据是怎么走呢。
-Dispatcher 解决 store 之间的依赖。
-全局唯一一个Dispatcher，还是每个业务界面一个 Dispatcher">
+<meta name="twitter:description" content="Flux 架构关键特点。
+app分层如下
+
+
+View : 界面，和 MVP 一样，一般就是 Activity 或者 fragment 。
+Dispatcher ： 处理中心，负责分发 Action 给 Store 的。
+Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 data 和 type 作不同的业务逻辑处理，并且发出不同的 change 事件，通知">
 
 
 
@@ -273,13 +288,56 @@ Dispatcher 解决 store 之间的依赖。
       
 
       
-        <span itemprop="articleBody"><h2 id="数据流是单向的">数据流是单向的</h2><p>Action - Dispatcher - Store - View<br><strong>疑惑</strong><br> 如果是列表这种获取数据，展示数据，的确是可以单向数据流。<br> 如果是修改用户信息相关的，需要先查询数据展示出来，根据用户的修改，再发送修改后的数据到服务器。<br> 这个情况，数据是怎么走呢。</p>
-<h2 id="Dispatcher_解决_store_之间的依赖。">Dispatcher 解决 store 之间的依赖。</h2><ul>
-<li>全局唯一一个Dispatcher，还是每个业务界面一个 Dispatcher 呢。</li>
-<li>处理 Action 的时候，根据 Action 的 Type  分别处理，这个操作，到底是放在 Dispatcher<br>还是Store 层处理合理呢。</li>
-<li>Dispatcher 的 wiatFor</li>
-<li>Dispatcher.register(store) 返回的id，这个能干嘛</li>
+        <span itemprop="articleBody"><h1 id="Flux_架构关键特点。">Flux 架构关键特点。</h1><ol>
+<li>app分层如下</li>
+</ol>
+<ul>
+<li>View : 界面，和 MVP 一样，一般就是 Activity 或者 fragment 。</li>
+<li>Dispatcher ： 处理中心，负责分发 Action 给 Store 的。</li>
+<li>Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 data 和 type 作不同的<br>业务逻辑处理，并且发出不同的 change 事件，通知 View 来修改 UI 。 Store 层的操作都是同步的。</li>
+<li>ActionsCreator ： 接收到 View 层的事件，创造 Action，异步数据获取操作，放在这。</li>
 </ul>
+<ol>
+<li>数据的单向流动，这个是 Flux 的核心，单向的数据流动，容易理解和上手。<br>数据流方向是： View -&gt; ActionsCreator -&gt; Dispatcher -&gt; Store -&gt; View<br><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/flux_data_forward.jpg" alt="数据单向流动示意图"></li>
+<li>Action ： 这个是通信的基本对象，事件流动必须通过他（或者子类）。</li>
+</ol>
+<h2 id="一个具体实现">一个具体实现</h2><ol>
+<li>Action<br>Action 主要携带信息，包含2个主要属性：</li>
+</ol>
+<ul>
+<li>Type ： 区分标志位，定义了这个 Action 的类型。</li>
+<li>Data ： Action携带的数据，具体实现，看需要，简单点可以定义为 Object，如果考虑到携带多个数据<br>也可以设计为 Map等。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Action</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String type;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> HashMap&lt;String, Object&gt; data;</span><br><span class="line"></span><br><span class="line">    Action(String type, HashMap&lt;String, Object&gt; data) &#123;</span><br><span class="line">        <span class="keyword">this</span>.type = type;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>View<br>View 其实就是 Activity 或者 fragment ，一般都是通过 事件总线（ EvenBus, otto 之类）来实现<br>监听 Store 层的 UI 更新通知。</p>
+</li>
+<li><p>ActionsCreator<br>这里是（异步）获取数据，并且创造 Action 再传递给 Dispatcher 的。如果数据获取是异步的，可以<br>再封装一个获取异步数据的类，类似于 MVP 中的 Model。这里的 Model 个人觉得需要思考下这个颗粒度的<br>问题，到底是一个界面的数据获取操作，全部封装在一个 Model 里面合适点，还是每个异步获取数据放一个<br>Model 。 个人建议按照界面来定义  Model 的颗粒度。</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ActionsCreator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> Dispatcher dispatcher;</span><br><span class="line"></span><br><span class="line">    ActionsCreator(Dispatcher dispatcher) &#123;</span><br><span class="line">        <span class="keyword">this</span>.dispatcher = dispatcher;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//简单创造的一个 todo</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">(String text)</span> </span>&#123;</span><br><span class="line">        dispatcher.dispatch(</span><br><span class="line">                TodoActions.TODO_CREATE,</span><br><span class="line">                TodoActions.KEY_TEXT, text</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Dispatcher<br>这就是一个接受到 Action 然后分发到 Store 的过程。<br>dispatch 方法，负责分发 Action 给各 Store 。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dispatcher</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Bus bus;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Dispatcher instance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Dispatcher <span class="title">get</span><span class="params">(Bus bus)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> Dispatcher(bus);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Dispatcher(Bus bus) &#123;</span><br><span class="line">        <span class="keyword">this</span>.bus = bus;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">register</span><span class="params">(<span class="keyword">final</span> Object cls)</span> </span>&#123;</span><br><span class="line">        bus.register(cls);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregister</span><span class="params">(<span class="keyword">final</span> Object cls)</span> </span>&#123;</span><br><span class="line">        bus.unregister(cls);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">emitChange</span><span class="params">(Store.StoreChangeEvent o)</span> </span>&#123;</span><br><span class="line">        post(o);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatch</span><span class="params">(String type, Object... data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isEmpty(type)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Type must not be empty"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (data.length % <span class="number">2</span> != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Data must be a valid list of key,value pairs"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Action.Builder actionBuilder = Action.type(type);</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; data.length) &#123;</span><br><span class="line">            String key = (String) data[i++];</span><br><span class="line">            Object value = data[i++];</span><br><span class="line">            actionBuilder.bundle(key, value);</span><br><span class="line">        &#125;</span><br><span class="line">        post(actionBuilder.build());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">(String type)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> type == <span class="keyword">null</span> || type.isEmpty();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">post</span><span class="params">(<span class="keyword">final</span> Object event)</span> </span>&#123;</span><br><span class="line">        bus.post(event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Store<br>Store 层负责接受 Dispatcher 发送过来的 Action ，接收 Action 中的 Data 根据 Type 作出相应<br>UI 刷新事件。（这事件由 View 订阅）。 View 再从 Store 拿相应的数据刷新 UI 。<br>Store 提供 Get 接口，给数据，但是不应该提供 Set 接口，更新数据，要更新数据必须通过 ActionsCreator 。  </li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/flux_store.jpg" alt="Store"></p>
+<h2 id="Flux_优点">Flux 优点</h2><ol>
+<li><p>数据异步<br>所有的action都是从一个Action Creator触发的：在一处单一的点创建与发起所有用户操作可以大大简化寻找错误的过程。<br>忘掉在多个类中寻找某个操作的源头吧 ，所有的事情都是在这里发生的。同时，因为异步调用发生在这之前，<br>所有来自于ActionCreator的东西都是同步的。<br><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/flux_data_synchronous.jpg" alt="data"></p>
+</li>
+<li><p>不同线程代码，分隔开</p>
+</li>
+</ol>
+<ul>
+<li>View  和 Store 的代码，都是运行在主线程。</li>
+<li>ActionCreator  ，View 操作 ActionCreator 的都是主线程，异步调用的代码，都封装在 获取数据的 Model 中。<br>这方便，项目的分工，加快开发进度。</li>
+</ul>
+<h2 id="Flux_缺点（个人认为）">Flux 缺点（个人认为）</h2><ol>
+<li>代码量，不少。需要多写很多 Action 和 Store 。</li>
+<li>每一个 View 操作，都需要经过 ActionCreator ， Dispatcher 和 Store ，调整多，如果需要一眼看出每一个<br>View 操作，最后 View监听到的 回调事件，需要较好的命名规范。</li>
+</ol>
 </span>
       
     </div>
@@ -306,6 +364,10 @@ Dispatcher 解决 store 之间的依赖。
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/09/下拉刷新学习/" rel="prev" title=" 下拉刷新学习">
+                 下拉刷新学习 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -377,7 +439,7 @@ Dispatcher 解决 store 之间的依赖。
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -423,7 +485,7 @@ Dispatcher 解决 store 之间的依赖。
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据流是单向的"><span class="nav-number">1.</span> <span class="nav-text">数据流是单向的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dispatcher_解决_store_之间的依赖。"><span class="nav-number">2.</span> <span class="nav-text">Dispatcher 解决 store 之间的依赖。</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Flux_架构关键特点。"><span class="nav-number">1.</span> <span class="nav-text">Flux 架构关键特点。</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个具体实现"><span class="nav-number">1.1.</span> <span class="nav-text">一个具体实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flux_优点"><span class="nav-number">1.2.</span> <span class="nav-text">Flux 优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flux_缺点（个人认为）"><span class="nav-number">1.3.</span> <span class="nav-text">Flux 缺点（个人认为）</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
