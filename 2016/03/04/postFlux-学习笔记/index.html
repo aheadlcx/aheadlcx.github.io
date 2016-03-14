@@ -51,28 +51,34 @@
 
 
 
-<meta name="description" content="Flux 架构关键特点。app分层如下
+<meta name="description" content="原文泡网的翻译
+
+Flux 架构关键特点。app分层如下
 View : 界面，和 MVP 一样，一般就是 Activity 或者 fragment 。
 Dispatcher ： 处理中心，负责分发 Action 给 Store 的。
-Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 data 和 type 作不同的业务逻辑处理，并且发出不同的 change 事件，通知 Vi">
+Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 data 和 type 作不同的业务逻辑处理，并且发出不同的 change">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flux 学习笔记">
 <meta property="og:url" content="http://www.aheadlcx.xyz/2016/03/04/postFlux-学习笔记/index.html">
 <meta property="og:site_name" content="believe yourself">
-<meta property="og:description" content="Flux 架构关键特点。app分层如下
+<meta property="og:description" content="原文泡网的翻译
+
+Flux 架构关键特点。app分层如下
 View : 界面，和 MVP 一样，一般就是 Activity 或者 fragment 。
 Dispatcher ： 处理中心，负责分发 Action 给 Store 的。
-Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 data 和 type 作不同的业务逻辑处理，并且发出不同的 change 事件，通知 Vi">
+Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 data 和 type 作不同的业务逻辑处理，并且发出不同的 change">
 <meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/flux_data_forward.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/flux_store.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/flux_data_synchronous.jpg">
-<meta property="og:updated_time" content="2016-03-14T06:28:42.000Z">
+<meta property="og:updated_time" content="2016-03-14T06:34:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flux 学习笔记">
-<meta name="twitter:description" content="Flux 架构关键特点。app分层如下
+<meta name="twitter:description" content="原文泡网的翻译
+
+Flux 架构关键特点。app分层如下
 View : 界面，和 MVP 一样，一般就是 Activity 或者 fragment 。
 Dispatcher ： 处理中心，负责分发 Action 给 Store 的。
-Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 data 和 type 作不同的业务逻辑处理，并且发出不同的 change 事件，通知 Vi">
+Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 data 和 type 作不同的业务逻辑处理，并且发出不同的 change">
 
 
 
@@ -279,7 +285,11 @@ Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 
       
 
       
-        <span itemprop="articleBody"><h1 id="Flux_架构关键特点。">Flux 架构关键特点。</h1><h2 id="app分层如下">app分层如下</h2><ul>
+        <span itemprop="articleBody"><a id="more"></a>
+<blockquote>
+<p><a href="http://lgvalle.xyz/2015/08/04/flux-architecture/" target="_blank" rel="external">原文</a><br><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0816/3311.html" target="_blank" rel="external">泡网的翻译</a></p>
+</blockquote>
+<h1 id="Flux_架构关键特点。">Flux 架构关键特点。</h1><h2 id="app分层如下">app分层如下</h2><ul>
 <li>View : 界面，和 MVP 一样，一般就是 Activity 或者 fragment 。</li>
 <li>Dispatcher ： 处理中心，负责分发 Action 给 Store 的。</li>
 <li>Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 data 和 type 作不同的<br>业务逻辑处理，并且发出不同的 change 事件，通知 View 来修改 UI 。 Store 层的操作都是同步的。</li>
@@ -304,8 +314,11 @@ Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 
 <li>View  和 Store 的代码，都是运行在主线程。</li>
 <li>ActionCreator  ，View 操作 ActionCreator 的都是主线程，异步调用的代码，都封装在 获取数据的 Model 中。<br>这方便，项目的分工，加快开发进度。</li>
 </ul>
-<h2 id="Flux_缺点（个人认为）">Flux 缺点（个人认为）</h2><h3 id="代码量，不少。需要多写很多_Action_和_Store_。">代码量，不少。需要多写很多 Action 和 Store 。</h3><h3 id="每一个_View_操作，都需要经过_ActionCreator_，_Dispatcher_和_Store_，调整多，如果需要一眼看出每一个">每一个 View 操作，都需要经过 ActionCreator ， Dispatcher 和 Store ，调整多，如果需要一眼看出每一个</h3><p>View 操作，最后 View监听到的 回调事件，需要较好的命名规范。</p>
-</span>
+<h2 id="Flux_缺点（个人认为）">Flux 缺点（个人认为）</h2><ul>
+<li>代码量，不少。需要多写很多 Action 和 Store 。</li>
+<li>每一个 View 操作，都需要经过 ActionCreator ， Dispatcher 和 Store ，调整多，如果需要一眼看出每一个<br>View 操作，最后 View监听到的 回调事件，需要较好的命名规范。</li>
+</ul>
+<h2 id="show_me_the_code"><a href="https://github.com/lgvalle/android-flux-todo-app" target="_blank" rel="external">show me the code</a></h2></span>
       
     </div>
 
@@ -452,7 +465,7 @@ Store ： 记录 app 状态的，接收到 Action ，根据 Action 带过来的 
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Flux_架构关键特点。"><span class="nav-number">1.</span> <span class="nav-text">Flux 架构关键特点。</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#app分层如下"><span class="nav-number">1.1.</span> <span class="nav-text">app分层如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据的单向流动，这个是_Flux_的核心，单向的数据流动，容易理解和上手。"><span class="nav-number">1.2.</span> <span class="nav-text">数据的单向流动，这个是 Flux 的核心，单向的数据流动，容易理解和上手。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Action_：_这个是通信的基本对象，事件流动必须通过他（或者子类）。"><span class="nav-number">1.3.</span> <span class="nav-text">Action ： 这个是通信的基本对象，事件流动必须通过他（或者子类）。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个具体实现"><span class="nav-number">1.4.</span> <span class="nav-text">一个具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Action"><span class="nav-number">1.4.1.</span> <span class="nav-text">Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View"><span class="nav-number">1.4.2.</span> <span class="nav-text">View</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ActionsCreator"><span class="nav-number">1.4.3.</span> <span class="nav-text">ActionsCreator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dispatcher"><span class="nav-number">1.4.4.</span> <span class="nav-text">Dispatcher</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Store"><span class="nav-number">1.4.5.</span> <span class="nav-text">Store</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flux_优点"><span class="nav-number">1.5.</span> <span class="nav-text">Flux 优点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据异步"><span class="nav-number">1.5.1.</span> <span class="nav-text">数据异步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不同线程代码，分隔开"><span class="nav-number">1.5.2.</span> <span class="nav-text">不同线程代码，分隔开</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flux_缺点（个人认为）"><span class="nav-number">1.6.</span> <span class="nav-text">Flux 缺点（个人认为）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码量，不少。需要多写很多_Action_和_Store_。"><span class="nav-number">1.6.1.</span> <span class="nav-text">代码量，不少。需要多写很多 Action 和 Store 。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#每一个_View_操作，都需要经过_ActionCreator_，_Dispatcher_和_Store_，调整多，如果需要一眼看出每一个"><span class="nav-number">1.6.2.</span> <span class="nav-text">每一个 View 操作，都需要经过 ActionCreator ， Dispatcher 和 Store ，调整多，如果需要一眼看出每一个</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Flux_架构关键特点。"><span class="nav-number">1.</span> <span class="nav-text">Flux 架构关键特点。</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#app分层如下"><span class="nav-number">1.1.</span> <span class="nav-text">app分层如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据的单向流动，这个是_Flux_的核心，单向的数据流动，容易理解和上手。"><span class="nav-number">1.2.</span> <span class="nav-text">数据的单向流动，这个是 Flux 的核心，单向的数据流动，容易理解和上手。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Action_：_这个是通信的基本对象，事件流动必须通过他（或者子类）。"><span class="nav-number">1.3.</span> <span class="nav-text">Action ： 这个是通信的基本对象，事件流动必须通过他（或者子类）。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个具体实现"><span class="nav-number">1.4.</span> <span class="nav-text">一个具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Action"><span class="nav-number">1.4.1.</span> <span class="nav-text">Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View"><span class="nav-number">1.4.2.</span> <span class="nav-text">View</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ActionsCreator"><span class="nav-number">1.4.3.</span> <span class="nav-text">ActionsCreator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dispatcher"><span class="nav-number">1.4.4.</span> <span class="nav-text">Dispatcher</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Store"><span class="nav-number">1.4.5.</span> <span class="nav-text">Store</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flux_优点"><span class="nav-number">1.5.</span> <span class="nav-text">Flux 优点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据异步"><span class="nav-number">1.5.1.</span> <span class="nav-text">数据异步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不同线程代码，分隔开"><span class="nav-number">1.5.2.</span> <span class="nav-text">不同线程代码，分隔开</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flux_缺点（个人认为）"><span class="nav-number">1.6.</span> <span class="nav-text">Flux 缺点（个人认为）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#show_me_the_code"><span class="nav-number">1.7.</span> <span class="nav-text">show me the code</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
