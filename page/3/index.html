@@ -197,11 +197,94 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/21/View绘制注意点以及重要生命周期方法/" itemprop="url">
+                  View绘制注意点以及重要生命周期方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-21T19:38:09+08:00" content="2015-12-21">
+              2015-12-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/21/View绘制注意点以及重要生命周期方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/21/View绘制注意点以及重要生命周期方法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
-    
+        
+          <p>本文主要讲述对View的非常用用法以及自定义View要点<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/12/21/View绘制注意点以及重要生命周期方法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -293,6 +376,585 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/12/21/my-analyse-about-volley/" itemprop="url">
+                  my analyse about volley
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-12-21T22:01:02+08:00" content="2014-12-21">
+              2014-12-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/12/21/my-analyse-about-volley/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/21/my-analyse-about-volley/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>#volley使用简介<br>volley,是谷歌官方出的http请求框架，方便开发者处理相关的网络请求处理。volley目前仅仅适合简单快速的http请求（原因稍后会提到）。</p>
+<p>##使用例子<br>第一步，获得请求队列RequestQueue，这个直接调用Volley.newRequestQueue(context)方法即可获得。<br>第二步，实现自己的Request，然后把这个Request添加到刚刚获得的请求队列RequestQueue中去。</p>
+<p>##源码跟踪解析</p>
+<p>###请求队列RequestQueue的获得</p>
+<p>#java<br>    public static RequestQueue newRequestQueue(Context context, HttpStack stack) {<br>            File cacheDir = new File(context.getCacheDir(), DEFAULT_CACHE_DIR);</p>
+<pre><code>    String userAgent = <span class="string">"volley/0"</span>;
+    <span class="keyword">try</span> {
+        String packageName = context.getPackageName();
+        PackageInfo info = context.getPackageManager().getPackageInfo(packageName, <span class="number">0</span>);
+        userAgent = packageName + <span class="string">"/"</span> + info.versionCode;
+    } <span class="keyword">catch</span> (NameNotFoundException e) {
+    }
+
+    <span class="keyword">if</span> (<span class="built_in">stack</span> == null) {
+        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="number">9</span>) {
+            <span class="built_in">stack</span> = <span class="keyword">new</span> HurlStack();
+        } <span class="keyword">else</span> {
+            <span class="comment">// Prior to Gingerbread, HttpUrlConnection was unreliable.</span>
+            <span class="comment">// See: http://android-developers.blogspot.com/2011/09/androids-http-clients.html</span>
+            <span class="built_in">stack</span> = <span class="keyword">new</span> HttpClientStack(AndroidHttpClient.newInstance(userAgent));
+        }
+    }
+    <span class="comment">//http操作的工具类</span>
+    Network network = <span class="keyword">new</span> BasicNetwork(<span class="built_in">stack</span>);
+
+    RequestQueue <span class="built_in">queue</span> = <span class="keyword">new</span> RequestQueue(<span class="keyword">new</span> DiskBasedCache(cacheDir), network);
+    <span class="built_in">queue</span>.start();
+
+    <span class="keyword">return</span> <span class="built_in">queue</span>;
+}
+</code></pre><p>HurlStack是一个通过HttpURLConnection，而HttpClientStack则是HttpClient来通信的。跟到代码里面，发现这2个类都是进行一些参数的设置，这里暂时不贴代码出来了。<br>他们2个都是继承HttpStack的，都实现了performRequest方法，这个performRequest方法签名如下</p>
+<p>#java<br>    public HttpResponse performRequest(Request&lt;?&gt; request, Map<string, string=""> additionalHeaders)</string,></p>
+<p>这个就是根据网络请求request 和 特殊的请求头来进行网络请求，得到响应并且返回 HttpResponse。这样可以在HttpURLConnection和HttpClient，统一了代码。</p>
+<p>第34行，BasicNetwork是http请求的工具类，并且在构造函数中传入了上一步构造的stack。</p>
+<pre><code>在第<span class="number">36</span>行，这才是真正的构造了请求队列RequestQueue，我们来看看构造方法中的<span class="number">2</span>个参数。
+</code></pre><p>#java<br>    public RequestQueue(Cache cache, Network network) {<br>            this(cache, network, DEFAULT_NETWORK_THREAD_POOL_SIZE);<br>        }<br>cache看名字就知道了是缓存相关的操作类了，再看看上面代码中的第14行和36行，new DiskBasedCache(cacheDir)，传入一个file去，作为缓存。<br>我们也跟代码去</p>
+<p>#java<br>     public DiskBasedCache(File rootDirectory, int maxCacheSizeInBytes) {<br>            mRootDirectory = rootDirectory;<br>            mMaxCacheSizeInBytes = maxCacheSizeInBytes;<br>        }</p>
+<pre><code>/**
+ * Constructs an<span class="instruction"> instance </span>of the DiskBasedCache at the specified directory using
+ * the default maximum cache size of 5MB.
+ * @param rootDirectory The root directory of the cache.
+ */<span class="keyword">
+public</span><span class="function"> DiskBasedCache(</span>File rootDirectory<span class="function">)</span> {
+   <span class="function"> this(</span>rootDirectory, DEFAU<span class="class">LT_DISK_USAGE_BYTES);</span>
+}
+</code></pre><p>这2个构造方法，下面个就是给了个默认值，大小是5M。<br>我们来看看这个类的所有方法<br><img src="https://raw.githubusercontent.com/aheadlcx/learngit/master/DiskBasedCache.jpg" alt="DiskBasedCache"><br>根据方法名称，我们就可以猜到这是写入和读取 之类的操作了，细节之处，敬请慢慢读源码了。</p>
+<p>回到我们刚刚的研究源码主线上  queue.start();就这么一个start方法，到底干了些什么，我们再跟进去看看。</p>
+<p>#java<br>    public void start() {<br>            stop(); // Make sure any currently running dispatchers are stopped.<br>            // Create the cache dispatcher and start it.<br>            // 下面几个参数分别是缓存线程队列、网络请求队列、cache缓存的玩意（具体未明）和分发器<br>            mCacheDispatcher = new CacheDispatcher(mCacheQueue, mNetworkQueue,<br>                    mCache, mDelivery);<br>            mCacheDispatcher.start();</p>
+<pre><code>    <span class="comment">// Create network dispatchers (and corresponding threads) up to the pool</span>
+    <span class="comment">// size.</span>
+    <span class="comment">//mDispatchers的长度，默认是4，所以下面的for循环一共是5次，0-4</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mDispatchers.length; i++) {
+        NetworkDispatcher networkDispatcher = <span class="keyword">new</span> NetworkDispatcher(
+                mNetworkQueue, mNetwork, mCache, mDelivery);
+        mDispatchers[i] = networkDispatcher;
+        networkDispatcher.start();
+    }
+}
+</code></pre><p>他首先开了一个用于处理缓存相关的线程CacheDispatcher，这个代码我们再跟进去看。</p>
+<p>#java<br>    public void run() {<br>            if (DEBUG) VolleyLog.v(“start new dispatcher”);<br>            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);</p>
+<pre><code>    <span class="comment">// Make a blocking call to initialize the cache.</span>
+    mCache.initialize();
+
+    <span class="keyword">while</span> (<span class="keyword">true</span>) {
+        <span class="keyword">try</span> {
+            <span class="comment">// Get a request from the cache triage queue, blocking until</span>
+            <span class="comment">// at least one is available.</span>
+            <span class="keyword">final</span> Request&lt;?&gt; request = mCacheQueue.take();
+            request.addMarker(<span class="string">"cache-queue-take"</span>);
+
+            <span class="comment">// If the request has been canceled, don't bother dispatching it.</span>
+            <span class="comment">//如果已经被cancele，就不应该进行耗时操作了，直接finish掉</span>
+            <span class="keyword">if</span> (request.isCanceled()) {
+                request.finish(<span class="string">"cache-discard-canceled"</span>);
+                <span class="keyword">continue</span>;
+            }
+
+            <span class="comment">// Attempt to retrieve this item from cache.</span>
+            <span class="comment">//从缓存中取出数据</span>
+            Cache.Entry entry = mCache.get(request.getCacheKey());
+            <span class="comment">//如果缓存数据被删除了，就得把这个属于缓存中的请求，放到网络请求中去了</span>
+            <span class="keyword">if</span> (entry == <span class="keyword">null</span>) {
+                request.addMarker(<span class="string">"cache-miss"</span>);
+                <span class="comment">// Cache miss; send off to the network dispatcher.</span>
+                mNetworkQueue.put(request);
+                <span class="keyword">continue</span>;
+            }
+
+            <span class="comment">// If it is completely expired, just send it to the network.</span>
+            <span class="comment">//如果请求过期了，就得重新进行网络请求了啊</span>
+            <span class="comment">//这个判断是否过期的判断，暂时不知道当时缓存时，怎么写入的。现在检查是否超时仅仅是，缓存的实体的时间毫秒数 &lt; 当前系统的毫秒数</span>
+            <span class="keyword">if</span> (entry.isExpired()) {
+                request.addMarker(<span class="string">"cache-hit-expired"</span>);
+                request.setCacheEntry(entry);
+                mNetworkQueue.put(request);
+                <span class="keyword">continue</span>;
+            }
+
+            <span class="comment">// We have a cache hit; parse its data for delivery back to the request.</span>
+            request.addMarker(<span class="string">"cache-hit"</span>);
+            <span class="comment">//这里是请求返回的结果</span>
+            Response&lt;?&gt; response = request.parseNetworkResponse(
+                    <span class="keyword">new</span> NetworkResponse(entry.data, entry.responseHeaders));
+            request.addMarker(<span class="string">"cache-hit-parsed"</span>);
+
+            <span class="comment">//是否需要刷新</span>
+            <span class="keyword">if</span> (!entry.refreshNeeded()) {
+                <span class="comment">// Completely unexpired cache hit. Just deliver the response.</span>
+                mDelivery.postResponse(request, response);
+            } <span class="keyword">else</span> {
+                <span class="comment">// Soft-expired cache hit. We can deliver the cached response,</span>
+                <span class="comment">// but we need to also send the request to the network for</span>
+                <span class="comment">// refreshing.</span>
+                request.addMarker(<span class="string">"cache-hit-refresh-needed"</span>);
+                request.setCacheEntry(entry);
+
+                <span class="comment">// Mark the response as intermediate.</span>
+                response.intermediate = <span class="keyword">true</span>;
+
+                <span class="comment">// Post the intermediate response back to the user and have</span>
+                <span class="comment">// the delivery then forward the request along to the network.</span>
+                mDelivery.postResponse(request, response, <span class="keyword">new</span> Runnable() {
+                    <span class="annotation">@Override</span>
+                    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+                        <span class="keyword">try</span> {
+                            mNetworkQueue.put(request);
+                        } <span class="keyword">catch</span> (InterruptedException e) {
+                            <span class="comment">// Not much we can do about this.</span>
+                        }
+                    }
+                });
+            }
+
+        } <span class="keyword">catch</span> (InterruptedException e) {
+            <span class="comment">// We may have been interrupted because it was time to quit.</span>
+            <span class="keyword">if</span> (mQuit) {
+                <span class="keyword">return</span>;
+            }
+            <span class="keyword">continue</span>;
+        }
+    }
+}
+</code></pre><p>代码有点长，上面我都注释了一点，大概意思就是这个请求是否应该被cancel了，如果是就不要给我做任何操作了。说到这个cancel，就想起了官方的AsyncTask的cancel方法了<br>，这个AsyncTask的cancel方法很坑爹，及时你cancel了，线程还是会执行相关的操作（万一哪天哪位帅哥在进行长期耗时或者查询数据库的时候，上了个同步锁，就kengdie了。），仅仅是cancel了就不回调给UI线程。回过来，这个run方法里面，还检查了是否过期应该刷新之类的，如果是就这个request放到网络请求队列中去了。</p>
+<p>下面我们继续来看看RequestQueue的start方法中。</p>
+<p>#java<br>        //mDispatchers的长度，默认是4，所以下面的for循环一共是5次，0-4<br>            for (int i = 0; i &lt; mDispatchers.length; i++) {<br>                NetworkDispatcher networkDispatcher = new NetworkDispatcher(<br>                        mNetworkQueue, mNetwork, mCache, mDelivery);<br>                mDispatchers[i] = networkDispatcher;<br>                networkDispatcher.start();<br>            }</p>
+<p>默认开启了5个网络线程，我们来看看网络线程的run方法</p>
+<p>#java<br>    public void run() {<br>            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);<br>            while (true) {<br>                long startTimeMs = SystemClock.elapsedRealtime();<br>                Request&lt;?&gt; request;<br>                try {<br>                    // Take a request from the queue.<br>                    request = mQueue.take();<br>                } catch (InterruptedException e) {<br>                    // We may have been interrupted because it was time to quit.<br>                    if (mQuit) {<br>                        return;<br>                    }<br>                    continue;<br>                }</p>
+<pre><code>        <span class="keyword">try</span> {
+            request.addMarker(<span class="string">"network-queue-take"</span>);
+
+            <span class="comment">// If the request was cancelled already, do not perform the</span>
+            <span class="comment">// network request.</span>
+            <span class="keyword">if</span> (request.isCanceled()) {
+                request.finish(<span class="string">"network-discard-cancelled"</span>);
+                <span class="keyword">continue</span>;
+            }
+
+            addTrafficStatsTag(request);
+
+            <span class="comment">// Perform the network request.</span>
+            <span class="comment">//这里才是真正的进行网络请求</span>
+            NetworkResponse networkResponse = mNetwork.performRequest(request);
+            request.addMarker(<span class="string">"network-http-complete"</span>);
+
+            <span class="comment">// If the server returned 304 AND we delivered a response already,</span>
+            <span class="comment">// we're done -- don't deliver a second identical response.</span>
+            <span class="comment">//如果网络请求返回304，并且我们已经有一个相同的response了，我们就不再展现相同的数据了</span>
+            <span class="keyword">if</span> (networkResponse.notModified &amp;&amp; request.hasHadResponseDelivered()) {
+                request.finish(<span class="string">"not-modified"</span>);
+                <span class="keyword">continue</span>;
+            }
+
+            <span class="comment">// Parse the response here on the worker thread.</span>
+            <span class="comment">//这里很关键，这里是网络返回的数据，解析为我们自己的实体。request的parseNetworkResponse</span>
+            <span class="comment">//需要开发者自己实现。这里如果有有效时间的限制需求的话，服务器应该返回相关的信息给我们</span>
+            <span class="comment">//Cache.Entry，这个内部类就是存储相关的信息，在Response中，含有一个变量Cache.Entry，解析出来，再写到缓存中去，这个切记，</span>
+            <span class="comment">//系统对比是否在有效期内，就是，对比Cache.Entry的   ttl &lt; System.currentTimeMillis();，所以服务器需要给个截止时间时间戳回来</span>
+            Response<span class="preprocessor">&lt;?</span>&gt; response = request.parseNetworkResponse(networkResponse);
+            request.addMarker(<span class="string">"network-parse-complete"</span>);
+
+            <span class="comment">// Write to cache if applicable.</span>
+            <span class="comment">// <span class="doctag">TODO:</span> Only update cache metadata instead of entire record for 304s.</span>
+            <span class="comment">//写入缓存中去</span>
+            <span class="keyword">if</span> (request.shouldCache() &amp;&amp; response.cacheEntry != <span class="keyword">null</span>) {
+                mCache.put(request.getCacheKey(), response.cacheEntry);
+                request.addMarker(<span class="string">"network-cache-written"</span>);
+            }
+
+            <span class="comment">// Post the response back.</span>
+            request.markDelivered();
+            mDelivery.postResponse(request, response);
+        } <span class="keyword">catch</span> (VolleyError volleyError) {
+            volleyError.setNetworkTimeMs(SystemClock.elapsedRealtime() - startTimeMs);
+            parseAndDeliverNetworkError(request, volleyError);
+        } <span class="keyword">catch</span> (<span class="keyword">Exception</span> e) {
+            VolleyLog.e(e, <span class="string">"Unhandled exception %s"</span>, e.toString());
+            VolleyError volleyError = <span class="keyword">new</span> VolleyError(e);
+            volleyError.setNetworkTimeMs(SystemClock.elapsedRealtime() - startTimeMs);
+            mDelivery.postError(request, volleyError);
+        }
+    }
+}
+</code></pre><p>这个run方法也是一个死循环，和缓存线程一样。疑惑来了，我这个网络线程默认是5个，这个不怕安全问题么？那我们再来看看构造的时候，传入的参数，看看用的是什么容器。<br>PriorityBlockingQueue<request<?>&gt; mNetworkQueue，传入的这个是PriorityBlockingQueue容器，看名字就猜到了个大概了吧。。这个类代码有点多，暂时不上代码了。有空再去研究下这个容器是怎么实现的。<br>我们的第一步获得一个请求队列，目前研究完毕了。</request<?></p>
+<p>##第二步，add一个request<br>我们再回头来看RequestQueue这个类的add方法</p>
+<p>#java<br>    public <t> Request<t> add(Request<t> request) {<br>        // Tag the request as belonging to this queue and add it to the set of<br>        // current requests.<br>        request.setRequestQueue(this);<br>        synchronized (mCurrentRequests) {<br>            mCurrentRequests.add(request);<br>        }</t></t></t></p>
+<pre><code>    <span class="comment">// Process requests in the order they are added.</span>
+    <span class="comment">//设置一个自增的int类型标记</span>
+    request.setSequence(getSequenceNumber());
+    request.addMarker(<span class="string">"add-to-queue"</span>);
+
+    <span class="comment">// If the request is uncacheable, skip the cache queue and go straight</span>
+    <span class="comment">// to the network.</span>
+    <span class="comment">//如果这个request是不能用缓存的数据的话，就直接去网络请求,默认是可以取缓存数据的</span>
+    <span class="keyword">if</span> (!request.shouldCache()) {
+        mNetworkQueue.<span class="built_in">add</span>(request);
+        <span class="keyword">return</span> request;
+    }
+
+    <span class="comment">// Insert request into stage if there's already a request with the same</span>
+    <span class="comment">// cache key in flight.</span>
+    <span class="keyword">synchronized</span> (mWaitingRequests) {
+        <span class="comment">//request 的key 默认是url，其实这是不完全很科学的，有待改进</span>
+        <span class="keyword">String</span> cacheKey = request.getCacheKey();
+        <span class="comment">//如果等待线程队列中有这个key了，</span>
+        <span class="keyword">if</span> (mWaitingRequests.containsKey(cacheKey)) {
+            <span class="comment">// There is already a request in flight. Queue up.</span>
+            Queue&lt;Request&lt;?&gt;&gt; stagedRequests = mWaitingRequests
+                    .<span class="built_in">get</span>(cacheKey);
+            <span class="keyword">if</span> (stagedRequests == <span class="keyword">null</span>) {
+                stagedRequests = <span class="keyword">new</span> LinkedList&lt;Request&lt;?&gt;&gt;();
+            }
+            stagedRequests.<span class="built_in">add</span>(request);
+            mWaitingRequests.put(cacheKey, stagedRequests);
+            <span class="keyword">if</span> (VolleyLog.DEBUG) {
+                VolleyLog
+                        .v(<span class="string">"Request for cacheKey=%s is in flight, putting on hold."</span>,
+                                cacheKey);
+            }
+        } <span class="keyword">else</span> {
+
+            <span class="comment">// Insert 'null' queue for this cacheKey, indicating there is</span>
+            <span class="comment">// now a request in</span>
+            <span class="comment">// flight.</span>
+            <span class="comment">//放一个null的queue到这个集结待命区map中，对应这个cachekey</span>
+            mWaitingRequests.put(cacheKey, <span class="keyword">null</span>);
+            <span class="comment">//并且在缓存队列中添加这个request</span>
+            mCacheQueue.<span class="built_in">add</span>(request);
+        }
+        <span class="keyword">return</span> request;
+    }
+}
+</code></pre><p>大概就这样了。本人看完volley的代码，感觉到我工作中的项目代码和他一比，质量上被秒了。。总感觉到volley用到了很多设计模式，写的很好。<br>不过目前还没吸收到肚子中去，有空得再研究一些第三方的http框架，对比下，才能更好的吸收volley的设计之美。如有研究volley设计模式的朋友，敬请教育~~</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/12/14/postservice/" itemprop="url">
+                  关于安卓中的服务service
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-12-14T20:54:44+08:00" content="2014-12-14">
+              2014-12-14
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/12/14/postservice/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/14/postservice/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="服务的2种启动方式以及区别">服务的2种启动方式以及区别</h1><p>service 可以用startService和bindService来启动。<br>startService开始了服务，开始者就不能直接控制service了。<br>bindservice方式，可以返回一个自定义binder给开始者，java中非静态内部类保持外部类的引用，这样开始者可以可以直接控制service了。<br>bindService方式，意思是让activity和service关联在一起，一般是要求在同一个进程中的。</p>
+<h1 id="服务所在线程和进程">服务所在线程和进程</h1><h2 id="主线程中的service">主线程中的service</h2><p>service必须在清单文件中注册，如果没有特别指定，service是处于UI线程和，当然了，进程和UI线程一致。这个可以通过Looper.mainLooper()和Looper.myLooper()，android.os.Process.myPid(),来验证。</p>
+<h2 id="远程service">远程service</h2><p>在清单文件中注册的时候，加上属性android:process=”:remote”即可，验证方式同上，进程ID变了，而且应用程序的包名也变了，多了.remote标识。</p>
+<h1 id="service和activity之间的通信">service和activity之间的通信</h1><p>service和activity之间的通信，必须是由bindService方式启动的。</p>
+<h2 id="【方式一】，利用广播。">【方式一】，利用广播。</h2><p>广播效率比较低，一般而言，不是首选。</p>
+<h2 id="【方式二】，利用binder和结合service的接口内部类。">【方式二】，利用binder和结合service的接口内部类。</h2><p>activity（作为开始者举例），bindService方式启动服务之后，服务会返回一个binder子类，activity实现service的内部类接口，然后通过binder拿到service的实例，设置内部接口实现类为activity，最后，在service中，需要更新UI的时候或者需要告诉activity一些信息的时候，就可以调用内部类的对象的方法了。</p>
+<h2 id="【方式三】使用messenger通信">【方式三】使用messenger通信</h2><p>messenger在构造方法中可以实现和handle关联，使用messenger通信可以发送message，使用messenger通信发送的message交给与之关联的handle处理。我们可以注意到Message里面有个messenger变量replyTo。我们可以在activity和service中各实现一个messenger和关联的handle。首先，service中onBinder返回的binder可以通过service中的messenger Smessenger.getBinder(),那么activity就可以拿到了service中的Smessenger了。那么service怎么拿到activity中的messenger呢，这个就得通过message中的replyTo变量了。在activity中拿到的Service引用，发送一个message，这个message的replyTo为activity的messenger，这样这个message就带有了activity中的messenger了，这个message是service中的Smessenger发送的，也就是交给service的handle处理了。<br>文字比较累赘，词不达意的地方，敬请谅解。代码如下。</p>
+<p>这里是activity</p>
+<p>#java<br>        public class MessengerAct extends Activity {</p>
+<pre><code>    <span class="keyword">private</span> <span class="type">Messenger</span> sMessenger = <span class="literal">null</span>;
+
+    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Messenger</span> aMessenger = <span class="keyword">new</span> <span class="type">Messenger</span>(<span class="keyword">new</span> <span class="type">ActHandler</span>());
+
+    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ActHandler</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Handler</span> {</span>
+        <span class="annotation">@Override</span>
+        public void handleMessage(<span class="type">Message</span> msg) {
+            <span class="comment">// TODO Auto-generated method stub</span>
+            <span class="keyword">super</span>.handleMessage(msg);
+        }
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) {
+        <span class="comment">// TODO Auto-generated method stub</span>
+        <span class="keyword">super</span>.onCreate(savedInstanceState);
+
+        initReceiver();
+        initMsg();
+    }
+
+    <span class="keyword">private</span> void initReceiver() {
+        <span class="type">Intent</span> <span class="type">ReI</span> = <span class="keyword">new</span> <span class="type">Intent</span>(<span class="keyword">this</span>, <span class="type">MessengerReceiver</span>.<span class="keyword">class</span>);
+        bindService(<span class="type">ReI</span>, <span class="keyword">new</span> <span class="type">ServiceConnection</span>() {
+
+            <span class="annotation">@Override</span>
+            public void onServiceDisconnected(<span class="type">ComponentName</span> name) {
+                <span class="comment">// TODO Auto-generated method stub</span>
+
+            }
+
+            <span class="annotation">@Override</span>
+            public void onServiceConnected(<span class="type">ComponentName</span> name, <span class="type">IBinder</span> service) {
+                <span class="comment">// 拿到服务器的Messenger实例</span>
+                sMessenger = <span class="keyword">new</span> <span class="type">Messenger</span>(service);
+
+            }
+        }, <span class="type">Context</span>.<span class="type">BIND_AUTO_CREATE</span>);
+    }
+
+    <span class="keyword">private</span> void initMsg() {
+        <span class="type">Bundle</span> actBundle = <span class="keyword">new</span> <span class="type">Bundle</span>();
+        actBundle.putString(<span class="string">"test"</span>, <span class="string">"从act发来的消息"</span>);
+        <span class="type">Message</span> msg = <span class="type">Message</span>.obtain();
+        msg.setData(actBundle);
+        msg.replyTo = aMessenger;
+        <span class="keyword">try</span> {
+            sMessenger.send(msg);
+        } <span class="keyword">catch</span> (<span class="type">RemoteException</span> e) {
+            <span class="comment">// TODO Auto-generated catch block</span>
+            e.printStackTrace();
+        }
+
+    }
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> void onStop() {
+        <span class="comment">// TODO Auto-generated method stub</span>
+        <span class="keyword">super</span>.onStop();
+    }
+}
+此为service
+
+public <span class="class"><span class="keyword">class</span> <span class="title">MessengerReceiver</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Service</span>{</span>
+
+    public static <span class="type">String</span> <span class="type">TAG</span> = <span class="type">MessengerReceiver</span>.<span class="keyword">class</span>.getSimpleName();
+
+    <span class="keyword">private</span> <span class="type">Messenger</span> aMessenger = <span class="literal">null</span>;
+
+    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Messenger</span> sMessenger = <span class="keyword">new</span> <span class="type">Messenger</span>(<span class="keyword">new</span> <span class="type">RecHandler</span>());
+
+    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">RecHandler</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Handler</span>{</span>
+
+        <span class="annotation">@Override</span>
+        public void handleMessage(<span class="type">Message</span> msg) {
+            <span class="comment">// TODO Auto-generated method stub</span>
+            <span class="keyword">super</span>.handleMessage(msg);
+            <span class="comment">//拿到activity的Messenger实例</span>
+            aMessenger = msg.replyTo;
+            <span class="type">Message</span> msg1 = <span class="type">Message</span>.obtain();
+            <span class="keyword">try</span> {
+                aMessenger.send(msg1);
+            } <span class="keyword">catch</span> (<span class="type">RemoteException</span> e) {
+                <span class="comment">// TODO Auto-generated catch block</span>
+                e.printStackTrace();
+            }
+        }
+    }
+    <span class="annotation">@Override</span>
+    public <span class="type">IBinder</span> onBind(<span class="type">Intent</span> intent) {
+        <span class="comment">// TODO Auto-generated method stub</span>
+        <span class="keyword">return</span> sMessenger.getBinder();
+    }
+
+    <span class="annotation">@Override</span>
+    public void onCreate() {
+        <span class="comment">// TODO Auto-generated method stub</span>
+        <span class="keyword">super</span>.onCreate();
+        <span class="type">Log</span>.i(<span class="type">TAG</span>, <span class="string">"process id is "</span>+android.os.<span class="type">Process</span>.myPid());
+
+        <span class="type">Notification</span> mNotification = <span class="keyword">new</span> <span class="type">Notification</span>(<span class="type">R</span>.drawable.ic_launcher, <span class="string">"通知come"</span>, <span class="type">System</span>.currentTimeMillis());
+
+        <span class="type">Intent</span> n= <span class="keyword">new</span> <span class="type">Intent</span>(<span class="keyword">this</span>,<span class="type">SecondAct</span>.<span class="keyword">class</span>);
+        <span class="type">PendingIntent</span> mPendingIntent = <span class="type">PendingIntent</span>.getActivity(<span class="keyword">this</span>, <span class="number">0</span>, n, <span class="number">0</span>);
+        mNotification.setLatestEventInfo(<span class="keyword">this</span>, <span class="string">"title"</span>, <span class="string">" content text"</span>, mPendingIntent);
+        startForeground(<span class="number">1</span>, mNotification);
+    }
+
+
+
+}
+</code></pre><p>##【方式四】AIDL，一般用于实现多个应用程序共享同一个Service的功能。</p>
+<p>首先需要建立aidl文件，基本和java语言类似。<br>    package com.example.mycode.aidl;<br>    interface MyAIDLService{<br>        int incre(int a, int b);</p>
+<pre><code>    <span class="function"><span class="keyword">int</span> <span class="title">decre</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;
+
+}
+</code></pre><p>APP A中的AService aservice，在清单文件中注册个action，因为在APP B中是没有APP中的service这个类的，必须隐式调用。</p>
+<p>#java<br>    <service android:name=".receiver.MessengerReceiver" android:process=":remote"><br>     <intent-filter><br>    <action android:name="com.example.mycode.test.aidlservice"><br>    </action></intent-filter><br>     </service><br>在A中的 AService的onbind方法中，返回<br>    MyAIDLService.Stub aidlBinder = new Stub() {</p>
+<pre><code>    @<span class="type">Override</span>
+    public <span class="type">int</span> incre(<span class="type">int</span> a, <span class="type">int</span> b) throws <span class="type">RemoteException</span> {
+        // <span class="type">TODO</span> <span class="type">Auto</span>-generated <span class="keyword">method</span> stub
+        <span class="keyword">return</span> a + b;
+    }
+
+    @<span class="type">Override</span>
+    public <span class="type">int</span> decre(<span class="type">int</span> a, <span class="type">int</span> b) throws <span class="type">RemoteException</span> {
+        // <span class="type">TODO</span> <span class="type">Auto</span>-generated <span class="keyword">method</span> stub
+        <span class="keyword">return</span> a - b;
+    }
+};
+
+其中stub，就是binder的抽象子类。
+在<span class="type">APP</span> B中，把<span class="type">APP</span>中的<span class="type">AIDL</span>文件copy过来，必须把原来的包路径也copy过来。这样在<span class="type">APP</span> B中就可以调用service中的函数了。
+private <span class="type">ServiceConnection</span> connection = new  <span class="type">ServiceConnection</span>() {
+
+    @<span class="type">Override</span>
+    public <span class="type">void</span> onServiceDisconnected(<span class="type">ComponentName</span> name) {
+
+    }
+
+    @<span class="type">Override</span>
+    public <span class="type">void</span> onServiceConnected(<span class="type">ComponentName</span> name, <span class="type">IBinder</span> service) {
+</code></pre><p>//          myBinder = (MyBinder) service;<br>            mMyAIDLService = MyAIDLService.Stub.asInterface(service);<br>            try {<br>                int result = mMyAIDLService.incre(2, 5);<br>                Log.i(TAG, “result”+result+””);<br>            } catch (Exception e) {<br>                // TODO: handle exception<br>            }<br>        }<br>    };</p>
+<pre><code>这样就实现了多APP操作一个<span class="class"><span class="keyword">service</span>了。就是比较麻烦点。</span>
+</code></pre><p>引用<a href="http://blog.csdn.net/guolin_blog/article/details/11952435" target="_blank" rel="external">第一行代码作者guolin</a></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
 
   </section>
 
@@ -339,7 +1001,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
