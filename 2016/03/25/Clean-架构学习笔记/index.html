@@ -37,7 +37,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="as小技巧,笔记," />
+  <meta name="keywords" content="android,架构设计," />
 
 
 
@@ -51,16 +51,19 @@
 
 
 
-<meta name="description" content="收集一些常用的as小技巧">
+<meta name="description" content="记录学习 Clean 架构设计的思路和实践。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="android studio 小技巧">
-<meta property="og:url" content="http://www.aheadlcx.xyz/2016/01/28/android-studio-小技巧/index.html">
+<meta property="og:title" content="Clean 架构学习笔记">
+<meta property="og:url" content="http://www.aheadlcx.xyz/2016/03/25/Clean-架构学习笔记/index.html">
 <meta property="og:site_name" content="believe yourself">
-<meta property="og:description" content="收集一些常用的as小技巧">
-<meta property="og:updated_time" content="2016-02-26T02:17:36.000Z">
+<meta property="og:description" content="记录学习 Clean 架构设计的思路和实践。">
+<meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/clean_architecture1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/clean_architecture_android.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/clean_architecture_evolution.png">
+<meta property="og:updated_time" content="2016-03-25T04:36:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="android studio 小技巧">
-<meta name="twitter:description" content="收集一些常用的as小技巧">
+<meta name="twitter:title" content="Clean 架构学习笔记">
+<meta name="twitter:description" content="记录学习 Clean 架构设计的思路和实践。">
 
 
 
@@ -72,7 +75,7 @@
   };
 </script>
 
-  <title> android studio 小技巧 | believe yourself </title>
+  <title> Clean 架构学习笔记 | believe yourself </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -212,7 +215,7 @@
             
             
               
-                android studio 小技巧
+                Clean 架构学习笔记
               
             
           </h1>
@@ -221,8 +224,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-01-28T13:36:59+08:00" content="2016-01-28">
-              2016-01-28
+            <time itemprop="dateCreated" datetime="2016-03-25T11:20:39+08:00" content="2016-03-25">
+              2016-03-25
             </time>
           </span>
 
@@ -231,8 +234,8 @@
               &nbsp; | &nbsp; 分类于
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
+                  <a href="/categories/架构设计/" itemprop="url" rel="index">
+                    <span itemprop="name">架构设计</span>
                   </a>
                 </span>
 
@@ -247,8 +250,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/01/28/android-studio-小技巧/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/28/android-studio-小技巧/" itemprop="commentsCount"></span>
+                <a href="/2016/03/25/Clean-架构学习笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/25/Clean-架构学习笔记/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -267,48 +270,21 @@
       
 
       
-        <span itemprop="articleBody"><p>收集一些常用的as小技巧<br><a id="more"></a></p>
-<h1 id="Productivity_Guide">Productivity Guide</h1><ol>
-<li><p>Complete Statement<br>Use ⇧⌘⏎ to complete a current statement such as if, do-while, try-catch, return (or a method call) into a syntactically correct construct (e.g. add curly braces).<br>如果你输入if(str!=null) 这个时候按下 shift cmd + enter 就会给你补全合适的结构体</p>
-</li>
-<li><p>Generate code<br>cmd + N 可以提示展示自动化插入的code。配合 prettify 插件，解决findViewById，一级棒！</p>
-</li>
-<li><p>重写和实现方法<br>ctrl + o 是重写方法。<br>ctrl + | 是实现接口。（试验，没通过，可能快捷键被屏蔽了。）这个功能，更习惯，alt + enter。</p>
-</li>
-<li><p>Surround with<br>选中代码块，  alt + cmd + T 可以选择插入   if  try-catch 等语句。</p>
-</li>
-<li><p>Select Popup<br>alt + F1 就是选择用什么方式打开当前选中的文件</p>
-<ol>
-<li>find usage<br>alt + F7.<br>show usage<br>alt + cmd + F7</li>
+        <span itemprop="articleBody"><p>记录学习 Clean 架构设计的思路和实践。<br><a id="more"></a></p>
+<blockquote>
+<p><a href="http://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/" target="_blank" rel="external">原文文章1</a><br><a href="http://fernandocejas.com/2015/07/18/architecting-android-the-evolution/" target="_blank" rel="external">原文文章2</a></p>
+</blockquote>
+<h1 id="Clean_架构设计的母的">Clean 架构设计的母的</h1><ol>
+<li>代码干净清爽。</li>
+<li>易于测试和维护。</li>
+<li>层次区分<br><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/clean_architecture1.png" alt="Clean"><h1 id="Clean_架构的分层">Clean 架构的分层</h1></li>
+<li>Domain 层<br>主要是一些接口，描述了一些基本获取数据逻辑，但是都没有具体实现。这层设计为，<strong>Java Lib</strong>，不依赖任何 Android库。<br><strong>适合使用 JUnit 和 Mockito 进行单元测试；</strong></li>
+<li>Data 层<br>可以理解为 Domain 层的实现，这层是具体的获取数据逻辑的实现。异步操作都在这里实现。 这层为 <strong>Android Library</strong><br><strong>使用Robolectric （ 因为依赖于Android SDK中的类 ）进行集成测试和单元测试。</strong></li>
+<li>Presentation 层<br>这层是实际的展示层，是 <strong>Android Application</strong> ，这层包括整个 MVP 栈（当然也可以是MVC MVVM等）。</li>
 </ol>
-</li>
-<li><p>extend selection<br>扩大选择范围<br>alt + 向上箭头</p>
-</li>
-<li><p>重构代码块<br>选中代码块 alt + cmd + m 就会把当前代码块抽离出来，成为一个独立的方法体</p>
-</li>
-<li><p>增加返回值<br>alt + cmd + v<br>这个快捷键，可以让我们先写函数，然后自动增加返回值。</p>
-</li>
-<li><p>利用构造函数形参，快速增加成员变量并赋值<br>alt + enter 选择 bind constructor parameters to fields</p>
-</li>
-<li><p>Log<br>光标放在类中（不要放在方法体内）<br>logt  会弹出一个popup，自动给出一个以当前类名的TAG<br>logi loge logr  logm 等等会有一系列友好的代码模板</p>
-</li>
-<li><p>把编辑框全屏。<br>Hide All Panels</p>
-</li>
-</ol>
-<p>ctrl+shift+f12</p>
-<p>关闭或者恢复其他窗口。在编写代码的时候非常方便的全屏编辑框。<br>这个，其实也可以把其他弹出的框隐藏掉来实现。很多其他弹出框都可以用对应的快捷键来隐藏，find框之类的。</p>
-<ol>
-<li><p>调试时，Evaluate调试<br>alt + f8，可以自己编写临时代码查看值。</p>
-</li>
-<li><p>调试时，查看某个值来源<br>Find Actions(ctrl+shift+a)输入”Analyze Data Flow to Here”，可以查看某个变量某个参数其值是如何一路赋值过来的。<br>对于分析代码非常有用。</p>
-</li>
-<li><p>如果想2个方法块代码，上下移动<br>可以先选中其中一个方法的全部或部分代码，shift + cmd + up / down  就可以整体移动了</p>
-<h1 id="收集的细节">收集的细节</h1></li>
-<li><p>Language Injection<br>用过JSON字符串吗？说不定你已经把JSON字符串当做某个GSON解串器的测试固件来用了，也很清楚要管理所有的反斜杠有多麻烦。</p>
-</li>
-</ol>
-<p>所幸IntelliJ有Language Injection的功能，可以实现在JSON编辑器里编辑JSON碎片，再由IntelliJ将碎片以转义字符串的形式放在代码中。</p>
-<p>Inject Language/Reference是一个intention action，用⌥+Return或⌘+⇧+A，搜索它，就可以启动了。</p>
+<p><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/clean_architecture_android.png" alt="CLEAN Android 架构示意图"></p>
+<h1 id="Clean_数据流">Clean 数据流</h1><p>总结一下，触发顺序如下<br>View -&gt; Present -&gt; Case(一些项目喜欢称之为 Interactor) -&gt; Reposity -&gt; Case -&gt; Present -&gt; View<br><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/clean_architecture_evolution.png" alt="Clean 数据流示意图"></p>
+<h1 id="一个案例实践">一个案例实践</h1><h2 id="View_初始化_Present">View 初始化 Present</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initPresent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.initPresent();</span><br><span class="line">        mPresent = <span class="keyword">new</span> CatePresent(getActivity(), <span class="keyword">this</span>);</span><br><span class="line">        mPresent.setCateCase(<span class="keyword">new</span> GetCateList(<span class="keyword">new</span> PostExecutionThread() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Scheduler <span class="title">getScheduler</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> AndroidSchedulers.mainThread();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="keyword">new</span> CateDataRepository()));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -317,9 +293,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/as小技巧/" rel="tag">#as小技巧</a>
+            <a href="/tags/android/" rel="tag">#android</a>
           
-            <a href="/tags/笔记/" rel="tag">#笔记</a>
+            <a href="/tags/架构设计/" rel="tag">#架构设计</a>
           
         </div>
       
@@ -328,17 +304,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/27/android挡板数据层设计/" rel="next" title="android挡板数据层设计">
-                <i class="fa fa-chevron-left"></i> android挡板数据层设计
+              <a href="/2016/03/23/Dagger2-学习笔记/" rel="next" title="Dagger2 学习笔记">
+                <i class="fa fa-chevron-left"></i> Dagger2 学习笔记
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/01/postdata-binding笔记/" rel="prev" title="data-binding笔记">
-                data-binding笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -365,8 +337,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/01/28/android-studio-小技巧/"
-           data-title="android studio 小技巧" data-url="http://www.aheadlcx.xyz/2016/01/28/android-studio-小技巧/">
+      <div class="ds-thread" data-thread-key="2016/03/25/Clean-架构学习笔记/"
+           data-title="Clean 架构学习笔记" data-url="http://www.aheadlcx.xyz/2016/03/25/Clean-架构学习笔记/">
       </div>
     
   </div>
@@ -456,7 +428,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Productivity_Guide"><span class="nav-number">1.</span> <span class="nav-text">Productivity Guide</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#收集的细节"><span class="nav-number">2.</span> <span class="nav-text">收集的细节</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Clean_架构设计的母的"><span class="nav-number">1.</span> <span class="nav-text">Clean 架构设计的母的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Clean_架构的分层"><span class="nav-number">2.</span> <span class="nav-text">Clean 架构的分层</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Clean_数据流"><span class="nav-number">3.</span> <span class="nav-text">Clean 数据流</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一个案例实践"><span class="nav-number">4.</span> <span class="nav-text">一个案例实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#View_初始化_Present"><span class="nav-number">4.1.</span> <span class="nav-text">View 初始化 Present</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

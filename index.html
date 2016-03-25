@@ -220,6 +220,109 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/25/Clean-架构学习笔记/" itemprop="url">
+                  Clean 架构学习笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-03-25T11:20:39+08:00" content="2016-03-25">
+              2016-03-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/架构设计/" itemprop="url" rel="index">
+                    <span itemprop="name">架构设计</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/25/Clean-架构学习笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/25/Clean-架构学习笔记/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>记录学习 Clean 架构设计的思路和实践。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/03/25/Clean-架构学习笔记/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/23/Dagger2-学习笔记/" itemprop="url">
                   Dagger2 学习笔记
                 </a>
@@ -278,62 +381,12 @@
 
       
         
-          <span itemprop="articleBody">
-            
-              <h1 id="Dagger2_中关键词">Dagger2 中关键词</h1><ol>
-<li>@Inject<br>我们一般会在类的成员变量或者构造函数中加上这个注解。</li>
-</ol>
-<ul>
-<li>在成员变量上，带有这个注解，代表这个成员变量，需要依赖注入。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Inject</span></span><br><span class="line">UserPresent mUserPresent;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>在构造函数上，带有这个注解，代表这个类在依赖注入时，调用这个方法来生成实例的。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserPresent</span> </span>&#123;</span><br><span class="line">    AppModel mAppModel;</span><br><span class="line">    ActivityModel mActivityModel;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserPresent</span><span class="params">(AppModel appModel, ActivityModel activityModel)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mAppModel = appModel;</span><br><span class="line">        <span class="keyword">this</span>.mActivityModel = activityModel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AppModel <span class="title">getAppModel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mAppModel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ActivityModel <span class="title">getActivityModel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mActivityModel;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li><p>@Component<br>这个是 注入器，Dagger2 编译器库通过他，找到带有 @Inject 注解的成员变量，以及这个成员变量的<br>带有 @Inject 的构造函数，这样，就可以联系在一起了。</p>
-</li>
-<li><p>@Module 以及 @Provode<br>这个主要用于三方库，这个是告诉 component 可以来我这里找生成实例的方法。带有 @Module 注解的类，<br>其实都是我们封装的，用于解决获取三方类库的类。在这个类中，带有 @Provide 的方法，就是获取这个对象<br>的方法，注入器就会从这个方法获取实例。</p>
-</li>
-<li><p>@Scope<br><strong><em>未明白</em></strong></p>
-</li>
-<li><p>@Qualifier<br><strong><em>未明白</em></strong></p>
-</li>
-<li><p>@name<br><strong><em>未明白</em></strong></p>
-</li>
-</ol>
-<h1 id="注入（赋值）触发的时间点">注入（赋值）触发的时间点</h1><ol>
-<li>调用 component inject （UserFragment），才会为 UserFragment 中相关的成员变量<br>（标注了 InJect 注解）赋值。</li>
-<li>也只有调用了 component inject ，才会生成 UserFragment 中相关成员变量的实例。这个实例的创建<br>是在，component 的实现类中的，Provider 类中提供的，一般会有一个 get 方法，get 的时候才 new 出来。</li>
-<li>Dagger2 是编译器注解，写好相关的 component 和 Module 等之后，需要 Make Project 或者<br>rebuild 之后才会生成相关的 DaggerXXComponent 代码。<br>4.</li>
-</ol>
-<h1 id="自动生成的代码，实现原理">自动生成的代码，实现原理</h1><ol>
-<li>@Singleton<br>用了这个注解的话，那个类，就会有一个 <strong>相关</strong> 的类变成一个枚举。</li>
-<li>@PerActivity<br>这个注解，据说是限定跟随 Activity 生命周期的，可是到底怎么实现的，带考究。</li>
-</ol>
-<h1 id="一些观察到的细节">一些观察到的细节</h1><ol>
-<li>component 类（一般是接口，或者抽象函数）中， inject 的函数，是注入的意思。</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Component</span>(modules = &#123;UserModule.class, ActivityModule.class&#125;, dependencies = ApplicationComponent</span><br><span class="line">        .class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserComponent</span> <span class="keyword">extends</span> <span class="title">ActivityComponent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(UserActivity userActivity)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>component 类中，还可以有其他函数，例如，返回一个对象（类名暂时称呼为， ActivityModel ）。<br>在这个 component 实现类中，会有一个 ActivityModel_Factory 类，这个类会调用 ActivityModel<br>中带有注解 @Inject 的构造函数，来构造一个对象返回。</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ActivityComponent</span> </span>&#123;</span><br><span class="line">    <span class="function">ActivityModel <span class="title">getActivityModel</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">(<span class="keyword">final</span> Builder builder)</span> </span>&#123;  </span><br><span class="line">  <span class="keyword">this</span>.provideUserProvider = UserModule_ProvideUserFactory.create(builder.userModule);</span><br><span class="line">  <span class="keyword">this</span>.getAppModelProvider = <span class="keyword">new</span> Factory&lt;AppModel&gt;() &#123;</span><br><span class="line">    <span class="annotation">@Override</span> <span class="function"><span class="keyword">public</span> AppModel <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      AppModel provided = builder.applicationComponent.getAppModel();</span><br><span class="line">      <span class="keyword">if</span> (provided == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"Cannot return null from a non-@Nullable component method"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> provided;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">this</span>.userPresentProvider = UserPresent_Factory.create(getAppModelProvider, ActivityModel_Factory.create());</span><br><span class="line">  <span class="keyword">this</span>.userActivityMembersInjector = UserActivity_MembersInjector.create((MembersInjector) MembersInjectors.noOp(), provideUserProvider, userPresentProvider);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>如果 component 类没有提供这个对象的获取方法，而是由 Module 层来提供的话。如下代码<br>这个 ActivityModel 获取的实现，有点变化</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ActivityModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Provides</span></span><br><span class="line">    <span class="function">ActivityModel <span class="title">provideActivityModole</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ActivityModel().setActivityName(<span class="string">"name from ActivityModule"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">(<span class="keyword">final</span> Builder builder)</span> </span>&#123;  </span><br><span class="line">  <span class="keyword">this</span>.provideUserProvider = UserModule_ProvideUserFactory.create(builder.userModule);</span><br><span class="line">  <span class="keyword">this</span>.getAppModelProvider = <span class="keyword">new</span> Factory&lt;AppModel&gt;() &#123;</span><br><span class="line">    <span class="annotation">@Override</span> <span class="function"><span class="keyword">public</span> AppModel <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      AppModel provided = builder.applicationComponent.getAppModel();</span><br><span class="line">      <span class="keyword">if</span> (provided == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"Cannot return null from a non-@Nullable component method"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> provided;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">this</span>.provideActivityModoleProvider = ActivityModule_ProvideActivityModoleFactory.create(builder.activityModule);</span><br><span class="line">  <span class="keyword">this</span>.userPresentProvider = UserPresent_Factory.create(getAppModelProvider, provideActivityModoleProvider);</span><br><span class="line">  <span class="keyword">this</span>.userActivityMembersInjector = UserActivity_MembersInjector.create((MembersInjector) MembersInjectors.noOp(), provideUserProvider, userPresentProvider);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>一个依赖注入的类，如果构造函数带有参数<br>先见例子代码。我们都知道带有注解 @Inject 的构造函数，那就是我们在注入器注入的时候会调用的函数了。<br>可是，现在我们这个注入构造函数带有参数的，这个参数，注入器怎么给到的呢？传 null ？?<br>当然不会，其实这个应该才是 Dagger 的魅力。这个也是通过 注入器 component 来寻找提供的。<br>要么是自己的带返回值的函数提供，要么是 Module 来提供。<br>这里有个 <strong>注意点</strong> ，可能这个 component<br>本身自己没有提供这个函数，甚至 他的 Module 也没有提供，但是他可以继承，另外一个 component 来提供，<br>或者 dependencies 来提供。这里2种方式，都是可以提供的，在源码中实现也有差别，但是本人目前还看不出这2种<br>方式之间的利弊差别。只是如果由 dependencies 来提供的话，需要在初始化 component 的时候，提供<br>dependencies 中指向的 component 的实现类，传递进去。</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserPresent</span> </span>&#123;</span><br><span class="line">    AppModel mAppModel;</span><br><span class="line">    ActivityModel mActivityModel;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserPresent</span><span class="params">(AppModel appModel, ActivityModel activityModel)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mAppModel = appModel;</span><br><span class="line">        <span class="keyword">this</span>.mActivityModel = activityModel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AppModel <span class="title">getAppModel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mAppModel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ActivityModel <span class="title">getActivityModel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mActivityModel;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Component</span>(modules = &#123;UserModule.class&#125;, dependencies = ApplicationComponent</span><br><span class="line">        .class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserComponent</span> <span class="keyword">extends</span> <span class="title">ActivityComponent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(UserActivity userActivity)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-            
-          </span>
+          <p>Dagger2 学习笔记。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/03/23/Dagger2-学习笔记/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -646,109 +699,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/28/android-studio-小技巧/" itemprop="url">
-                  android studio 小技巧
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-28T13:36:59+08:00" content="2016-01-28">
-              2016-01-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/28/android-studio-小技巧/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/28/android-studio-小技巧/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>收集一些常用的as小技巧<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/01/28/android-studio-小技巧/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -795,14 +745,14 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
