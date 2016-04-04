@@ -57,7 +57,7 @@
 <meta property="og:url" content="http://www.aheadlcx.xyz/2016/03/09/下拉刷新学习/index.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="从源码角度，学习下拉刷新的学习笔记.">
-<meta property="og:updated_time" content="2016-04-04T08:41:35.000Z">
+<meta property="og:updated_time" content="2016-04-04T08:44:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content=" 下拉刷新学习">
 <meta name="twitter:description" content="从源码角度，学习下拉刷新的学习笔记.">
@@ -331,23 +331,17 @@
 <p>向下移动，并且不可以下拉刷新的时候，直接把事件分发交给ViewGroup</p>
 <h5 id="下拉或者上拉（可以的时候）">下拉或者上拉（可以的时候）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((moveUp &amp;&amp; canMoveUp) || moveDown) &#123;</span><br><span class="line">                  movePos(offsetY);</span><br><span class="line">                  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">              &#125;</span><br></pre></td></tr></table></figure>
 <p>直接消费事件， return  true 。</p>
-<h4 id="MOVE_事件小结">MOVE 事件小结</h4><pre><code>当时左右滑动的时候，交给 ViewGroup 来处理，返回值也取 ViewGroup 的，这样也算是没有干扰 <span class="keyword">MOVE </span> 
-</code></pre><p>事件分发流程了。可是当第一个 MOVE 滑动是左右滑动，但是之后的是竖直滑动的话，也必须交给 ViewGroup<br>来处理了。这个逻辑，其实也是合理的，试想一下，如果 ViewPager 滑动了半屏，再下拉刷新，这个场面也挺<br>奇葩的。</p>
-<pre><code>业务接口，不允许下拉刷新，事件是直接交给 ViewGroup 来处理了。
-
-
-如果是上下拉，就自身 PtrFrameLayout 消费了事件，返回了 <span class="literal">true</span> 。  
-</code></pre><p>ViewGroup 能接受到事件，只有一个情况，那就是第一个 MOVE 事件是左右滑动，并且只有的 MOVE 事件都交给<br>ViewGroup 来处理了。</p>
+<h4 id="MOVE_事件小结">MOVE 事件小结</h4><p>当时左右滑动的时候，交给 ViewGroup 来处理，返回值也取 ViewGroup 的，这样也算是没有干扰 MOVE<br>事件分发流程了。可是当第一个 MOVE 滑动是左右滑动，但是之后的是竖直滑动的话，也必须交给 ViewGroup<br>来处理了。这个逻辑，其实也是合理的，试想一下，如果 ViewPager 滑动了半屏，再下拉刷新，这个场面也挺<br>奇葩的。</p>
+<p>业务接口，不允许下拉刷新，事件是直接交给 ViewGroup 来处理了。</p>
+<p>如果是上下拉，就自身 PtrFrameLayout 消费了事件，返回了 true 。<br>ViewGroup 能接受到事件，只有一个情况，那就是第一个 MOVE 事件是左右滑动，并且只有的 MOVE 事件都交给<br>ViewGroup 来处理了。</p>
 <h3 id="UP_OR_CANCEL_事件">UP OR CANCEL 事件</h3><h4 id="没有离开开始位置">没有离开开始位置</h4><p>直接交给 ViewGroup 来处理，返回值取 ViewGroup 的返回值。</p>
 <h4 id="离开了开始位置">离开了开始位置</h4><h5 id="按下后移动过">按下后移动过</h5><p>发送一个 Cancel 事件(根据 最后一个 Move 事件相关参数，来伪造一个 Cancel 事件)给<br>ViewGroup 来处理。并且 返回 true，消费事件。</p>
 <h5 id="按下后没有移动过">按下后没有移动过</h5><p>交给 ViewGroup 来处理这事件。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mPtrIndicator.onRelease();</span><br><span class="line">               <span class="comment">//是否已经离开原始位置</span></span><br><span class="line">               <span class="keyword">if</span> (mPtrIndicator.hasLeftStartPosition()) &#123;</span><br><span class="line">                   <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                       PtrCLog.d(LOG_TAG, <span class="string">"call onRelease when user release"</span>);</span><br><span class="line">                   &#125;</span><br><span class="line">                   onRelease(<span class="keyword">false</span>);</span><br><span class="line">                   <span class="keyword">if</span> (mPtrIndicator.hasMovedAfterPressedDown()) &#123;</span><br><span class="line">                       sendCancelEvent();</span><br><span class="line">                       <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">               &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                   <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">               &#125;</span><br></pre></td></tr></table></figure>
-<h4 id="UP_OR_CANCEL_事件小结">UP OR CANCEL 事件小结</h4><pre><code>如果没有离开开始的位置，要么是移动过，但是现在已经回到开始位置了，要么就是没有移动过。 PtrFrameLayout  
-</code></pre><p>对 UP 事件，在滑动上，其实需求不大。<strong>mark</strong> 但是这里其实有一种可能是，我移动过，而且是下拉刷新，<br>这样，就即使触发 UI 接口的刷新完成，直到 DOWN 事件，才会触发。</p>
-<pre><code>如果已经离开了开始位置，并且在按下之后移动过，就发送一个 <span class="built_in">CANCEL</span> 事件给 ViewGroup，并且返回 <span class="literal">TRUE</span> 。  
-</code></pre><p><strong>undo</strong> 这里，为什么要发送一个 CANCEL 事件给 ViewGroup ，有点奇怪。</p>
-<pre><code>如果在按下后没有移动过，就直接交给 ViewGroup 来处理了。
-</code></pre></span>
+<h4 id="UP_OR_CANCEL_事件小结">UP OR CANCEL 事件小结</h4><p>如果没有离开开始的位置，要么是移动过，但是现在已经回到开始位置了，要么就是没有移动过。 PtrFrameLayout<br>对 UP 事件，在滑动上，其实需求不大。<strong>mark</strong> 但是这里其实有一种可能是，我移动过，而且是下拉刷新，<br>这样，就即使触发 UI 接口的刷新完成，直到 DOWN 事件，才会触发。</p>
+<p>如果已经离开了开始位置，并且在按下之后移动过，就发送一个 CANCEL 事件给 ViewGroup，并且返回 TRUE 。<br><strong>undo</strong> 这里，为什么要发送一个 CANCEL 事件给 ViewGroup ，有点奇怪。</p>
+<p>如果在按下后没有移动过，就直接交给 ViewGroup 来处理了。</p>
+</span>
       
     </div>
 
