@@ -67,7 +67,7 @@ Triena 公众号文章
 Triena 公众号文章
 
 加密算法 RSA AES DE">
-<meta property="og:updated_time" content="2016-04-04T09:42:22.000Z">
+<meta property="og:updated_time" content="2016-04-14T12:17:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ready to meeting">
 <meta name="twitter:description" content="Ready points画圆canvas.diawCirclepaint.setShader
@@ -225,7 +225,7 @@ Triena 公众号文章
 <li>ThreadLocal 是确保每个线程都有一个数据的副本，所以Looper，在每个线程都会有独自的一个。<br>每个线程 Thread 有一个变量</li>
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * Normal thread local values.</span><br><span class="line">     */</span></span><br><span class="line">    ThreadLocal.Values localValues;</span><br></pre></td></tr></table></figure>
-<p>Thread.Values 有一个成员变量</p>
+<p>ThreadLocal.Values 有一个成员变量</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">         * Map entries. Contains alternating keys (ThreadLocal) and values.</span><br><span class="line">         * The length is always a power of 2.</span><br><span class="line">         */</span></span><br><span class="line">        <span class="keyword">private</span> Object[] table;</span><br></pre></td></tr></table></figure>
 <p> 保存的键在，table[index], 保存的值在 table[index]. ThreadLocal 存值和取值方法如下。</p>
  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Optimized for the fast path.</span></span><br><span class="line">        Thread currentThread = Thread.currentThread();</span><br><span class="line">        Values values = values(currentThread);</span><br><span class="line">        <span class="keyword">if</span> (values != <span class="keyword">null</span>) &#123;</span><br><span class="line">            Object[] table = values.table;</span><br><span class="line">            <span class="keyword">int</span> index = hash &amp; values.mask;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.reference == table[index]) &#123;</span><br><span class="line">                <span class="keyword">return</span> (T) table[index + <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            values = initializeValues(currentThread);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> (T) values.getAfterMiss(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
@@ -259,6 +259,76 @@ Triena 公众号文章
 <li>AsyncTask在不同版本上的表现细节</li>
 <li>线程池的细节和参数配置</li>
 </ol>
+<h1 id="codeKK">codeKK</h1><h2 id="要">要</h2><ol>
+<li><p>需要有明确的内容模块划分且每个模块内容精炼<br>比如常见的划分：必要的个人信息-主要经历(公司及学校)-专业技能-项目经验。</p>
+</li>
+<li><p>重点突出工作经历及项目经验<br>项目经验重点突出项目中你的职责、贡献、突出点。</p>
+</li>
+</ol>
+<p>这是简历的重点，也是面试最主要聊的点。</p>
+<p>简历的写法和面试都是有技巧的：要突出你擅长的并且面试官可能感兴趣的，引面试官入瓮。</p>
+<p>框架的搭建，主要是服务层框架。<br>界面退出了，需要 cancel 还没有开始的 request，以及已经开始的request，需要 stop callback<br>气泡房源相关的触控事件 new library<br>弹框的封装，结合微博某文章 done<br>加密<br>js 和 本地通信</p>
+<ol>
+<li>用数字说话<br>比如团队整体业绩提高多少，项目带来什么收益或是节省多少成本；<br>App 性能提高多少、Crash 率下降多少；<br>专业排名(2/200)，员工考评(10/1000)占比之类。</li>
+</ol>
+<p>大多数工程师可能不擅长这点，自己挖挖肯定有的。<br>now crash 0.8972%<br>total crash 1.7433%<br>users 22W<br>可以看 APP研发实录，其中一些 bug 来看看。<br><strong>找找友盟数据，以及加薪数据。</strong></p>
+<ol>
+<li>PDF 版<br>Word 版在 Mac 上可能会乱。还收到过有情怀的 Pages 版简历😄<br>顺便说下</li>
+</ol>
+<ul>
+<li>很多招聘网站导出来的简历 Mac 上都打不开；</li>
+<li>猎头会改你简历内容，你要确保他不会删一些东西，比如个人博客、GitHub 等。</li>
+</ul>
+<ol>
+<li>格式整齐，段落有序<br>这个基本的要求，很多人都做不好。</li>
+</ol>
+<p>我有代码洁癖，再者默认觉得 Word 排版不好的，要么不用心要么代码规范烂。</p>
+<ol>
+<li><p>明确写好在校及各公司的起始年限</p>
+</li>
+<li><p>简历保持在两页左右<br>不至于太短也不至于信息太多，项目经验过多的可压缩，一般面试也就聊一两个主要项目就 ok 了。</p>
+</li>
+</ol>
+<p>当然如果你足够牛逼，给个博客地址或 GitHub 链接也 ok(态度貌似有点傲慢，哈哈)，当然尽量重点详细介绍你的项目经验。</p>
+<ol>
+<li>邮件标题及简单问候<br>邮件及简历附件标题尽量用姓名-原公司-职位。</li>
+</ol>
+<p>codeKK 上一些内推职位是我发的，所以有时会收到一个仅含标题和附件的简历。</p>
+<p>没有谢谢，没有问候，我的心是冰凉的/(ㄒoㄒ)/~~ 当然大多数情况这些简历的质量都很一般。</p>
+<p>我对内推简历的回复率是 100%，而且只要不是太忙，我都会剪短说下简历需要修改的地方。</p>
+<ol>
+<li>简历常更新，常删除<br>收到过近十页的简历，七八年工作经验，项目一个没落，包括在校的实习经历。</li>
+</ol>
+<p>简历内容要精简，最重要的是最近一家公司的经历，很多没必要的简介或是略过就行，两三页不能再多了。</p>
+<h2 id="不要">不要</h2><ol>
+<li>不要用任何招聘网站的模板、不要 Word 版<br>尤其是智联招聘、51job 这类该被时代淘汰的站点。</li>
+</ol>
+<p>维护一份 Word 版(发送时请用 PDF)，每年更新一次，不跳槽，也能梳理下自己。</p>
+<ol>
+<li><p>不要用“精通”二字<br>个人简历一直是熟悉 Android xx 部分、熟悉 Java。“精通”真的只能逗逗那些不靠谱公司。</p>
+</li>
+<li><p>不要写任何国内培训经历、软件证书<br>即便你是半路出家也不要写“计算机四级之类的证书”，北大青鸟之流的培训就不说了。</p>
+</li>
+</ol>
+<p>有看到写着“获得教育部颁发的 Android 应用工程师证书”，无证程序员的我吓尿了</p>
+<ol>
+<li><p>不要写常年混迹于 xxx 社区、xxxx 论坛<br>什么版主之流那都是小白干的事，别在里面浪费时间了，没事逛逛 GitHub 这类高质清净的网站。</p>
+</li>
+<li><p>不要自我评价<br>因为大多数人都写不好，也容易被某些病态 HR 抓把柄。</p>
+</li>
+<li><p>项目经验中不要写软件环境、硬件环境、开发工具之类的</p>
+</li>
+<li><p>个人博客、GitHub 如果没有什么内容就别放太显眼位置了<br>这种情况写自己每天逛 GitHub，对哪些项目有关注之类的反倒更有用。</p>
+</li>
+</ol>
+<p>当然如果博客、GitHub 很有料，请前置并且剪短介绍里面内容。</p>
+<ol>
+<li>头像不用，仅美女除外</li>
+<li>民族、政治面貌、联系地址一般情况都不用</li>
+</ol>
+<p>以上适用于技术通用情况，特殊情况请勿参考。</p>
+<p>所有举例不针对个人，只是把自己的感受经验分享出来，希望大家都有个靓丽的简历，为一份好的工作开个头。</p>
+<p>如果大家觉得有用，并且有必要分享一些不错的模板，可点赞，必要的话我找些不错的模板分享出来。</p>
 
     
   </div>
@@ -308,7 +378,7 @@ Triena 公众号文章
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -322,7 +392,7 @@ Triena 公众号文章
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

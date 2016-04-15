@@ -51,16 +51,28 @@
 
 
 
-<meta name="description">
+<meta name="description" content="备忘要点
+客户端远程调用，服务端方法，会挂起当前进程。那岂不是，客户端就成了卡B了？开子线程去处理，
+跨进程之间，不能传递对象。跨进程之间传递的，都是反序列化的过程，肯定不是同一个对象了。配合 RemoteCallbackList
+如果 Listern 是在 Binder 线程池中执行的，需要配合 Handler 来切换回 UI 线程。
+Binder 线程池的概念。客户端调用 服务端的，就会运行在">
 <meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://www.aheadlcx.xyz/tags/index.html">
+<meta property="og:title" content=" Binder 学习笔记">
+<meta property="og:url" content="http://www.aheadlcx.xyz/Binder-学习笔记.html">
 <meta property="og:site_name" content="believe yourself">
-<meta property="og:description">
-<meta property="og:updated_time" content="2016-01-09T14:55:26.000Z">
+<meta property="og:description" content="备忘要点
+客户端远程调用，服务端方法，会挂起当前进程。那岂不是，客户端就成了卡B了？开子线程去处理，
+跨进程之间，不能传递对象。跨进程之间传递的，都是反序列化的过程，肯定不是同一个对象了。配合 RemoteCallbackList
+如果 Listern 是在 Binder 线程池中执行的，需要配合 Handler 来切换回 UI 线程。
+Binder 线程池的概念。客户端调用 服务端的，就会运行在">
+<meta property="og:updated_time" content="2016-04-13T00:56:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
-<meta name="twitter:description">
+<meta name="twitter:title" content=" Binder 学习笔记">
+<meta name="twitter:description" content="备忘要点
+客户端远程调用，服务端方法，会挂起当前进程。那岂不是，客户端就成了卡B了？开子线程去处理，
+跨进程之间，不能传递对象。跨进程之间传递的，都是反序列化的过程，肯定不是同一个对象了。配合 RemoteCallbackList
+如果 Listern 是在 Binder 线程池中执行的，需要配合 Handler 来切换回 UI 线程。
+Binder 线程池的概念。客户端调用 服务端的，就会运行在">
 
 
 
@@ -76,7 +88,7 @@
   
 
   
-    标签 | believe yourself
+     Binder 学习笔记 | believe yourself
   
 </title>
 </head>
@@ -200,14 +212,25 @@
   <div id="posts" class="posts-expand">
     
     
-      <div class="tag-cloud">
-        <div class="tag-cloud-title">
-            目前共计 13 个标签
-        </div>
-        <div class="tag-cloud-tags">
-          <a href="/tags/PhoneWindow/" style="font-size: 12px; color: #ccc">PhoneWindow</a> <a href="/tags/ViewRootImp/" style="font-size: 12px; color: #ccc">ViewRootImp</a> <a href="/tags/Window/" style="font-size: 12px; color: #ccc">Window</a> <a href="/tags/android/" style="font-size: 30px; color: #111">android</a> <a href="/tags/app框架设计/" style="font-size: 12px; color: #ccc">app框架设计</a> <a href="/tags/as小技巧/" style="font-size: 12px; color: #ccc">as小技巧</a> <a href="/tags/git/" style="font-size: 12px; color: #ccc">git</a> <a href="/tags/学习笔记/" style="font-size: 21px; color: #6f6f6f">学习笔记</a> <a href="/tags/工作流/" style="font-size: 12px; color: #ccc">工作流</a> <a href="/tags/挡板数据/" style="font-size: 12px; color: #ccc">挡板数据</a> <a href="/tags/架构设计/" style="font-size: 21px; color: #6f6f6f">架构设计</a> <a href="/tags/源码学习/" style="font-size: 12px; color: #ccc">源码学习</a> <a href="/tags/笔记/" style="font-size: 21px; color: #6f6f6f">笔记</a>
-        </div>
-      </div>
+      <h1 id="备忘要点">备忘要点</h1><ol>
+<li>客户端远程调用，服务端方法，会挂起当前进程。<br>那岂不是，客户端就成了卡B了？开子线程去处理，</li>
+<li>跨进程之间，不能传递对象。<br>跨进程之间传递的，都是反序列化的过程，肯定不是同一个对象了。<br>配合 RemoteCallbackList<e extends="" iinterface=""></e></li>
+<li>如果 Listern 是在 Binder 线程池中执行的，需要配合 Handler 来切换回 UI 线程。</li>
+<li>Binder 线程池的概念。客户端调用 服务端的，就会运行在 服务端的 Binder 线程池中。相反，<br>服务端，调用客户端的 Listener 就会发生在 客户端的 Binder 线程池中。</li>
+<li>服务端进程死了，可以有2种回调。</li>
+</ol>
+<ul>
+<li>第一种是 onServiceDisconnected 发生在 UI 线程。</li>
+<li>第二种是 在 BinderDied 方法中，这是发生在 客户端的 Binder 线程池的回调。</li>
+</ul>
+<ol>
+<li>安全校验</li>
+</ol>
+<ul>
+<li>权限校验，自定义 permission 。在 onBind 方法中，检查权限。</li>
+<li>校验包名。</li>
+</ul>
+
     
   </div>
 
@@ -220,8 +243,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="tags/index.html"
-           data-title="tags" data-url="http://www.aheadlcx.xyz/tags/index.html">
+      <div class="ds-thread" data-thread-key="Binder-学习笔记.html"
+           data-title=" Binder 学习笔记" data-url="http://www.aheadlcx.xyz/Binder-学习笔记.html">
       </div>
     
   </div>

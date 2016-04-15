@@ -57,7 +57,7 @@
 <meta property="og:url" content="http://www.aheadlcx.xyz/2016/03/09/下拉刷新学习/index.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="从源码角度，学习下拉刷新的学习笔记.">
-<meta property="og:updated_time" content="2016-04-04T14:42:12.000Z">
+<meta property="og:updated_time" content="2016-04-06T15:29:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content=" 下拉刷新学习">
 <meta name="twitter:description" content="从源码角度，学习下拉刷新的学习笔记.">
@@ -335,8 +335,8 @@
 <h5 id="下拉或者上拉（可以的时候）">下拉或者上拉（可以的时候）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((moveUp &amp;&amp; canMoveUp) || moveDown) &#123;</span><br><span class="line">                  movePos(offsetY);</span><br><span class="line">                  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">              &#125;</span><br></pre></td></tr></table></figure>
 <p>直接消费事件， return  true 。</p>
 <h4 id="MOVE_事件小结">MOVE 事件小结</h4><p>当时左右滑动的时候，交给 ViewGroup 来处理，返回值也取 ViewGroup 的，这样也算是没有干扰 MOVE<br>事件分发流程了。可是当第一个 MOVE 滑动是左右滑动，但是之后的是竖直滑动的话，也必须交给 ViewGroup<br>来处理了。这个逻辑，其实也是合理的，试想一下，如果 ViewPager 滑动了半屏，再下拉刷新，这个场面也挺<br>奇葩的。</p>
-<p>业务接口，不允许下拉刷新，事件是直接交给 ViewGroup 来处理了。</p>
-<p>如果是上下拉，就自身 PtrFrameLayout 消费了事件，返回了 true 。<br>ViewGroup 能接受到事件，只有一个情况，那就是第一个 MOVE 事件是左右滑动，并且只有的 MOVE 事件都交给<br>ViewGroup 来处理了。</p>
+<p>业务接口，不允许下拉刷新，并且是下拉的时候，事件是直接交给 ViewGroup 来处理了。</p>
+<p>如果是上下拉，就自身 PtrFrameLayout 消费了事件，返回了 true 。<br>ViewGroup 能接受到 MOVE 事件，一个可能情况，那就是第一个 MOVE 事件是左右滑动，并且只有的 MOVE 事件都交给<br>ViewGroup 来处理了。<br><strong>mark</strong> 还有一个可能的情况是 这是一个上拉 MOVE 事件， PtrFrameLayout 没有离开原始位置的时候，<br>就直接交给 ViewGroup 来处理了。</p>
 <h3 id="UP_OR_CANCEL_事件">UP OR CANCEL 事件</h3><h4 id="没有离开开始位置">没有离开开始位置</h4><p>直接交给 ViewGroup 来处理，返回值取 ViewGroup 的返回值。</p>
 <h4 id="离开了开始位置">离开了开始位置</h4><h5 id="按下后移动过">按下后移动过</h5><p>发送一个 Cancel 事件(根据 最后一个 Move 事件相关参数，来伪造一个 Cancel 事件)给<br>ViewGroup 来处理。并且 返回 true，消费事件。</p>
 <h5 id="按下后没有移动过">按下后没有移动过</h5><p>交给 ViewGroup 来处理这事件。</p>
@@ -456,7 +456,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -470,7 +470,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
