@@ -51,19 +51,19 @@
 
 
 
-<meta name="description" content="#背景    需要在安装系统上，实现对NFC标签的读取数据功能。
-#NFC简介    NFC，是Near Field Communication（近场通信）的简称。在api 9开始支持nfc，不过不完善，api 10支持比较完善了，建议目标app最小API 为10；">
+<meta name="description" content="背景需要在安装系统上，实现对NFC标签的读取数据功能。
+NFC简介NFC，是Near Field Communication（近场通信）的简称。在api 9开始支持nfc，不过不完善，api 10支持比较完善了，建议目标app最小API 为10；">
 <meta property="og:type" content="article">
 <meta property="og:title" content="安卓上面的NFC简单应用实例">
 <meta property="og:url" content="http://www.aheadlcx.xyz/2015/02/02/安卓上面的NFC简单应用实例/index.html">
 <meta property="og:site_name" content="believe yourself">
-<meta property="og:description" content="#背景    需要在安装系统上，实现对NFC标签的读取数据功能。
-#NFC简介    NFC，是Near Field Communication（近场通信）的简称。在api 9开始支持nfc，不过不完善，api 10支持比较完善了，建议目标app最小API 为10；">
-<meta property="og:updated_time" content="2016-01-09T15:01:25.000Z">
+<meta property="og:description" content="背景需要在安装系统上，实现对NFC标签的读取数据功能。
+NFC简介NFC，是Near Field Communication（近场通信）的简称。在api 9开始支持nfc，不过不完善，api 10支持比较完善了，建议目标app最小API 为10；">
+<meta property="og:updated_time" content="2016-04-15T08:36:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="安卓上面的NFC简单应用实例">
-<meta name="twitter:description" content="#背景    需要在安装系统上，实现对NFC标签的读取数据功能。
-#NFC简介    NFC，是Near Field Communication（近场通信）的简称。在api 9开始支持nfc，不过不完善，api 10支持比较完善了，建议目标app最小API 为10；">
+<meta name="twitter:description" content="背景需要在安装系统上，实现对NFC标签的读取数据功能。
+NFC简介NFC，是Near Field Communication（近场通信）的简称。在api 9开始支持nfc，不过不完善，api 10支持比较完善了，建议目标app最小API 为10；">
 
 
 
@@ -255,101 +255,68 @@
       
 
       
-        <span itemprop="articleBody"><p>#背景<br>    需要在安装系统上，实现对NFC标签的读取数据功能。</p>
-<p>#NFC简介<br>    NFC，是Near Field Communication（近场通信）的简称。在api 9开始支持nfc，不过不完善，api 10支持比较完善了，建议目标app最小API 为10；<br><a id="more"></a></p>
-<p>#安卓手机支持的NFC标签类型<br>    支持IsoDep、NfcA、NfcB、NfcF、NfcV、Ndef、NdefFormatable、MifareClassic和MifareUltralight类型。<br>如果是是仅仅实现读取数据，建议取MifareClassic类型的NFC 标签。</p>
-<p>#NFC标签和android设备的通信<br>他们之间的通信，在底层由谷歌实现了的，JNI层和native层的代码，针对各个芯片，是有不同的类实现的，没有很好的统一，可读性很差（本人没有去读，【深入理解Android：WiFi、NFC和GPS卷】书中原话）。在应用层，android系统都是讲读取到的信息，组装成了一个intent的。我们可能需要在activity的onCreate中对接受到的intent实现读取，或者在activity的onNewIntent方法中实现读取信息。接下来我们分析这个intent的分发系统</p>
-<p>#NFC权限<br>如果你的app需要使用nfc，必须在清单文件中注册权限。</p>
+        <span itemprop="articleBody"><h1 id="背景">背景</h1><pre><code>需要在安装系统上，实现对NFC标签的读取数据功能。
+</code></pre><h1 id="NFC简介">NFC简介</h1><pre><code>NFC，是Near Field Communication（近场通信）的简称。在api <span class="number">9</span>开始支持nfc，不过不完善，api <span class="number">10</span>支持比较完善了，建议目标app最小API 为<span class="number">10</span>；
+</code></pre><a id="more"></a>
+<h1 id="安卓手机支持的NFC标签类型">安卓手机支持的NFC标签类型</h1><pre><code>支持IsoDep、N<span class="built_in">fc</span>A、N<span class="built_in">fc</span>B、N<span class="built_in">fc</span>F、N<span class="built_in">fc</span>V、Ndef、NdefFormatable、MifareClassic和MifareUltralight类型。
+</code></pre><p>如果是是仅仅实现读取数据，建议取MifareClassic类型的NFC 标签。</p>
+<h1 id="NFC标签和android设备的通信">NFC标签和android设备的通信</h1><p>他们之间的通信，在底层由谷歌实现了的，JNI层和native层的代码，针对各个芯片，是有不同的类实现的，没有很好的统一，可读性很差（本人没有去读，【深入理解Android：WiFi、NFC和GPS卷】书中原话）。在应用层，android系统都是讲读取到的信息，组装成了一个intent的。我们可能需要在activity的onCreate中对接受到的intent实现读取，或者在activity的onNewIntent方法中实现读取信息。接下来我们分析这个intent的分发系统</p>
+<h1 id="NFC权限">NFC权限</h1><p>如果你的app需要使用nfc，必须在清单文件中注册权限。</p>
 <pre><code>&lt;uses-permission android:<span class="property">name</span>=<span class="string">"android.permission.NFC"</span> /&gt;
-</code></pre><p>#NFC的分发系统<br>    android为这个包含nfc信息的Intent的分发，创造了2个分发系统。<br>a、标签分发系统(个人意译名字)；<br>b、前台分发系统（the Foreground Dispatch System）</p>
-<p>##a、标签分发系统<br>    标签分发系统，是为了选择这个带有nfc信息的intent交给谁来处理，他可识别的级别是activity级别的。</p>
-<pre><code>一共包括ACTION_NDEF_DISCOVERED、ACTION_TECH_DISCOVERED和ACTION_TAG_DISCOVERED。<span class="type">intent</span>被划分为这<span class="number">3</span>种类型的<span class="type">intent</span>。
+</code></pre><h1 id="NFC的分发系统">NFC的分发系统</h1><pre><code>android为这个包含nfc信息的Intent的分发，创造了<span class="number">2</span>个分发系统。
+</code></pre><p>a、标签分发系统(个人意译名字)；<br>b、前台分发系统（the Foreground Dispatch System）</p>
+<h2 id="a、标签分发系统">a、标签分发系统</h2><pre><code>标签分发系统，是为了选择这个带有nfc信息的<span class="type">intent</span>交给谁来处理，他可识别的级别是activity级别的。
+
+一共包括ACTION_NDEF_DISCOVERED、ACTION_TECH_DISCOVERED和ACTION_TAG_DISCOVERED。<span class="type">intent</span>被划分为这<span class="number">3</span>种类型的<span class="type">intent</span>。
 </code></pre><p>这3种intent的优先级从高到低。如果 一个带有nfc信息的intent生成、并且多个app注册了nfc或者同一个app里面的多个activity注册了，他会优先寻找注册了ACTION_NDEF_DISCOVERED类型的activity，如果没有注册了ACTION_NDEF_DISCOVERED类型的activity，则会寻找注册了ACTION_TECH_DISCOVERED类型的activity。如此类推。</p>
-<pre><code>以下代码示例为，给activity注册响应ACTION_TECH_DISCOVERED类型的intent。
- <span class="tag">&lt;<span class="title">intent-filter</span> &gt;</span>
-            <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.nfc.action.TECH_DISCOVERED"</span> /&gt;</span>
- <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span>
+<pre><code>以下代码示例为，给activity注册响应ACTION_TECH_DISCOVERED类型的<span class="type">intent</span>。
+</code></pre><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"> &lt;intent-filter &gt;</span><br><span class="line">            &lt;action android:name="android.nfc.action.TECH_DISCOVERED" /&gt;</span><br><span class="line"> &lt;/intent-filter&gt;</span><br><span class="line"></span><br><span class="line">  &lt;meta-data</span><br><span class="line">            android:name="android.nfc.action.TECH_DISCOVERED"</span><br><span class="line">            android:resource="@xml/nfc_tech_filter" /&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    nfc_tech_filter.xml文件如下：</span><br><span class="line">    &lt;?xml version="1.0" encoding="utf-8"?&gt;  </span><br><span class="line">&lt;resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"&gt;  </span><br><span class="line">    &lt;tech-list&gt;  </span><br><span class="line">        &lt;tech&gt;android.nfc.tech.IsoDep&lt;/tech&gt;  </span><br><span class="line">    &lt;/tech-list&gt;  </span><br><span class="line">    &lt;tech-list&gt;  </span><br><span class="line">        &lt;tech&gt;android.nfc.tech.NfcA&lt;/tech&gt;  </span><br><span class="line">    &lt;/tech-list&gt;  </span><br><span class="line">    &lt;tech-list&gt;  </span><br><span class="line">        &lt;tech&gt;android.nfc.tech.NfcB&lt;/tech&gt;  </span><br><span class="line">    &lt;/tech-list&gt;  </span><br><span class="line">    &lt;tech-list&gt;  </span><br><span class="line">        &lt;tech&gt;android.nfc.tech.NfcF&lt;/tech&gt;  </span><br><span class="line">    &lt;/tech-list&gt;  </span><br><span class="line">    &lt;tech-list&gt;  </span><br><span class="line">        &lt;tech&gt;android.nfc.tech.NfcV&lt;/tech&gt;  </span><br><span class="line">    &lt;/tech-list&gt;  </span><br><span class="line">    &lt;tech-list&gt;  </span><br><span class="line">        &lt;tech&gt;android.nfc.tech.Ndef&lt;/tech&gt;  </span><br><span class="line">    &lt;/tech-list&gt;  </span><br><span class="line">    &lt;tech-list&gt;  </span><br><span class="line">        &lt;tech&gt;android.nfc.tech.NdefFormatable&lt;/tech&gt;  </span><br><span class="line">    &lt;/tech-list&gt;  </span><br><span class="line">    &lt;tech-list&gt;  </span><br><span class="line">        &lt;tech&gt;android.nfc.tech.MifareClassic&lt;/tech&gt;  </span><br><span class="line">    &lt;/tech-list&gt;  </span><br><span class="line">    &lt;tech-list&gt;  </span><br><span class="line">        &lt;tech&gt;android.nfc.tech.MifareUltralight&lt;/tech&gt;  </span><br><span class="line">    &lt;/tech-list&gt;  </span><br><span class="line">    &lt;tech-list&gt;  </span><br><span class="line">        &lt;tech&gt;android.nfc.tech.NfcA&lt;/tech&gt;  </span><br><span class="line">        &lt;tech&gt;android.nfc.tech.MifareClassic&lt;/tech&gt;  </span><br><span class="line">        &lt;tech&gt;android.nfc.tech.NdefFormatable&lt;/tech&gt;  </span><br><span class="line">    &lt;/tech-list&gt;  </span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>上述xml文件，意思是，这个activity可识别的nfc标签技术类型。一个NFC信息的intent，我们可以得到他的<span class="operator">Tag</span>对象
 
-  <span class="tag">&lt;<span class="title">meta-data</span>
-            <span class="attribute">android:name</span>=<span class="value">"android.nfc.action.TECH_DISCOVERED"</span>
-            <span class="attribute">android:resource</span>=<span class="value">"@xml/nfc_tech_filter"</span> /&gt;</span>
-
-
-
-    nfc_tech_filter.xml文件如下：
-    <span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>  
-<span class="tag">&lt;<span class="title">resources</span> <span class="attribute">xmlns:xliff</span>=<span class="value">"urn:oasis:names:tc:xliff:document:1.2"</span>&gt;</span>  
-    <span class="tag">&lt;<span class="title">tech-list</span>&gt;</span>  
-        <span class="tag">&lt;<span class="title">tech</span>&gt;</span>android.nfc.tech.IsoDep<span class="tag">&lt;/<span class="title">tech</span>&gt;</span>  
-    <span class="tag">&lt;/<span class="title">tech-list</span>&gt;</span>  
-    <span class="tag">&lt;<span class="title">tech-list</span>&gt;</span>  
-        <span class="tag">&lt;<span class="title">tech</span>&gt;</span>android.nfc.tech.NfcA<span class="tag">&lt;/<span class="title">tech</span>&gt;</span>  
-    <span class="tag">&lt;/<span class="title">tech-list</span>&gt;</span>  
-    <span class="tag">&lt;<span class="title">tech-list</span>&gt;</span>  
-        <span class="tag">&lt;<span class="title">tech</span>&gt;</span>android.nfc.tech.NfcB<span class="tag">&lt;/<span class="title">tech</span>&gt;</span>  
-    <span class="tag">&lt;/<span class="title">tech-list</span>&gt;</span>  
-    <span class="tag">&lt;<span class="title">tech-list</span>&gt;</span>  
-        <span class="tag">&lt;<span class="title">tech</span>&gt;</span>android.nfc.tech.NfcF<span class="tag">&lt;/<span class="title">tech</span>&gt;</span>  
-    <span class="tag">&lt;/<span class="title">tech-list</span>&gt;</span>  
-    <span class="tag">&lt;<span class="title">tech-list</span>&gt;</span>  
-        <span class="tag">&lt;<span class="title">tech</span>&gt;</span>android.nfc.tech.NfcV<span class="tag">&lt;/<span class="title">tech</span>&gt;</span>  
-    <span class="tag">&lt;/<span class="title">tech-list</span>&gt;</span>  
-    <span class="tag">&lt;<span class="title">tech-list</span>&gt;</span>  
-        <span class="tag">&lt;<span class="title">tech</span>&gt;</span>android.nfc.tech.Ndef<span class="tag">&lt;/<span class="title">tech</span>&gt;</span>  
-    <span class="tag">&lt;/<span class="title">tech-list</span>&gt;</span>  
-    <span class="tag">&lt;<span class="title">tech-list</span>&gt;</span>  
-        <span class="tag">&lt;<span class="title">tech</span>&gt;</span>android.nfc.tech.NdefFormatable<span class="tag">&lt;/<span class="title">tech</span>&gt;</span>  
-    <span class="tag">&lt;/<span class="title">tech-list</span>&gt;</span>  
-    <span class="tag">&lt;<span class="title">tech-list</span>&gt;</span>  
-        <span class="tag">&lt;<span class="title">tech</span>&gt;</span>android.nfc.tech.MifareClassic<span class="tag">&lt;/<span class="title">tech</span>&gt;</span>  
-    <span class="tag">&lt;/<span class="title">tech-list</span>&gt;</span>  
-    <span class="tag">&lt;<span class="title">tech-list</span>&gt;</span>  
-        <span class="tag">&lt;<span class="title">tech</span>&gt;</span>android.nfc.tech.MifareUltralight<span class="tag">&lt;/<span class="title">tech</span>&gt;</span>  
-    <span class="tag">&lt;/<span class="title">tech-list</span>&gt;</span>  
-    <span class="tag">&lt;<span class="title">tech-list</span>&gt;</span>  
-        <span class="tag">&lt;<span class="title">tech</span>&gt;</span>android.nfc.tech.NfcA<span class="tag">&lt;/<span class="title">tech</span>&gt;</span>  
-        <span class="tag">&lt;<span class="title">tech</span>&gt;</span>android.nfc.tech.MifareClassic<span class="tag">&lt;/<span class="title">tech</span>&gt;</span>  
-        <span class="tag">&lt;<span class="title">tech</span>&gt;</span>android.nfc.tech.NdefFormatable<span class="tag">&lt;/<span class="title">tech</span>&gt;</span>  
-    <span class="tag">&lt;/<span class="title">tech-list</span>&gt;</span>  
-<span class="tag">&lt;/<span class="title">resources</span>&gt;</span>  
-
-
-上述xml文件，意思是，这个activity可识别的nfc标签技术类型。一个NFC信息的intent，我们可以得到他的Tag对象
-
-Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-通过这个Tag对象，我们可以 通过tagFromIntent.getTechList()得知这个刷进来的NFC标签，支持的技术类型有哪些。
-tagFromIntent.getTechList()，返回值是String[],他是IsoDep、NfcA、NfcB、NfcF、NfcV、Ndef、NdefFormatable、MifareClassic和MifareUltralight类的全路径名中的一个或者几个或者全部。
+<span class="keyword">Tag</span> <span class="title">tagFromIntent</span> = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+通过这个<span class="operator">Tag</span>对象，我们可以 通过tagFromIntent.getTechList()得知这个刷进来的NFC标签，支持的技术类型有哪些。
+tagFromIntent.getTechList()，返回值是<span class="type">String</span>[],他是IsoDep、NfcA、NfcB、NfcF、NfcV、Ndef、NdefFormatable、MifareClassic和MifareUltralight类的全路径名中的一个或者几个或者全部。
 上述我们为activity注册用的nfc_tech_filter.xml文件，他包含了一系列的tech-list，这其中必须有一个tech-list，是这个NFC标签支持的技术类型的子集，这个activity才可以识别到这个nfc。
-</code></pre><p>##前台分发系统（the Foreground Dispatch System）</p>
-<pre><code>前台分发系统是为了解决这么一个情景的。如果一个手机有多个app注册了响应所有的<span class="built_in">nfc</span>信息，app A已经在前台显示了，activity A1目前在栈顶并且希望优先响应<span class="built_in">nfc</span>标签。那么这个时候如果有个<span class="built_in">nfc</span>刷卡了，还是交给标签分发系统，去派发这个intent的话，就显得有点不妥了。
+</code></pre><h2 id="前台分发系统（the_Foreground_Dispatch_System）">前台分发系统（the Foreground Dispatch System）</h2><pre><code>前台分发系统是为了解决这么一个情景的。如果一个手机有多个app注册了响应所有的<span class="built_in">nfc</span>信息，app A已经在前台显示了，activity A1目前在栈顶并且希望优先响应<span class="built_in">nfc</span>标签。那么这个时候如果有个<span class="built_in">nfc</span>刷卡了，还是交给标签分发系统，去派发这个intent的话，就显得有点不妥了。
 前台分发系统，就是解决了这个问题，可以让activity A1优先响应。
 
 注册和取消注册前台分发系统，必须分别在onResume和onPause之间进行，并且不可以调换顺序（需要在主线程进行这个操作）
-</code></pre><p>###注册前台分发系统<br>    下面实例代码为，注册识别ACTION_TECH_DISCOVERED类型的nfc标签，支持MifareClassic技术类型的的nfc标签。<br>    PendingIntent mPendingIntent = null;<br>        IntentFilter[] mFilters = null;<br>        String[][] mTechLists = null;<br>        NfcAdapter mNfcAdapter = null;<br>        mNfcAdapter = NfcAdapter.getDefaultAdapter(mActivity);<br>        mPendingIntent = PendingIntent.getActivity(mActivity, 0, new Intent(<br>                mActivity, mActivity.getClass())<br>                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);</p>
-<pre><code>IntentFilter ndef = <span class="keyword">new</span> IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
+</code></pre><h3 id="注册前台分发系统">注册前台分发系统</h3><pre><code>下面实例代码为，注册识别ACTION_TECH_DISCOVERED类型的<span class="built_in">nfc</span>标签，支持MifareClassic技术类型的的<span class="built_in">nfc</span>标签。
+PendingIntent mPendingIntent = <span class="keyword">null</span>;
+    IntentFilter[] mFilters = <span class="keyword">null</span>;
+    <span class="keyword">String</span>[][] mTechLists = <span class="keyword">null</span>;
+    NfcAdapter mNfcAdapter = <span class="keyword">null</span>;
+    mNfcAdapter = NfcAdapter.getDefaultAdapter(mActivity);
+    mPendingIntent = PendingIntent.getActivity(mActivity, <span class="number">0</span>, <span class="keyword">new</span> Intent(
+            mActivity, mActivity.getClass())
+            .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), <span class="number">0</span>);
 
-mFilters = <span class="keyword">new</span> IntentFilter[] { ndef };
+    IntentFilter ndef = <span class="keyword">new</span> IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
 
-<span class="comment">// Setup a tech list for all NfcF tags</span>
-mTechLists = <span class="keyword">new</span> <span class="built_in">String</span>[][] { <span class="keyword">new</span> <span class="built_in">String</span>[] { MifareClassic.<span class="keyword">class</span>
-        .getName() } };
+    mFilters = <span class="keyword">new</span> IntentFilter[] { ndef };
 
-<span class="keyword">if</span> (mNfcAdapter != <span class="keyword">null</span>) {
-    <span class="keyword">if</span> (mNfcAdapter.isEnabled()) {
-        mNfcAdapter.enableForegroundDispatch(mActivity, mPendingIntent,
-                mFilters, mTechLists);
+    <span class="comment">// Setup a tech list for all NfcF tags</span>
+    mTechLists = <span class="keyword">new</span> <span class="keyword">String</span>[][] { <span class="keyword">new</span> <span class="keyword">String</span>[] { MifareClassic.class
+            .getName() } };
+
+    <span class="keyword">if</span> (mNfcAdapter != <span class="keyword">null</span>) {
+        <span class="keyword">if</span> (mNfcAdapter.isEnabled()) {
+            mNfcAdapter.enableForegroundDispatch(mActivity, mPendingIntent,
+                    mFilters, mTechLists);
+        }
     }
-}
-</code></pre><p>###取消注册前台分发系统</p>
-<pre><code>mN<span class="built_in">fc</span>Adapter = N<span class="built_in">fc</span>Adapter.getDefaultAdapter(mActivity);
+</code></pre><h3 id="取消注册前台分发系统">取消注册前台分发系统</h3><pre><code>mN<span class="built_in">fc</span>Adapter = N<span class="built_in">fc</span>Adapter.getDefaultAdapter(mActivity);
     <span class="keyword">if</span> (mN<span class="built_in">fc</span>Adapter != null) {
         <span class="keyword">if</span> (mN<span class="built_in">fc</span>Adapter.isEnabled()) {
             mN<span class="built_in">fc</span>Adapter.disableForegroundDispatch(mActivity);
         }
     }
-</code></pre><p>#MifareClassic类型的NFC标签的数据结构<br>    M1卡就是说容量是1K的卡，M4的卡就是容量4K的卡，市场上M1卡，略多点。<br>M1卡一共有16个扇区（每个扇区有4个数据块，即总共有64个数据块），每个扇区分别有下标为0、1、2、3的数据块。第3个数据块为秘钥块。读取每个扇区里面的数据，<br>都必须先验证秘钥，验证通过了才可以读取其他数据块。秘钥块的数据结构为 key A 控制子 key B。怎么重新写秘钥，暂时没试过。</p>
-<p>#nfc信息的读取<br>    每刷一次卡，我们都是希望在当前界面刷，所以一般都是在onNewIntent方法中处理相关的读取操作。<br>    以下实例代码为读取MifareClassic类型的NFC标签</p>
-<pre><code>Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+</code></pre><h1 id="MifareClassic类型的NFC标签的数据结构">MifareClassic类型的NFC标签的数据结构</h1><pre><code><span class="title">M1</span>卡就是说容量是<span class="number">1</span>K的卡，<span class="title">M4</span>的卡就是容量<span class="number">4</span>K的卡，市场上<span class="title">M1</span>卡，略多点。
+</code></pre><p>M1卡一共有16个扇区（每个扇区有4个数据块，即总共有64个数据块），每个扇区分别有下标为0、1、2、3的数据块。第3个数据块为秘钥块。读取每个扇区里面的数据，<br>都必须先验证秘钥，验证通过了才可以读取其他数据块。秘钥块的数据结构为 key A 控制子 key B。怎么重新写秘钥，暂时没试过。</p>
+<h1 id="nfc信息的读取">nfc信息的读取</h1><pre><code>每刷一次卡，我们都是希望在当前界面刷，所以一般都是在onNewIntent方法中处理相关的读取操作。
+以下实例代码为读取MifareClassic类型的NFC标签
+
+Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 MifareClassic mfc = MifareClassic.<span class="built_in">get</span>(tagFromIntent);
 
 NFCInfo nfcInfo = <span class="keyword">new</span> NFCInfo();<span class="comment">//人为封装的一个实体类，保存nfc相关信息</span>
@@ -430,91 +397,11 @@ NFCInfo nfcInfo = <span class="keyword">new</span> NFCInfo();<span class="commen
             e2.printStackTrace();
         }
     }
-</code></pre><p>注释<br>注1：<br>    /**</p>
-<pre><code> * Converts the byte array <span class="keyword">to</span> <span class="built_in">HEX</span> <span class="built_in">string</span>. 字节 数组转字符串
- *
- * <span class="constant">@param</span> buffer
- *            the buffer.
- * <span class="constant">@return</span> the <span class="built_in">HEX</span> <span class="built_in">string</span>.
- */
-public <span class="keyword">static</span> <span class="built_in">String</span> toHexString(byte[] buffer) {
-
-    <span class="built_in">String</span> bufferString = <span class="string">""</span><span class="comment">;</span>
-    <span class="keyword">if</span> (buffer != <span class="literal">null</span>) {
-
-        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span><span class="comment">; i &lt; buffer.length; i++) {</span>
-
-            <span class="built_in">String</span> hexChar = Integer.toHexString(buffer[i] &amp; <span class="number">0xFF</span>)<span class="comment">;</span>
-            <span class="keyword">if</span> (hexChar.length() == <span class="number">1</span>) {
-                hexChar = <span class="string">"0"</span> + hexChar<span class="comment">;</span>
-            }
-
-            bufferString += hexChar.toUpperCase() + <span class="string">" "</span><span class="comment">;</span>
-        }
-    }
-    <span class="keyword">return</span> bufferString<span class="comment">;</span>
-}
-</code></pre><p>注2：<br>    /**</p>
-<pre><code> * Converts the HEX <span class="keyword">string</span> to <span class="keyword">byte</span> array. 字符串转字节数组
- *
- * @param hexString
- *            the HEX <span class="keyword">string</span>.
- * @<span class="keyword">return</span> the <span class="keyword">byte</span> array.
- */
-<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] toByteArray(String hexString) {
-
-    <span class="keyword">int</span> hexStringLength = hexString.length();
-    <span class="keyword">byte</span>[] byteArray = <span class="keyword">null</span>;
-    <span class="keyword">int</span> count = <span class="number">0</span>;
-    <span class="keyword">char</span> c;
-    <span class="keyword">int</span> i;
-
-    <span class="comment">// Count number of hex characters</span>
-    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; hexStringLength; i++) {
-
-        c = hexString.charAt(i);
-        <span class="keyword">if</span> (c &gt;= <span class="string">'0'</span> &amp;&amp; c &lt;= <span class="string">'9'</span> || c &gt;= <span class="string">'A'</span> &amp;&amp; c &lt;= <span class="string">'F'</span> || c &gt;= <span class="string">'a'</span>
-                &amp;&amp; c &lt;= <span class="string">'f'</span>) {
-            count++;
-        }
-    }
-
-    byteArray = <span class="keyword">new</span> <span class="keyword">byte</span>[(count + <span class="number">1</span>) / <span class="number">2</span>];
-    boolean first = <span class="keyword">true</span>;
-    <span class="keyword">int</span> len = <span class="number">0</span>;
-    <span class="keyword">int</span> <span class="keyword">value</span>;
-    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; hexStringLength; i++) {
-
-        c = hexString.charAt(i);
-        <span class="keyword">if</span> (c &gt;= <span class="string">'0'</span> &amp;&amp; c &lt;= <span class="string">'9'</span>) {
-            <span class="keyword">value</span> = c - <span class="string">'0'</span>;
-        } <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params">c &gt;= <span class="string">'A'</span> &amp;&amp; c &lt;= <span class="string">'F'</span></span>) </span>{
-            <span class="keyword">value</span> = c - <span class="string">'A'</span> + <span class="number">10</span>;
-        } <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params">c &gt;= <span class="string">'a'</span> &amp;&amp; c &lt;= <span class="string">'f'</span></span>) </span>{
-            <span class="keyword">value</span> = c - <span class="string">'a'</span> + <span class="number">10</span>;
-        } <span class="keyword">else</span> {
-            <span class="keyword">value</span> = -<span class="number">1</span>;
-        }
-
-        <span class="keyword">if</span> (<span class="keyword">value</span> &gt;= <span class="number">0</span>) {
-
-            <span class="keyword">if</span> (first) {
-
-                byteArray[len] = (<span class="keyword">byte</span>) (<span class="keyword">value</span> &lt;&lt; <span class="number">4</span>);
-
-            } <span class="keyword">else</span> {
-
-                byteArray[len] |= <span class="keyword">value</span>;
-                len++;
-            }
-
-            first = !first;
-        }
-    }
-
-    <span class="keyword">return</span> byteArray;
-}
-</code></pre></span>
+</code></pre><p>注释<br>注1：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Converts the byte array to HEX string. 字节 数组转字符串</span><br><span class="line"> *</span><br><span class="line"> * <span class="doctag">@param</span> buffer</span><br><span class="line"> *            the buffer.</span><br><span class="line"> * <span class="doctag">@return</span> the HEX string.</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">toHexString</span><span class="params">(<span class="keyword">byte</span>[] buffer)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String bufferString = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">if</span> (buffer != <span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; buffer.length; i++) &#123;</span><br><span class="line"></span><br><span class="line">            String hexChar = Integer.toHexString(buffer[i] &amp; <span class="number">0xFF</span>);</span><br><span class="line">            <span class="keyword">if</span> (hexChar.length() == <span class="number">1</span>) &#123;</span><br><span class="line">                hexChar = <span class="string">"0"</span> + hexChar;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            bufferString += hexChar.toUpperCase() + <span class="string">" "</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> bufferString;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注2：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Converts the HEX string to byte array. 字符串转字节数组</span><br><span class="line"> *</span><br><span class="line"> * <span class="doctag">@param</span> hexString</span><br><span class="line"> *            the HEX string.</span><br><span class="line"> * <span class="doctag">@return</span> the byte array.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] toByteArray(String hexString) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> hexStringLength = hexString.length();</span><br><span class="line">    <span class="keyword">byte</span>[] byteArray = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Count number of hex characters</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; hexStringLength; i++) &#123;</span><br><span class="line"></span><br><span class="line">        c = hexString.charAt(i);</span><br><span class="line">        <span class="keyword">if</span> (c &gt;= <span class="string">'0'</span> &amp;&amp; c &lt;= <span class="string">'9'</span> || c &gt;= <span class="string">'A'</span> &amp;&amp; c &lt;= <span class="string">'F'</span> || c &gt;= <span class="string">'a'</span></span><br><span class="line">                &amp;&amp; c &lt;= <span class="string">'f'</span>) &#123;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    byteArray = <span class="keyword">new</span> <span class="keyword">byte</span>[(count + <span class="number">1</span>) / <span class="number">2</span>];</span><br><span class="line">    <span class="keyword">boolean</span> first = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> value;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; hexStringLength; i++) &#123;</span><br><span class="line"></span><br><span class="line">        c = hexString.charAt(i);</span><br><span class="line">        <span class="keyword">if</span> (c &gt;= <span class="string">'0'</span> &amp;&amp; c &lt;= <span class="string">'9'</span>) &#123;</span><br><span class="line">            value = c - <span class="string">'0'</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (c &gt;= <span class="string">'A'</span> &amp;&amp; c &lt;= <span class="string">'F'</span>) &#123;</span><br><span class="line">            value = c - <span class="string">'A'</span> + <span class="number">10</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (c &gt;= <span class="string">'a'</span> &amp;&amp; c &lt;= <span class="string">'f'</span>) &#123;</span><br><span class="line">            value = c - <span class="string">'a'</span> + <span class="number">10</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            value = -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (value &gt;= <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (first) &#123;</span><br><span class="line"></span><br><span class="line">                byteArray[len] = (<span class="keyword">byte</span>) (value &lt;&lt; <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">                byteArray[len] |= value;</span><br><span class="line">                len++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            first = !first;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> byteArray;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</span>
       
     </div>
 
@@ -659,7 +546,7 @@ public <span class="keyword">static</span> <span class="built_in">String</span> 
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NFC简介"><span class="nav-number">2.</span> <span class="nav-text">NFC简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安卓手机支持的NFC标签类型"><span class="nav-number">3.</span> <span class="nav-text">安卓手机支持的NFC标签类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NFC标签和android设备的通信"><span class="nav-number">4.</span> <span class="nav-text">NFC标签和android设备的通信</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NFC权限"><span class="nav-number">5.</span> <span class="nav-text">NFC权限</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NFC的分发系统"><span class="nav-number">6.</span> <span class="nav-text">NFC的分发系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#a、标签分发系统"><span class="nav-number">6.1.</span> <span class="nav-text">a、标签分发系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前台分发系统（the_Foreground_Dispatch_System）"><span class="nav-number">6.2.</span> <span class="nav-text">前台分发系统（the Foreground Dispatch System）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注册前台分发系统"><span class="nav-number">6.2.1.</span> <span class="nav-text">注册前台分发系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#取消注册前台分发系统"><span class="nav-number">6.2.2.</span> <span class="nav-text">取消注册前台分发系统</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MifareClassic类型的NFC标签的数据结构"><span class="nav-number">7.</span> <span class="nav-text">MifareClassic类型的NFC标签的数据结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nfc信息的读取"><span class="nav-number">8.</span> <span class="nav-text">nfc信息的读取</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
