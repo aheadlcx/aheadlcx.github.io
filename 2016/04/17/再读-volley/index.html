@@ -1,0 +1,711 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="htpp框架," />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="之前读过 Volley 的源码，可是仅仅是从使用方面在看，一些实现的细节，有不少疑点。volley 在设计模式上，也是很好的学习素材，每次读，都有不少收获。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="再读 volley">
+<meta property="og:url" content="http://www.aheadlcx.xyz/2016/04/17/再读-volley/index.html">
+<meta property="og:site_name" content="believe yourself">
+<meta property="og:description" content="之前读过 Volley 的源码，可是仅仅是从使用方面在看，一些实现的细节，有不少疑点。volley 在设计模式上，也是很好的学习素材，每次读，都有不少收获。">
+<meta property="og:updated_time" content="2016-04-26T09:17:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="再读 volley">
+<meta name="twitter:description" content="之前读过 Volley 的源码，可是仅仅是从使用方面在看，一些实现的细节，有不少疑点。volley 在设计模式上，也是很好的学习素材，每次读，都有不少收获。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 再读 volley | believe yourself </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">believe yourself</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                再读 volley
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-04-17T12:21:44+08:00" content="2016-04-17">
+              2016-04-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/17/再读-volley/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/17/再读-volley/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>之前读过 Volley 的源码，可是仅仅是从使用方面在看，一些实现的细节，有不少疑点。volley 在<br>设计模式上，也是很好的学习素材，每次读，都有不少收获。<br><a id="more"></a></p>
+<h1 id="RequestQueue">RequestQueue</h1><p>cancelAll 方法有2个变种方法，入参分别是 RequestFilter filter 和 final Object tag 。<br>其中后者，最后都是调用的前者.这样的设计，其实很好，他把怎么过滤，放开交给 API 调用者，到底需要<br>cancel 什么，交给调用者去区分。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RequestFilter</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">apply</span><span class="params">(Request&lt;?&gt; request)</span></span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancelAll</span><span class="params">(RequestFilter filter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (mCurrentRequests) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Request&lt;?&gt; request : mCurrentRequests) &#123;</span><br><span class="line">                <span class="keyword">if</span> (filter.apply(request)) &#123;</span><br><span class="line">                    request.cancel();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancelAll</span><span class="params">(<span class="keyword">final</span> Object tag)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (tag == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Cannot cancelAll with a null tag"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        cancelAll(<span class="keyword">new</span> RequestFilter() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">apply</span><span class="params">(Request&lt;?&gt; request)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> request.getTag() == tag;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>例如，我们可以把所有的 GET reuqest 给 cancel 了。我们可以这样做。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancelAll</span><span class="params">()</span></span>&#123;</span><br><span class="line">        cancelAll(<span class="keyword">new</span> RequestFilter() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">apply</span><span class="params">(Request&lt;?&gt; request)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> request.getMethod() == Request.Method.GET;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>个人觉得可以进一步，筛选条件放开给外部，后面的操作甚至也可以放开给外部。改成下面这样就可以了，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RequestFilter</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">boolean</span> <span class="title">apply</span><span class="params">(Request&lt;?&gt; request)</span></span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">handlerRequest</span><span class="params">(Request&lt;?&gt; request)</span></span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancelAll</span><span class="params">(RequestFilter filter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (mCurrentRequests) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Request&lt;?&gt; request : mCurrentRequests) &#123;</span><br><span class="line">                <span class="keyword">if</span> (filter.apply(request)) &#123;</span><br><span class="line"><span class="comment">//                    request.cancel();</span></span><br><span class="line">                    filter.handlerRequest(request);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="疑惑">疑惑</h2><h3 id="mWaitingRequests_的作用机理">mWaitingRequests 的作用机理</h3><p>让所有相同的 getCacheKey 的 request (这里，应该理解为，调用者，认可的，意义相同的 request)<br>进入 mWaitingRequests (当 mWaitingRequests 不存在这个 getCacheKey Key 的时候，会同事进入到 mCacheQueue)，<br>先让第一个 request 先进入到 mCacheQueue ，找到 cache 或者 找不到，从 网络线程中取得，<br>再回调 request.finish 方法，接着回调，RequestQueue 的 finish 方法，再让其他意义相同的<br>request 进入到 mCacheQueue 中。这样，可以避免多个意义相同的 request 进入到 mCacheQueue<br>接着，找不到 cache，再进入到 mNetworkQueue ，浪费用户的内存。谷歌这用心良苦的设计，真 nice 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">finish</span><span class="params">(Request&lt;T&gt; request)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Remove from the set of requests currently being processed.</span></span><br><span class="line">        <span class="keyword">synchronized</span> (mCurrentRequests) &#123;</span><br><span class="line">            mCurrentRequests.remove(request);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">synchronized</span> (mFinishedListeners) &#123;</span><br><span class="line">          <span class="keyword">for</span> (RequestFinishedListener&lt;T&gt; listener : mFinishedListeners) &#123;</span><br><span class="line">            listener.onRequestFinished(request);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (request.shouldCache()) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (mWaitingRequests) &#123;</span><br><span class="line">                String cacheKey = request.getCacheKey();</span><br><span class="line">                Queue&lt;Request&lt;?&gt;&gt; waitingRequests = mWaitingRequests.remove(cacheKey);</span><br><span class="line">                <span class="keyword">if</span> (waitingRequests != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (VolleyLog.DEBUG) &#123;</span><br><span class="line">                        VolleyLog.v(<span class="string">"Releasing %d waiting requests for cacheKey=%s."</span>,</span><br><span class="line">                                waitingRequests.size(), cacheKey);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// Process all queued up requests. They won't be considered as in flight, but</span></span><br><span class="line">                    <span class="comment">// that's not a problem as the cache has been primed by 'request'.</span></span><br><span class="line">                    mCacheQueue.addAll(waitingRequests);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="在缓存和网络线程中，一个防止泄露的代码注释">在缓存和网络线程中，一个防止泄露的代码注释</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Request&lt;?&gt; request;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="keyword">long</span> startTimeMs = SystemClock.elapsedRealtime();</span><br><span class="line">            <span class="comment">// release previous request object to avoid leaking request object when mQueue is drained.</span></span><br><span class="line">            request = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// Take a request from the queue.</span></span><br><span class="line">                request = mQueue.take();</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<p>这里没看懂。</p>
+<h3 id="DiskBasedCache_相关">DiskBasedCache 相关</h3><ol>
+<li>CacheHeader.readHeader(InputStream is) 方法<br>构造 CacheHeader 有一堆 readXX 方法，全都看不懂 ~ ~  关键是方法有较详细注解，如下</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span><br><span class="line"> * Homebrewed simple serialization system used for reading and writing cache</span><br><span class="line"> * headers on disk. Once upon a time, this used the standard Java</span><br><span class="line"> * Object&#123;Input,Output&#125;Stream, but the default implementation relies heavily</span><br><span class="line"> * on reflection (even for standard types) and generates a ton of garbage.</span><br><span class="line"> */</span></span><br><span class="line"> <span class="comment">/**</span><br><span class="line"> * Simple wrapper around &#123;<span class="doctag">@link</span> InputStream#read()&#125; that throws EOFException</span><br><span class="line"> * instead of returning -1.</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(InputStream is)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> b = is.read();</span><br><span class="line">    <span class="keyword">if</span> (b == -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> EOFException();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>CacheHeader 和 Entry 的关系和区别</li>
+</ol>
+<h1 id="Cache">Cache</h1><p>cache 过期，有2个概念，isExpired 和 refreshNeeded<br>控制条件分别如下。<strong>undo</strong> 暂时未明白具体啥意思。如果是 isExpired 那么整个  cache 就不再采用了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** TTL for this record. */</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">long</span> ttl;</span><br><span class="line"><span class="comment">/** True if the entry is expired. */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isExpired</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.ttl &lt; System.currentTimeMillis();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Soft TTL for this record. */</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">long</span> softTtl;</span><br><span class="line"><span class="comment">/** True if a refresh is needed from the original data source. */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">refreshNeeded</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.softTtl &lt; System.currentTimeMillis();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="ImageRequest">ImageRequest</h1><p>返回 response 转换 bitmap 时，需要找到合适的 decodeOptions.inSampleSize 值。<br>getResizedDimension 方法，有点难以理解，记录如下。<br>关键代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> ratio = (<span class="keyword">double</span>) actualSecondary / (<span class="keyword">double</span>) actualPrimary;</span><br><span class="line"><span class="keyword">int</span> resized = maxPrimary;</span><br><span class="line"></span><br><span class="line"><span class="comment">// If ScaleType.CENTER_CROP fill the whole rectangle, preserve aspect ratio.</span></span><br><span class="line"><span class="keyword">if</span> (scaleType == ScaleType.CENTER_CROP) &#123;</span><br><span class="line">    <span class="keyword">if</span> ((resized * ratio) &lt; maxSecondary) &#123;</span><br><span class="line">        <span class="comment">//等同于下面句式，</span></span><br><span class="line"><span class="comment">//                (  maxPrimary / actualPrimary )  &lt; maxSecondary / actualSecondary;</span></span><br><span class="line"><span class="comment">//                (actualSecondary / actualPrimary ) * maxPrimary &lt; maxSecondary;</span></span><br><span class="line"><span class="comment">//                (actualSecondary / actualPrimary )  &lt; maxSecondary / maxPrimary</span></span><br><span class="line"><span class="comment">//                (actualSecondary /  maxSecondary)  &lt;  actualPrimary / maxPrimary</span></span><br><span class="line">        resized = (<span class="keyword">int</span>) (maxSecondary / ratio);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> resized;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ((resized * ratio) &gt; maxSecondary) &#123;</span><br><span class="line">  <span class="comment">//  if 判断逻辑，可以转换为，下面不等式。意思就是， Secondary 对比 Primary ，实际值比 最大值，更加偏大。</span></span><br><span class="line">  <span class="comment">//                (actualSecondary /  maxSecondary)  &gt;  actualPrimary / maxPrimary</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Secondary 实际值比最大值，更加偏大，那么为了不让 Primary 和 Secondary 都不能超过 最大值。</span></span><br><span class="line">    <span class="comment">//  </span></span><br><span class="line">    <span class="comment">// actualSecondary / actualPrimary = maxSecondary / resized ;</span></span><br><span class="line">    resized = (<span class="keyword">int</span>) (maxSecondary / ratio);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>拿到 desiredWidth 和  desiredHeight 之后，再计算 decodeOptions.inSampleSize 的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Visible for testing.</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">findBestSampleSize</span><span class="params">(</span><br><span class="line">            <span class="keyword">int</span> actualWidth, <span class="keyword">int</span> actualHeight, <span class="keyword">int</span> desiredWidth, <span class="keyword">int</span> desiredHeight)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">double</span> wr = (<span class="keyword">double</span>) actualWidth / desiredWidth;</span><br><span class="line">        <span class="keyword">double</span> hr = (<span class="keyword">double</span>) actualHeight / desiredHeight;</span><br><span class="line">        <span class="keyword">double</span> ratio = Math.min(wr, hr);</span><br><span class="line">        <span class="keyword">float</span> n = <span class="number">1.0f</span>;</span><br><span class="line">        <span class="keyword">while</span> ((n * <span class="number">2</span>) &lt;= ratio) &#123;</span><br><span class="line">            n *= <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">int</span>) n;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="request_缓存和_image_缓存">request 缓存和 image 缓存</h1><p>每个 request 的 response 缓存到 dish 的时候，key 用的是 request 的 getCacheKey ，<br>默认是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * Returns the cache key for this request.  By default, this is the URL.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCacheKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mMethod + <span class="string">":"</span> + mUrl;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>而， ImageLoader 中的 ImageCache ，key 用的是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Creates a cache key for use with the L1 cache.</span><br><span class="line"> * <span class="doctag">@param</span> url The URL of the request.</span><br><span class="line"> * <span class="doctag">@param</span> maxWidth The max-width of the output.</span><br><span class="line"> * <span class="doctag">@param</span> maxHeight The max-height of the output.</span><br><span class="line"> * <span class="doctag">@param</span> scaleType The scaleType of the imageView.</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getCacheKey</span><span class="params">(String url, <span class="keyword">int</span> maxWidth, <span class="keyword">int</span> maxHeight, ScaleType scaleType)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> StringBuilder(url.length() + <span class="number">12</span>).append(<span class="string">"#W"</span>).append(maxWidth)</span><br><span class="line">            .append(<span class="string">"#H"</span>).append(maxHeight).append(<span class="string">"#S"</span>).append(scaleType.ordinal()).append(url)</span><br><span class="line">            .toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，如果 2个请求 的 imageUrl 是一样的情况下，而 maxWidth 和 maxHeight 不一样的话，后面那个<br>请求，就不会取内存缓存了，而是去 disk cache 中取，再返回给内存缓存。</p>
+<h1 id="Volley_缓存处理">Volley 缓存处理</h1><p>Cache 对应的是 DiskBasedCache 。<br>所有的请求，是先放到 CacheDispatcher 处理，因此我们先从开始。  </p>
+<h2 id="CacheDispatcher_源码中缓存相关">CacheDispatcher 源码中缓存相关</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Attempt to retrieve this item from cache.</span></span><br><span class="line">               Cache.Entry entry = mCache.get(request.getCacheKey());</span><br><span class="line">               <span class="keyword">if</span> (entry == <span class="keyword">null</span>) &#123;</span><br><span class="line">                   request.addMarker(<span class="string">"cache-miss"</span>);</span><br><span class="line">                   <span class="comment">// Cache miss; send off to the network dispatcher.</span></span><br><span class="line">                   mNetworkQueue.put(request);</span><br><span class="line">                   <span class="keyword">continue</span>;</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">               <span class="comment">// If it is completely expired, just send it to the network.</span></span><br><span class="line">               <span class="keyword">if</span> (entry.isExpired()) &#123;</span><br><span class="line">                   request.addMarker(<span class="string">"cache-hit-expired"</span>);</span><br><span class="line">                   request.setCacheEntry(entry);</span><br><span class="line">                   mNetworkQueue.put(request);</span><br><span class="line">                   <span class="keyword">continue</span>;</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">                .....</span><br><span class="line"></span><br><span class="line">               <span class="keyword">if</span> (!entry.refreshNeeded()) &#123;</span><br><span class="line">                    <span class="comment">// Completely unexpired cache hit. Just deliver the response.</span></span><br><span class="line">                    mDelivery.postResponse(request, response);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// Soft-expired cache hit. We can deliver the cached response,</span></span><br><span class="line">                    <span class="comment">// but we need to also send the request to the network for</span></span><br><span class="line">                    <span class="comment">// refreshing.</span></span><br><span class="line">                    request.addMarker(<span class="string">"cache-hit-refresh-needed"</span>);</span><br><span class="line">                    request.setCacheEntry(entry);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Mark the response as intermediate.</span></span><br><span class="line">                    response.intermediate = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Post the intermediate response back to the user and have</span></span><br><span class="line">                    <span class="comment">// the delivery then forward the request along to the network.</span></span><br><span class="line">                    <span class="keyword">final</span> Request&lt;?&gt; finalRequest = request;</span><br><span class="line">                    mDelivery.postResponse(request, response, <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                        <span class="annotation">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                            <span class="keyword">try</span> &#123;</span><br><span class="line">                                mNetworkQueue.put(finalRequest);</span><br><span class="line">                            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                                <span class="comment">// Not much we can do about this.</span></span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+<p>从上面代码，可以看到，先从 mCache 中取出缓存。</p>
+<ol>
+<li>如果没有，马上就把 request 放到 mNetworkQueue 。<br>2.1. 如果有，但是已经完全过期，处理同上。<br>2.2.1. 如果有，并且没有过期和不需要刷新，则返回。<br>2.2.2. 如果有，并且没有过期，但是需要刷新，则先返回缓存，并且把这个请求，放到 mNetworkQueue<br>中，这里意味着，会先后返回缓存和网络的 data 。</li>
+</ol>
+<p> <strong>undo</strong> 这里值得思考的一个点是，假设一个情景，如果一个新闻类 app ，他的新闻列表请求是可以缓存的，<br>如果一个下拉刷新操作，我们是先取得了 缓存，并且清空了之前 adapter 中的数据，取而代之的是 缓存中<br>的数据，再然后，我们在网络请求中，网络异常了，那么我们的界面到底该如何处理。<br>  首先，有一点，我们的 request listener 的 onResponse 方法中，是获取不到原始的 response<br>的，也就是说， listener 是获取不到属性 response.intermediate = true; 的。<br>先取到缓存，我们是需要先展示出来，如果网络请求也获取到了，就展示网络的 data 。这没问题。关键<br>在于，如果网络请求异常了，我们正常情况下，列表第一次请求异常时，是会展示一个 异常 UI 界面的，<br>但是如果之前 已经 get 到一个 缓存数据了，网络异常的时候还去展示 异常 UI 界面，那就有点奇怪了。<br>因此，这需要 每个页面，需要自己处理，检查到异常时，先看看页面当前是否有数据，没数据再展示<br>异常 UI 界面 ，有数据，就来个 toast 提示好了。那这就坑爹了，每个列表界面都需要做这个逻辑判断。</p>
+<p>从上面看到，我们需要关注下，mCache 的实现，他的缓存，到底是持久化缓存，还是内存缓存。<br>先提前说下，这是内存缓存 + 持久化缓存 结合的。</p>
+<h2 id="NetworkDispatcher_源码中缓存相关">NetworkDispatcher 源码中缓存相关</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Write to cache if applicable.</span></span><br><span class="line">                <span class="comment">// <span class="doctag">TODO:</span> Only update cache metadata instead of entire record for 304s.</span></span><br><span class="line">                <span class="keyword">if</span> (request.shouldCache() &amp;&amp; response.cacheEntry != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    mCache.put(request.getCacheKey(), response.cacheEntry);</span><br><span class="line">                    request.addMarker(<span class="string">"network-cache-written"</span>);</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+<p>从上面代码可以看到，基本上，缓存相关的，都是直接交给 mCache 来处理了。接下来，看看 mCache 源码。</p>
+<h2 id="DiskBasedCache_源码">DiskBasedCache 源码</h2><p>put（set） 和 get 方法，肯定是值得关注的，先从这入手。<br>先看 put 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(String key, Entry entry)</span> </span>&#123;</span><br><span class="line">        pruneIfNeeded(entry.data.length);</span><br><span class="line">        File file = getFileForKey(key);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            BufferedOutputStream fos = <span class="keyword">new</span> BufferedOutputStream(<span class="keyword">new</span> FileOutputStream(file));</span><br><span class="line">            CacheHeader e = <span class="keyword">new</span> CacheHeader(key, entry);</span><br><span class="line">            <span class="keyword">boolean</span> success = e.writeHeader(fos);</span><br><span class="line">            <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">                fos.close();</span><br><span class="line">                VolleyLog.d(<span class="string">"Failed to write header for %s"</span>, file.getAbsolutePath());</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IOException();</span><br><span class="line">            &#125;</span><br><span class="line">            fos.write(entry.data);</span><br><span class="line">            fos.close();</span><br><span class="line">            putEntry(key, e);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">boolean</span> deleted = file.delete();</span><br><span class="line">        <span class="keyword">if</span> (!deleted) &#123;</span><br><span class="line">            VolleyLog.d(<span class="string">"Could not clean up file %s"</span>, file.getAbsolutePath());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>pruneIfNeeded 方法是一个检查本地缓存控件大小的方法，超过了最大值，就删除一些。后面再<br>看这个方法。 getFileForKey 这个方法，会根据 key 生成一个 file 返回，这个 file 的文件名<br>很值得研究，2年前，一直没看懂，最近看到 <a href="&quot;http://kymjs.com/code/2016/03/08/01&quot;">张涛</a><br>博客得知，是为了减少文件名重名的，字符串的 hasCode 不是唯一的。  </p>
+<p>再看 get 方法,很明显，get 方法，先从 mEntries 中取出来。mEntries 是这个类实例的成员变量，<br>每次启动，都会清空，也就是说，即使我们本地已经存有一个缓存了，但是一个全新的 app 启动，还是不会<br>去取缓存数据的。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> Entry <span class="title">get</span><span class="params">(String key)</span> </span>&#123;</span><br><span class="line">        CacheHeader entry = mEntries.get(key);</span><br><span class="line">        <span class="comment">// if the entry does not exist, return.</span></span><br><span class="line">        <span class="keyword">if</span> (entry == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        File file = getFileForKey(key);</span><br><span class="line">        CountingInputStream cis = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            cis = <span class="keyword">new</span> CountingInputStream(<span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(file)));</span><br><span class="line">            CacheHeader.readHeader(cis); <span class="comment">// eat header</span></span><br><span class="line">            <span class="keyword">byte</span>[] data = streamToBytes(cis, (<span class="keyword">int</span>) (file.length() - cis.bytesRead));</span><br><span class="line">            <span class="keyword">return</span> entry.toCacheEntry(data);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            VolleyLog.d(<span class="string">"%s: %s"</span>, file.getAbsolutePath(), e.toString());</span><br><span class="line">            remove(key);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;  <span class="keyword">catch</span> (NegativeArraySizeException e) &#123;</span><br><span class="line">            VolleyLog.d(<span class="string">"%s: %s"</span>, file.getAbsolutePath(), e.toString());</span><br><span class="line">            remove(key);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (cis != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    cis.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException ioe) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p> 回过头来，我们看看 pruneIfNeeded 方法， 当空间不够的时候，会迭代 mEntries ，删除首先<br> 记录的，不够再删除下一个，直至足够空间为止。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">pruneIfNeeded</span><span class="params">(<span class="keyword">int</span> neededSpace)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ((mTotalSize + neededSpace) &lt; mMaxCacheSizeInBytes) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (VolleyLog.DEBUG) &#123;</span><br><span class="line">            VolleyLog.v(<span class="string">"Pruning old cache entries."</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> before = mTotalSize;</span><br><span class="line">        <span class="keyword">int</span> prunedFiles = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">long</span> startTime = SystemClock.elapsedRealtime();</span><br><span class="line"></span><br><span class="line">        Iterator&lt;Map.Entry&lt;String, CacheHeader&gt;&gt; iterator = mEntries.entrySet().iterator();</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            Map.Entry&lt;String, CacheHeader&gt; entry = iterator.next();</span><br><span class="line">            CacheHeader e = entry.getValue();</span><br><span class="line">            <span class="keyword">boolean</span> deleted = getFileForKey(e.key).delete();</span><br><span class="line">            <span class="keyword">if</span> (deleted) &#123;</span><br><span class="line">                mTotalSize -= e.size;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               VolleyLog.d(<span class="string">"Could not delete cache entry for key=%s, filename=%s"</span>,</span><br><span class="line">                       e.key, getFilenameForKey(e.key));</span><br><span class="line">            &#125;</span><br><span class="line">            iterator.remove();</span><br><span class="line">            prunedFiles++;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ((mTotalSize + neededSpace) &lt; mMaxCacheSizeInBytes * HYSTERESIS_FACTOR) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (VolleyLog.DEBUG) &#123;</span><br><span class="line">            VolleyLog.v(<span class="string">"pruned %d files, %d bytes, %d ms"</span>,</span><br><span class="line">                    prunedFiles, (mTotalSize - before), SystemClock.elapsedRealtime() - startTime);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/htpp框架/" rel="tag">#htpp框架</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/15/inflate-流程/" rel="next" title="inflate 流程">
+                <i class="fa fa-chevron-left"></i> inflate 流程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/04/17/再读-volley/"
+           data-title="再读 volley" data-url="http://www.aheadlcx.xyz/2016/04/17/再读-volley/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/32269?v=3&s=460" alt="aheadlcx" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">aheadlcx</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RequestQueue"><span class="nav-number">1.</span> <span class="nav-text">RequestQueue</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#疑惑"><span class="nav-number">1.1.</span> <span class="nav-text">疑惑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mWaitingRequests_的作用机理"><span class="nav-number">1.1.1.</span> <span class="nav-text">mWaitingRequests 的作用机理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在缓存和网络线程中，一个防止泄露的代码注释"><span class="nav-number">1.1.2.</span> <span class="nav-text">在缓存和网络线程中，一个防止泄露的代码注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DiskBasedCache_相关"><span class="nav-number">1.1.3.</span> <span class="nav-text">DiskBasedCache 相关</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cache"><span class="nav-number">2.</span> <span class="nav-text">Cache</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ImageRequest"><span class="nav-number">3.</span> <span class="nav-text">ImageRequest</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#request_缓存和_image_缓存"><span class="nav-number">4.</span> <span class="nav-text">request 缓存和 image 缓存</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Volley_缓存处理"><span class="nav-number">5.</span> <span class="nav-text">Volley 缓存处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CacheDispatcher_源码中缓存相关"><span class="nav-number">5.1.</span> <span class="nav-text">CacheDispatcher 源码中缓存相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NetworkDispatcher_源码中缓存相关"><span class="nav-number">5.2.</span> <span class="nav-text">NetworkDispatcher 源码中缓存相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DiskBasedCache_源码"><span class="nav-number">5.3.</span> <span class="nav-text">DiskBasedCache 源码</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aheadlcx</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"aheadlcx"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
