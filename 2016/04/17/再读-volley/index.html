@@ -57,7 +57,7 @@
 <meta property="og:url" content="http://www.aheadlcx.xyz/2016/04/17/再读-volley/index.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="之前读过 Volley 的源码，可是仅仅是从使用方面在看，一些实现的细节，有不少疑点。volley 在设计模式上，也是很好的学习素材，每次读，都有不少收获。">
-<meta property="og:updated_time" content="2016-04-26T09:17:50.000Z">
+<meta property="og:updated_time" content="2016-04-30T09:18:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="再读 volley">
 <meta name="twitter:description" content="之前读过 Volley 的源码，可是仅仅是从使用方面在看，一些实现的细节，有不少疑点。volley 在设计模式上，也是很好的学习素材，每次读，都有不少收获。">
@@ -265,7 +265,8 @@
 <h2 id="疑惑">疑惑</h2><h3 id="mWaitingRequests_的作用机理">mWaitingRequests 的作用机理</h3><p>让所有相同的 getCacheKey 的 request (这里，应该理解为，调用者，认可的，意义相同的 request)<br>进入 mWaitingRequests (当 mWaitingRequests 不存在这个 getCacheKey Key 的时候，会同事进入到 mCacheQueue)，<br>先让第一个 request 先进入到 mCacheQueue ，找到 cache 或者 找不到，从 网络线程中取得，<br>再回调 request.finish 方法，接着回调，RequestQueue 的 finish 方法，再让其他意义相同的<br>request 进入到 mCacheQueue 中。这样，可以避免多个意义相同的 request 进入到 mCacheQueue<br>接着，找不到 cache，再进入到 mNetworkQueue ，浪费用户的内存。谷歌这用心良苦的设计，真 nice 。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">finish</span><span class="params">(Request&lt;T&gt; request)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Remove from the set of requests currently being processed.</span></span><br><span class="line">        <span class="keyword">synchronized</span> (mCurrentRequests) &#123;</span><br><span class="line">            mCurrentRequests.remove(request);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">synchronized</span> (mFinishedListeners) &#123;</span><br><span class="line">          <span class="keyword">for</span> (RequestFinishedListener&lt;T&gt; listener : mFinishedListeners) &#123;</span><br><span class="line">            listener.onRequestFinished(request);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (request.shouldCache()) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (mWaitingRequests) &#123;</span><br><span class="line">                String cacheKey = request.getCacheKey();</span><br><span class="line">                Queue&lt;Request&lt;?&gt;&gt; waitingRequests = mWaitingRequests.remove(cacheKey);</span><br><span class="line">                <span class="keyword">if</span> (waitingRequests != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (VolleyLog.DEBUG) &#123;</span><br><span class="line">                        VolleyLog.v(<span class="string">"Releasing %d waiting requests for cacheKey=%s."</span>,</span><br><span class="line">                                waitingRequests.size(), cacheKey);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// Process all queued up requests. They won't be considered as in flight, but</span></span><br><span class="line">                    <span class="comment">// that's not a problem as the cache has been primed by 'request'.</span></span><br><span class="line">                    mCacheQueue.addAll(waitingRequests);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <h3 id="在缓存和网络线程中，一个防止泄露的代码注释">在缓存和网络线程中，一个防止泄露的代码注释</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Request&lt;?&gt; request;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="keyword">long</span> startTimeMs = SystemClock.elapsedRealtime();</span><br><span class="line">            <span class="comment">// release previous request object to avoid leaking request object when mQueue is drained.</span></span><br><span class="line">            request = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// Take a request from the queue.</span></span><br><span class="line">                request = mQueue.take();</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
-<p>这里没看懂。</p>
+<p>这里因为是一个 死循环，request 有可能是上一个 request ，如果现在 队列里面是空的，那么就<br>会阻塞了，导致上一个 request 回收不了。这也不是最好的方式，最新代码中已经更改为，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</span><br><span class="line">  Request&lt;?&gt; request = mQueue.take();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="DiskBasedCache_相关">DiskBasedCache 相关</h3><ol>
 <li>CacheHeader.readHeader(InputStream is) 方法<br>构造 CacheHeader 有一堆 readXX 方法，全都看不懂 ~ ~  关键是方法有较详细注解，如下</li>
 </ol>
@@ -326,6 +327,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/29/设计模式/" rel="prev" title="设计模式">
+                设计模式 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -397,7 +402,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
