@@ -37,7 +37,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="," />
 
 
 
@@ -51,15 +51,16 @@
 
 
 
-<meta name="description">
+<meta name="description" content="学习设计模式以及 Android 中常用的设计模式。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="believe yourself">
-<meta property="og:url" content="http://www.aheadlcx.xyz/archives/2016/04/index.html">
+<meta property="og:title" content="设计模式">
+<meta property="og:url" content="http://www.aheadlcx.xyz/设计模式.html">
 <meta property="og:site_name" content="believe yourself">
-<meta property="og:description">
+<meta property="og:description" content="学习设计模式以及 Android 中常用的设计模式。">
+<meta property="og:updated_time" content="2016-05-14T02:17:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="believe yourself">
-<meta name="twitter:description">
+<meta name="twitter:title" content="设计模式">
+<meta name="twitter:description" content="学习设计模式以及 Android 中常用的设计模式。">
 
 
 
@@ -71,7 +72,13 @@
   };
 </script>
 
-  <title> 归档 | believe yourself </title>
+  <title>
+  
+
+  
+    设计模式 | believe yourself
+  
+</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -92,7 +99,7 @@
 
 
 
-  <div class="container one-column  page-archive ">
+  <div class="container one-column ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -190,103 +197,20 @@
         <div id="content" class="content">
           
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 16 篇日志。 继续努力。
-    </span>
+  <div id="posts" class="posts-expand">
+    
+    
+      <p>学习设计模式以及 Android 中常用的设计模式。<br><a id="more"></a></p>
+<h1 id="设计模式基本原则">设计模式基本原则</h1><p>ss</p>
+<h1 id="设计模式">设计模式</h1><p>ss</p>
+<h1 id="Android_源码中常见设计模式">Android 源码中常见设计模式</h1><p>ss</p>
+<h2 id="观察者模式">观察者模式</h2><p>BaseAdapter 就用到了。 平时我们调用一下 adapter 的 notifyDataSetChanged 方法，就可以<br>刷新所有的列表 item 了。RecycleView 的 adapter 一样用到了观察者模式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseAdapter</span> <span class="keyword">implements</span> <span class="title">ListAdapter</span>, <span class="title">SpinnerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> DataSetObservable mDataSetObservable = <span class="keyword">new</span> DataSetObservable();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerDataSetObserver</span><span class="params">(DataSetObserver observer)</span> </span>&#123;</span><br><span class="line">        mDataSetObservable.registerObserver(observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregisterDataSetObserver</span><span class="params">(DataSetObserver observer)</span> </span>&#123;</span><br><span class="line">        mDataSetObservable.unregisterObserver(observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyDataSetChanged</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mDataSetObservable.notifyChanged();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyDataSetInvalidated</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mDataSetObservable.notifyInvalidated();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="建造者模式(_Builder_模式_)">建造者模式( Builder 模式 )</h2><p>AlertDialog.Build 就是用的这个模式。目前在我看来，这种做法，主要就是有一个内部 build 类，<br>然后各种 set 方法返回值就是自身，后面再加一个 create 方法，这样。好处主要是，代码写起来<br>很漂亮，一个对象可以不断 set ，而不是不断调用对象，再调用方法。</p>
+<h2 id="模板方法模式">模板方法模式</h2><p>一个抽象类，部分公共逻辑已经有具体的方法实现，然后每个子类，需要定制化的内容，声明一个抽象的<br>方法，提示子类需要实现。 Android 中， AsyncTask 就是这样的了。我们都知道异步线程是在方法<br>doInBackground 中执行的，执行的 结果是在 UI 线程，方法 onPostExecute 中执行的，<br>这个就是交给子类是定制化的内容，切换线程的部分，AsyncTask 已经实现了这部分逻辑。<br>异步线程，是通过 WorkerRunnable 和 FutureTask 来配合实现的，doInBackground 方法具体<br>是在 WorkerRunnable 中回调，并且通过 Handler 来切换线程，再把结果在 UI 线程中回调。</p>
 
     
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2016">2016</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/04/17/再读-volley/" itemprop="url">
-              
-                <span itemprop="name">再读 volley</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-04-17T12:21:44+08:00"
-              content="2016-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/04/15/inflate-流程/" itemprop="url">
-              
-                <span itemprop="name">inflate 流程</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-04-15T10:24:52+08:00"
-              content="2016-04-15" >
-          04-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
-
-  
-
+  </div>
 
 
         </div>
@@ -295,6 +219,14 @@
 
 
         
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="设计模式.html"
+           data-title="设计模式" data-url="http://www.aheadlcx.xyz/设计模式.html">
+      </div>
+    
+  </div>
+
 
       </div>
 
@@ -405,12 +337,6 @@
 
   
   
-  
-    <script type="text/javascript">
-      postMotionOptions = {stagger: 100, drag: true};
-    </script>
-  
-
 
   
     
@@ -454,12 +380,6 @@
   <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
-
 
   <script type="text/javascript" src="/js/bootstrap.js"></script>
 
