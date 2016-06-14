@@ -51,15 +51,22 @@
 
 
 
-<meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="believe yourself">
-<meta property="og:url" content="http://www.aheadlcx.xyz/index.html">
+<meta name="description" content="源码版本号design : 23.3.0
+触摸事件分发并没有重载 dispatchTouchEvent 方法，仅仅重载了 onInterceptTouchEvent 和onTouchEvent 方法。
+onInterceptTouchEvent 方法1234567891011121314151617181920212223@Override    public boolean onIntercep">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoordinatorLayout 源码学习">
+<meta property="og:url" content="http://www.aheadlcx.xyz/2016/06/12/CoordinatorLayout-源码学习/index.html">
 <meta property="og:site_name" content="believe yourself">
-<meta property="og:description">
+<meta property="og:description" content="源码版本号design : 23.3.0
+触摸事件分发并没有重载 dispatchTouchEvent 方法，仅仅重载了 onInterceptTouchEvent 和onTouchEvent 方法。
+onInterceptTouchEvent 方法1234567891011121314151617181920212223@Override    public boolean onIntercep">
+<meta property="og:updated_time" content="2016-06-13T07:57:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="believe yourself">
-<meta name="twitter:description">
+<meta name="twitter:title" content="CoordinatorLayout 源码学习">
+<meta name="twitter:description" content="源码版本号design : 23.3.0
+触摸事件分发并没有重载 dispatchTouchEvent 方法，仅仅重载了 onInterceptTouchEvent 和onTouchEvent 方法。
+onInterceptTouchEvent 方法1234567891011121314151617181920212223@Override    public boolean onIntercep">
 
 
 
@@ -71,7 +78,7 @@
   };
 </script>
 
-  <title> believe yourself </title>
+  <title> CoordinatorLayout 源码学习 | believe yourself </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -92,9 +99,7 @@
 
 
 
-  <div class="container one-column 
-   page-home 
-">
+  <div class="container one-column page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -191,15 +196,9 @@
       <div class="main-inner">
         <div id="content" class="content">
           
-  <section id="posts" class="posts-expand">
 
+  <div id="posts" class="posts-expand">
     
-
-    
-    
-
-    
-      
 
   
   
@@ -219,121 +218,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/06/13/NestedScrolling-流程理解/" itemprop="url">
-                  NestedScrolling 流程理解
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-06-13T15:57:52+08:00" content="2016-06-13">
-              2016-06-13
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/13/NestedScrolling-流程理解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/13/NestedScrolling-流程理解/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>参考文章</p>
-<blockquote>
-<p><a href="https://segmentfault.com/a/1190000002873657" target="_blank" rel="external">Android 嵌套滑动机制（NestedScrolling）</a></p>
-<h1 id="前言">前言</h1><p>传统的 Android 的 Touch 事件分发机制，主要涉及到下面3个方法  </p>
-<ol>
-<li>dispatchTouchEvent</li>
-<li>onInterceptTouchEvent</li>
-<li>onTouchEvent</li>
-</ol>
-</blockquote>
-<p>其中后面2个方法，是在第一个方法 dispatchTouchEvent 中调用的。在这个涉及里面下，如果父 View<br>把 touch 事件传递给子 View ，并且子 View 消费了这个事件，那么父 View 就再也不能获得这个<br>touch 事件了。（其实这不是绝对的，只是传统的 Android Touch 事件传递设计初衷就这样，<br>子 View 的 Touch 事件也是经过父 View 的 dispatchTouchEvent 方法的嘛），这种设计，只是<br>不能让父 View 和子 View ，经过交流，来回的传递 Touch 事件。  </p>
-<p>在 design 中出现了新的设计实现，还可以兼容旧版本，就是 NestedScrolling 了，<br>就是嵌套滚动的意思 。这套设计的实现，主要涉及到下面几个接口（类）  </p>
-<ol>
-<li>NestedScrollingChild</li>
-<li>NestedScrollingChildHelper</li>
-<li>NestedScrollingParent</li>
-<li>NestedScrollingParentHelper</li>
-</ol>
-<h1 id="类简介">类简介</h1><h2 id="NestedScrollingChild">NestedScrollingChild</h2><p><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScrollingChild.png" alt=""><br>如果想要配合 ViewGroup 实现嵌套滚动， View 或者 View 的子类就得实现接口<br>NestedScrollingChild .并且需要创建一个 final 的 NestedScrollingChildHelper 作为<br>成员变量，并且将相同点方法签名，都交给 NestedScrollingChildHelper 来代理。</p>
-<h2 id="NestedScrollingChildHelper">NestedScrollingChildHelper</h2><p><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScrollingChildHelper.png" alt=""><br>这是一个帮助工具类，来实现嵌套滚动的，兼容5.0以前的版本。<br>View 的子类应该创建一个 NestedScrollingChildHelper final 实例，并且把 View 和<br>NestedScrollingChildHelper ，方法签名相同的方法，都委托给  NestedScrollingChildHelper<br>来处理。</p>
-<h2 id="NestedScrollingParent">NestedScrollingParent</h2><p><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScrollingParent.png" alt=""><br>ViewGroup 的子类应该实现的接口，并且需要创建一个 final 的成员变量<br>NestedScrollingParentHelper ，和 NestedScrollingChild 类似。</p>
-<h2 id="NestedScrollingParentHelper">NestedScrollingParentHelper</h2><p><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScrollingParentHelper.png" alt=""><br>作用和 NestedScrollingChildHelper 类似。</p>
-<h1 id="嵌套滚动原理">嵌套滚动原理</h1><p>我们知道新版本的 RecycleView 是支持嵌套滚动的，所以我们直接抓源码看就好了。<br>我们用 RecycleView 作为 NestedScrollingChild ， CoordinatorLayout 作为<br>NestedScrollingParent 来分析。  </p>
-<p><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScroll_Processon.png" alt=""></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/12/CoordinatorLayout-源码学习/" itemprop="url">
-                  CoordinatorLayout 源码学习
-                </a>
+                CoordinatorLayout 源码学习
               
             
           </h1>
@@ -373,10 +258,7 @@
       
 
       
-        
-          <span itemprop="articleBody">
-            
-              <p>源码版本号<br>design : 23.3.0</p>
+        <span itemprop="articleBody"><p>源码版本号<br>design : 23.3.0</p>
 <h2 id="触摸事件分发">触摸事件分发</h2><p>并没有重载 dispatchTouchEvent 方法，仅仅重载了 onInterceptTouchEvent 和<br>onTouchEvent 方法。</p>
 <h3 id="onInterceptTouchEvent_方法">onInterceptTouchEvent 方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">        MotionEvent cancelEvent = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> action = MotionEventCompat.getActionMasked(ev);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Make sure we reset in case we had missed a previous important event.</span></span><br><span class="line">        <span class="keyword">if</span> (action == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">            resetTouchBehaviors();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> intercepted = performIntercept(ev, TYPE_ON_INTERCEPT);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (cancelEvent != <span class="keyword">null</span>) &#123;</span><br><span class="line">            cancelEvent.recycle();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) &#123;</span><br><span class="line">            resetTouchBehaviors();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> intercepted;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到，这个方法体内，如果检测到时 DOWN 或者 UP 或者 CANCEL 事件，都会调用方法<br>resetTouchBehaviors ，尝试让恢复到初始状态。 onInterceptTouchEvent 方法返回值取方法<br>performIntercept 的返回值。<br>接下来，跟踪下方法 resetTouchBehaviors 和 performIntercept 。</p>
@@ -443,10 +325,7 @@
 <p>简单理解的话，就是 如果 Behavior 不为空，并且消费了这个 layout 过程的话，就不处理了。否则就<br>交给自己处理。</p>
 <h3 id="onDraw_on_CoordinatorLayout_方法">onDraw on CoordinatorLayout 方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas c)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDraw(c);</span><br><span class="line">        <span class="keyword">if</span> (mDrawStatusBarBackground &amp;&amp; mStatusBarBackground != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> inset = mLastInsets != <span class="keyword">null</span> ? mLastInsets.getSystemWindowInsetTop() : <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (inset &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                mStatusBarBackground.setBounds(<span class="number">0</span>, <span class="number">0</span>, getWidth(), inset);</span><br><span class="line">                mStatusBarBackground.draw(c);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>特别绘制了，状态栏的背景。</p>
-
-            
-          </span>
-        
+</span>
       
     </div>
 
@@ -454,336 +333,36 @@
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/05/14/常用设计模式/" rel="next" title="常用设计模式">
+                <i class="fa fa-chevron-left"></i> 常用设计模式
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2016/05/14/常用设计模式/" itemprop="url">
-                  常用设计模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-05-14T11:37:28+08:00" content="2016-05-14">
-              2016-05-14
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/14/常用设计模式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/14/常用设计模式/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="设计原则">设计原则</h1><ol>
-<li>依赖倒转<br>依赖抽象，不依赖具体。<br>在工厂方法中，就体现了这一点， creator 中的公共主体逻辑可以先写好，写个抽象方法来延迟实现，<br>让子类是具体实现。在 Volley 中的 http client 就体现了这一点。它会根据 SDK level 来<br>采取不同的实现。<h1 id="常见设计模式">常见设计模式</h1></li>
-<li>工厂模式<br>分为，简单工厂、抽象工厂和工厂方法，一共3种。</li>
-<li>外观模式</li>
-<li>适配者模式</li>
-<li>工厂方法模式</li>
-<li>抽象工厂方法</li>
-<li>原型模式</li>
-<li>中介模式</li>
-<li>代理模式</li>
-<li>观察者模式</li>
-<li>命令模式</li>
-</ol>
-<h2 id="设计模式的具体实现和理解">设计模式的具体实现和理解</h2><h3 id="简单工厂">简单工厂</h3><p><strong>使用情景</strong>：<br>不想让调用者，知道具体实现，直接返回一个接口，让操作者去调用。对外仅仅暴漏接口和<br>简单工厂，具体的实现隐藏起来。<br><strong>结构说明</strong>：<br>接口和具体实现类，以及工厂，处于一层，调用者处于另外一层。<br>如果需要调用不同的实现，可以选择  </p>
-<ol>
-<li>带入参</li>
-<li>或者自己读取配置文件。<br>带入参，就意味着，调用者需要知道内部具体实现的<br>部分细节了，这加大了，调用者的学习成本，值得注意的一点。<br><strong>优缺点</strong>：<br>改模式的优点是：调用者不关心具体的实现。把调用者和具体实现类解耦。<br>缺点：如果需要带入参，那么调用者就需要知道部分具体实现细节。</li>
-</ol>
-<h3 id="外观模式">外观模式</h3><p><strong>使用情景</strong>：调用者需要分别调用不同子模块的方法，来实现一个需求。外观模式，就是用了一个<br>对各子模块的包装( Facade )了，调用者只需要调用 Facade 就可以实现分别调用各子模块了。<br><strong>结构说明</strong>：<br>  Facade 包装一下各子模块的功能，对外提供一个包装后的功能方法，对外提供。<br><strong>优缺点</strong>：<br>优点是：调用者不关心那么多子模块的实现了，直接调用包装后的 Facade 。<br>缺点： 如果一些简单的功能，不知道是直接调用具体的模块好，还是用 Facade 好。<br><strong>和相关模式的区别</strong>：  </p>
-<ol>
-<li>简单工厂模式<br><strong>相同点是</strong> 都是不让调用者知道具体的实现细节，节省调用者的理解成本。<br><strong>不同点是</strong> 简单工厂返回的是接口，外观，是通过一个包装类来提供的。  </li>
-</ol>
-<h3 id="适配器模式">适配器模式</h3><p>简单来举例说，比如，第一版本一个类 A，有方法 A1 和 A2 ，现在第二版本，类 A 的升级类 B ，<br>有方法 B1 , B2 , B3 , B4 。但是呢，现在是处于第一版本向第二版本的过渡期，既要保持第二版本<br>的实现（虽然不大稳定），也要拥有之前版本的实现。一般来说，如果从业务角度，如果 A1  方法和 B1<br>方法，较接近，而且参数之类也可以兼容的话，就可以在类 B 的方法 B1 中，调用类 A  的方法 A1 。<br>至于类 A  什么时候传入到类 B 中，可以随意选择了，但是必须得在调用方法 B1 之前。</p>
-<h2 id="工厂方法模式">工厂方法模式</h2><p>和简单工厂比较像。他把公共逻辑写完，剩下的未知的（或者个性化）实现，写一个抽象方法，<br>留给子类去定制化实现。</p>
-<h2 id="抽象工厂方法">抽象工厂方法</h2><p>和工厂方法类似，并且会常常一起使用，主要特点，就是为一个特定的产品，实现定制化一个 Factory 。</p>
-<h2 id="原型模式">原型模式</h2><p>java 中的 clone 是浅度克隆，基本类型没问题，但是引用类型的话，clone 是直接把对象的值，<br>拷贝过去的。因此需要自己重新复制。</p>
-<h2 id="中介模式">中介模式</h2><p>和外观模式有点像，对象之间通信比较复杂，并且频繁的话，可以抽离出来，让 Mediator 来做<br>这些复杂的操作，中介模式的结构并不固定。</p>
-<h2 id="代理模式">代理模式</h2><p>在调用者和被访问的对象之间，引入一定程度上的中间者，试图不让调用者和被访问的对象直接联系。<br>这么做的原因可能各种各样。例如，目标对象，可能有很多公开方法，但是这些公开方法，大部分只是<br>希望给自己内部使用，仅有小部分是对开公开的。因此可以封装一层。</p>
-<h2 id="观察者模式">观察者模式</h2><p>一对多的关系，被观察者的改变，会引起众多观察者的关注。需要注意观察者的生命周期，需要及时注销。</p>
-<h2 id="命令模式">命令模式</h2><p>就是调用者，不关心具体的实现，</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/17/再读-volley/" itemprop="url">
-                  再读 volley
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-04-17T12:21:44+08:00" content="2016-04-17">
-              2016-04-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/17/再读-volley/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/17/再读-volley/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>之前读过 Volley 的源码，可是仅仅是从使用方面在看，一些实现的细节，有不少疑点。volley 在<br>设计模式上，也是很好的学习素材，每次读，都有不少收获。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/17/再读-volley/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
           </div>
-        
-      
-    </div>
 
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
+              <a href="/2016/06/13/NestedScrolling-流程理解/" rel="prev" title="NestedScrolling 流程理解">
+                NestedScrolling 流程理解 <i class="fa fa-chevron-right"></i>
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2016/04/15/inflate-流程/" itemprop="url">
-                  inflate 流程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-04-15T10:24:52+08:00" content="2016-04-15">
-              2016-04-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/15/inflate-流程/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/15/inflate-流程/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h1 id="前言">前言</h1><p>我们要加载 xml 上的 View 时，大抵都会用上下面几种方法。</p>
-<ol>
-<li>inflater.inflate(R.layout.frag_home_detail_scroll, null)</li>
-<li>inflater.inflate(R.layout.frag_home_detail_scroll, null, false)</li>
-<li>LayoutInflater.from(mContext).inflater()
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/15/inflate-流程/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
           </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
+        </div>
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
 
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
         </div>
@@ -792,6 +371,14 @@
 
 
         
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/12/CoordinatorLayout-源码学习/"
+           data-title="CoordinatorLayout 源码学习" data-url="http://www.aheadlcx.xyz/2016/06/12/CoordinatorLayout-源码学习/">
+      </div>
+    
+  </div>
+
 
       </div>
 
@@ -812,8 +399,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/32269?v=3&s=460" alt="aheadlcx" itemprop="image"/>
           <p class="site-author-name" itemprop="name">aheadlcx</p>
@@ -858,6 +454,23 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#触摸事件分发"><span class="nav-number">1.</span> <span class="nav-text">触摸事件分发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#onInterceptTouchEvent_方法"><span class="nav-number">1.1.</span> <span class="nav-text">onInterceptTouchEvent 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resetTouchBehaviors_方法"><span class="nav-number">1.2.</span> <span class="nav-text">resetTouchBehaviors 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#performIntercept_方法"><span class="nav-number">1.3.</span> <span class="nav-text">performIntercept 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#onTouchEvent_方法"><span class="nav-number">1.4.</span> <span class="nav-text">onTouchEvent 方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些方法作用简介"><span class="nav-number">2.</span> <span class="nav-text">一些方法作用简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Behavior_相关"><span class="nav-number">3.</span> <span class="nav-text">Behavior 相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Behavior_的设置方法"><span class="nav-number">3.1.</span> <span class="nav-text">Behavior 的设置方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注解方式"><span class="nav-number">3.1.1.</span> <span class="nav-text">注解方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在_XML_中直接指定"><span class="nav-number">3.1.2.</span> <span class="nav-text">在 XML 中直接指定</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CoordinatorLayout_绘制流程"><span class="nav-number">4.</span> <span class="nav-text">CoordinatorLayout 绘制流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#onMeasure_on_CoordinatorLayout_方法"><span class="nav-number">4.1.</span> <span class="nav-text">onMeasure on CoordinatorLayout 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#onLayout_on_CoordinatorLayout_方法"><span class="nav-number">4.2.</span> <span class="nav-text">onLayout on CoordinatorLayout 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#onDraw_on_CoordinatorLayout_方法"><span class="nav-number">4.3.</span> <span class="nav-text">onDraw on CoordinatorLayout 方法</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
       
 
     </div>
@@ -945,6 +558,167 @@
   <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
   
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
 
   <script type="text/javascript" src="/js/bootstrap.js"></script>
 

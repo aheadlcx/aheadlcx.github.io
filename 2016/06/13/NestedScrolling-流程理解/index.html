@@ -37,7 +37,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="android," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -51,16 +51,51 @@
 
 
 
-<meta name="description" content="本文主要讲述对View的非常用用法以及自定义View要点">
+<meta name="description" content="参考文章
+
+Android 嵌套滑动机制（NestedScrolling）
+前言传统的 Android 的 Touch 事件分发机制，主要涉及到下面3个方法  
+
+dispatchTouchEvent
+onInterceptTouchEvent
+onTouchEvent
+
+
+其中后面2个方法，是在第一个方法 dispatchTouchEvent 中调用的。在这个涉及里面下，如果父 View把 to">
 <meta property="og:type" content="article">
-<meta property="og:title" content="View绘制注意点以及重要生命周期方法">
-<meta property="og:url" content="http://www.aheadlcx.xyz/2015/12/21/View绘制注意点以及重要生命周期方法/index.html">
+<meta property="og:title" content="NestedScrolling 流程理解">
+<meta property="og:url" content="http://www.aheadlcx.xyz/2016/06/13/NestedScrolling-流程理解/index.html">
 <meta property="og:site_name" content="believe yourself">
-<meta property="og:description" content="本文主要讲述对View的非常用用法以及自定义View要点">
-<meta property="og:updated_time" content="2016-01-14T12:46:41.000Z">
+<meta property="og:description" content="参考文章
+
+Android 嵌套滑动机制（NestedScrolling）
+前言传统的 Android 的 Touch 事件分发机制，主要涉及到下面3个方法  
+
+dispatchTouchEvent
+onInterceptTouchEvent
+onTouchEvent
+
+
+其中后面2个方法，是在第一个方法 dispatchTouchEvent 中调用的。在这个涉及里面下，如果父 View把 to">
+<meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScrollingChild.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScrollingChildHelper.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScrollingParent.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScrollingParentHelper.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScroll_Processon.png">
+<meta property="og:updated_time" content="2016-06-14T08:28:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="View绘制注意点以及重要生命周期方法">
-<meta name="twitter:description" content="本文主要讲述对View的非常用用法以及自定义View要点">
+<meta name="twitter:title" content="NestedScrolling 流程理解">
+<meta name="twitter:description" content="参考文章
+
+Android 嵌套滑动机制（NestedScrolling）
+前言传统的 Android 的 Touch 事件分发机制，主要涉及到下面3个方法  
+
+dispatchTouchEvent
+onInterceptTouchEvent
+onTouchEvent
+
+
+其中后面2个方法，是在第一个方法 dispatchTouchEvent 中调用的。在这个涉及里面下，如果父 View把 to">
 
 
 
@@ -72,7 +107,7 @@
   };
 </script>
 
-  <title> View绘制注意点以及重要生命周期方法 | believe yourself </title>
+  <title> NestedScrolling 流程理解 | believe yourself </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -212,7 +247,7 @@
             
             
               
-                View绘制注意点以及重要生命周期方法
+                NestedScrolling 流程理解
               
             
           </h1>
@@ -221,8 +256,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-12-21T19:38:09+08:00" content="2015-12-21">
-              2015-12-21
+            <time itemprop="dateCreated" datetime="2016-06-13T15:57:52+08:00" content="2016-06-13">
+              2016-06-13
             </time>
           </span>
 
@@ -232,8 +267,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/21/View绘制注意点以及重要生命周期方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/21/View绘制注意点以及重要生命周期方法/" itemprop="commentsCount"></span>
+                <a href="/2016/06/13/NestedScrolling-流程理解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/13/NestedScrolling-流程理解/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -252,63 +287,48 @@
       
 
       
-        <span itemprop="articleBody"><p>本文主要讲述对View的非常用用法以及自定义View要点<br><a id="more"></a></p>
+        <span itemprop="articleBody"><p>参考文章</p>
 <blockquote>
-<p>本文参考了众多前辈的文章和书籍</p>
-<blockquote>
-<p><a href="http://blog.csdn.net/singwhatiwanna" target="_blank" rel="external">任玉刚的相关文章和书籍</a><br><a href="http://blog.csdn.net/guolin_blog" target="_blank" rel="external">郭霖博客</a></p>
-</blockquote>
-</blockquote>
-<h1 id="拿到view的测试宽高">拿到view的测试宽高</h1><ul>
-<li>activity的onWindowFocusChanged<br>onWindowFocusChanged方法，会被调用多次，每次失去焦点或者获得焦点，都会调用。（频繁onResune和Onpause，就会多次调用）  </li>
-<li><p>View.post(new Runnable(){//- [ ] 为什么投递到消息队列的尾部，就一定可以获取到宽高</p>
-<p>public void run(){<br>  view.GetMeasureWidth;<br>}<br>})</p>
-</li>
-<li>ViewTreeObserver<br>加布局监听回调，<strong><em>切记，在activity或者fragment销毁时，必须移除此监听</em></strong></li>
-<li>手动measure,只有是具体数值或者wrap-content才可以手动测量。wrap-content 情况下是用如下代码测量的<br>这是因为View的measureSpec是使用低30位来算的，最大值就是2#30 -1 ,也就是 （1 &lt;&lt; 30） -1.</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> widthMeasureSpec = measureSpec.makeMeasureSpec((<span class="number">1</span> &lt;&lt; <span class="number">30</span>) -<span class="number">1</span> , measureSpec.AT_MOST)</span><br><span class="line">view.measure(widthMeasureSpec, heightMeasureSpec);</span><br></pre></td></tr></table></figure>
-<h1 id="View绘制注意点">View绘制注意点</h1><ul>
-<li>子View（如果是继承view，没有复写onMeasure 方法）绘制的时候，宽高，都是父View的剩余空间，不管是Match-parent还是wrap-content<br>自定义View，如果继承与View，可以参考TextView的onMeasure 方法<br>这是因为，在AT_MOST和EXACTLY下，父View调用getChildMeasureSpec方法时，主要子View不是写死的dp，给子View返回的measureSpec中<br>的SpecSize都是父View的SpecSize - （父padding 和子view的margin）。view的onMeasure方法，在AT_MOST和EXACTLY下，都是直接SpecSize</li>
-</ul>
-<h1 id="View_的一些重要方法">View 的一些重要方法</h1><ol>
-<li>requestLayout， <strong>此方法原理，需要理解window和ViewRootImp等过程, 后面会列出</strong></li>
-</ol>
-<ul>
-<li>如果没有做其他的操作，requestLayout 方法仅仅会出发measure 和 layout 过程。</li>
-<li>如果改变了一个view的layoutparams，例如改变了width，就会出发draw过程。</li>
-</ul>
+<p><a href="https://segmentfault.com/a/1190000002873657" target="_blank" rel="external">Android 嵌套滑动机制（NestedScrolling）</a></p>
+<h1 id="前言">前言</h1><p>传统的 Android 的 Touch 事件分发机制，主要涉及到下面3个方法  </p>
 <ol>
-<li>invalidate<br>invalidate 方法 仅仅会出发draw过程。</li>
+<li>dispatchTouchEvent</li>
+<li>onInterceptTouchEvent</li>
+<li>onTouchEvent</li>
 </ol>
+</blockquote>
+<p>其中后面2个方法，是在第一个方法 dispatchTouchEvent 中调用的。在这个涉及里面下，如果父 View<br>把 touch 事件传递给子 View ，并且子 View 消费了这个事件，那么父 View 就再也不能获得这个<br>touch 事件了。（其实这不是绝对的，只是传统的 Android Touch 事件传递设计初衷就这样，<br>子 View 的 Touch 事件也是经过父 View 的 dispatchTouchEvent 方法的嘛），这种设计，只是<br>不能让父 View 和子 View ，经过交流，来回的传递 Touch 事件。  </p>
+<p>在 design 中出现了新的设计实现，还可以兼容旧版本，就是 NestedScrolling 了，<br>就是嵌套滚动的意思 。这套设计的实现，主要涉及到下面几个接口（类）  </p>
+<ol>
+<li>NestedScrollingChild</li>
+<li>NestedScrollingChildHelper</li>
+<li>NestedScrollingParent</li>
+<li>NestedScrollingParentHelper</li>
+</ol>
+<h1 id="类简介">类简介</h1><h2 id="NestedScrollingChild">NestedScrollingChild</h2><p><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScrollingChild.png" alt=""><br>如果想要配合 ViewGroup 实现嵌套滚动， View 或者 View 的子类就得实现接口<br>NestedScrollingChild .并且需要创建一个 final 的 NestedScrollingChildHelper 作为<br>成员变量，并且将相同点方法签名，都交给 NestedScrollingChildHelper 来代理。</p>
+<h2 id="NestedScrollingChildHelper">NestedScrollingChildHelper</h2><p><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScrollingChildHelper.png" alt=""><br>这是一个帮助工具类，来实现嵌套滚动的，兼容5.0以前的版本。<br>View 的子类应该创建一个 NestedScrollingChildHelper final 实例，并且把 View 和<br>NestedScrollingChildHelper ，方法签名相同的方法，都委托给  NestedScrollingChildHelper<br>来处理。</p>
+<h2 id="NestedScrollingParent">NestedScrollingParent</h2><p><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScrollingParent.png" alt=""><br>ViewGroup 的子类应该实现的接口，并且需要创建一个 final 的成员变量<br>NestedScrollingParentHelper ，和 NestedScrollingChild 类似。</p>
+<h2 id="NestedScrollingParentHelper">NestedScrollingParentHelper</h2><p><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScrollingParentHelper.png" alt=""><br>作用和 NestedScrollingChildHelper 类似。</p>
+<h1 id="嵌套滚动原理">嵌套滚动原理</h1><p>我们知道新版本的 RecycleView 是支持嵌套滚动的，所以我们直接抓源码看就好了。<br>我们用 RecycleView 作为 NestedScrollingChild ， CoordinatorLayout 作为<br>NestedScrollingParent 来分析。  </p>
+<p><img src="https://raw.githubusercontent.com/aheadlcx/myPhotos/master/NestedScroll/NestedScroll_Processon.png" alt=""></p>
 </span>
       
     </div>
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/android/" rel="tag">#android</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/02/02/安卓上面的NFC简单应用实例/" rel="next" title="安卓上面的NFC简单应用实例">
-                <i class="fa fa-chevron-left"></i> 安卓上面的NFC简单应用实例
+              <a href="/2016/06/12/CoordinatorLayout-源码学习/" rel="next" title="CoordinatorLayout 源码学习">
+                <i class="fa fa-chevron-left"></i> CoordinatorLayout 源码学习
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/12/21/从源码去理解事件分发/" rel="prev" title="从源码去理解事件分发">
-                从源码去理解事件分发 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -335,8 +355,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/12/21/View绘制注意点以及重要生命周期方法/"
-           data-title="View绘制注意点以及重要生命周期方法" data-url="http://www.aheadlcx.xyz/2015/12/21/View绘制注意点以及重要生命周期方法/">
+      <div class="ds-thread" data-thread-key="2016/06/13/NestedScrolling-流程理解/"
+           data-title="NestedScrolling 流程理解" data-url="http://www.aheadlcx.xyz/2016/06/13/NestedScrolling-流程理解/">
       </div>
     
   </div>
@@ -426,7 +446,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#拿到view的测试宽高"><span class="nav-number">1.</span> <span class="nav-text">拿到view的测试宽高</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View绘制注意点"><span class="nav-number">2.</span> <span class="nav-text">View绘制注意点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View_的一些重要方法"><span class="nav-number">3.</span> <span class="nav-text">View 的一些重要方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类简介"><span class="nav-number">2.</span> <span class="nav-text">类简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NestedScrollingChild"><span class="nav-number">2.1.</span> <span class="nav-text">NestedScrollingChild</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NestedScrollingChildHelper"><span class="nav-number">2.2.</span> <span class="nav-text">NestedScrollingChildHelper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NestedScrollingParent"><span class="nav-number">2.3.</span> <span class="nav-text">NestedScrollingParent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NestedScrollingParentHelper"><span class="nav-number">2.4.</span> <span class="nav-text">NestedScrollingParentHelper</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#嵌套滚动原理"><span class="nav-number">3.</span> <span class="nav-text">嵌套滚动原理</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
