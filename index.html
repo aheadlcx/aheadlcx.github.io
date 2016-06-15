@@ -268,13 +268,13 @@
               <p>参考文章</p>
 <blockquote>
 <p><a href="https://segmentfault.com/a/1190000002873657" target="_blank" rel="external">Android 嵌套滑动机制（NestedScrolling）</a></p>
+</blockquote>
 <h1 id="前言">前言</h1><p>传统的 Android 的 Touch 事件分发机制，主要涉及到下面3个方法  </p>
 <ol>
 <li>dispatchTouchEvent</li>
 <li>onInterceptTouchEvent</li>
 <li>onTouchEvent</li>
 </ol>
-</blockquote>
 <p>其中后面2个方法，是在第一个方法 dispatchTouchEvent 中调用的。在这个涉及里面下，如果父 View<br>把 touch 事件传递给子 View ，并且子 View 消费了这个事件，那么父 View 就再也不能获得这个<br>touch 事件了。（其实这不是绝对的，只是传统的 Android Touch 事件传递设计初衷就这样，<br>子 View 的 Touch 事件也是经过父 View 的 dispatchTouchEvent 方法的嘛），这种设计，只是<br>不能让父 View 和子 View ，经过交流，来回的传递 Touch 事件。  </p>
 <p>在 design 中出现了新的设计实现，还可以兼容旧版本，就是 NestedScrolling 了，<br>就是嵌套滚动的意思 。这套设计的实现，主要涉及到下面几个接口（类）  </p>
 <ol>
