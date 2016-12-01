@@ -1,0 +1,726 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="TV 知识点学习整理笔记。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AndroidTV 开发之焦点处理">
+<meta property="og:url" content="http://www.aheadlcx.xyz/2016/09/23/AndroidTV-开发之焦点处理/index.html">
+<meta property="og:site_name" content="believe yourself">
+<meta property="og:description" content="TV 知识点学习整理笔记。">
+<meta property="og:updated_time" content="2016-09-23T10:18:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndroidTV 开发之焦点处理">
+<meta name="twitter:description" content="TV 知识点学习整理笔记。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> AndroidTV 开发之焦点处理 | believe yourself </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">believe yourself</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                AndroidTV 开发之焦点处理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-09-23T14:30:16+08:00" content="2016-09-23">
+              2016-09-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/23/AndroidTV-开发之焦点处理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/23/AndroidTV-开发之焦点处理/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>TV 知识点学习整理笔记。<br><a id="more"></a></p>
+<h2 id="焦点的获得">焦点的获得</h2><p>焦点的获得，分为2种情况，主动和被动  </p>
+<ul>
+<li>主动获得焦点  </li>
+<li>被动获得焦点</li>
+</ul>
+<h3 id="主动获得焦点">主动获得焦点</h3><p>这里也是有2种情况，分为 View 和 ViewGroup 。</p>
+<ul>
+<li>View 主动获得焦点</li>
+<li>ViewGroup 主动获得焦点</li>
+</ul>
+<h4 id="View_主动获得焦点">View 主动获得焦点</h4><p>方法有如下几种：  </p>
+<ul>
+<li>public final boolean requestFocus();</li>
+<li>public final boolean requestFocus(int direction);</li>
+<li>public boolean requestFocus(int direction, Rect previouslyFocusedRect);</li>
+</ul>
+<p>以上方法最终都是调用一个私有的方法 requestFocusNoSearch 里面</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">requestFocusNoSearch</span><span class="params">(<span class="keyword">int</span> direction, Rect previouslyFocusedRect)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// need to be focusable</span></span><br><span class="line">        <span class="keyword">if</span> ((mViewFlags &amp; FOCUSABLE_MASK) != FOCUSABLE ||</span><br><span class="line">                (mViewFlags &amp; VISIBILITY_MASK) != VISIBLE) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// need to be focusable in touch mode if in touch mode</span></span><br><span class="line">        <span class="keyword">if</span> (isInTouchMode() &amp;&amp;</span><br><span class="line">            (FOCUSABLE_IN_TOUCH_MODE != (mViewFlags &amp; FOCUSABLE_IN_TOUCH_MODE))) &#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// need to not have any parents blocking us</span></span><br><span class="line">        <span class="keyword">if</span> (hasAncestorThatBlocksDescendantFocus()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        handleFocusGainInternal(direction, previouslyFocusedRect);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>上面的逻辑，去除了不能获得焦点和不是可见状态的 View ，以及触摸状态下，不可获得焦点的情景。<br>hasAncestorThatBlocksDescendantFocus 方法是咨询 是否有父 ViewGroup 需要先于<br>自己获得焦点。这个后面在 ViewGroup 分析时再讨论。<br>上面代码，进入到 handleFocusGainInternal 方法里面，接着看。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">handleFocusGainInternal</span><span class="params">(@FocusRealDirection <span class="keyword">int</span> direction, Rect previouslyFocusedRect)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (DBG) &#123;</span><br><span class="line">            System.out.println(<span class="keyword">this</span> + <span class="string">" requestFocus()"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ((mPrivateFlags &amp; PFLAG_FOCUSED) == <span class="number">0</span>) &#123;</span><br><span class="line">            mPrivateFlags |= PFLAG_FOCUSED;</span><br><span class="line"></span><br><span class="line">            View oldFocus = (mAttachInfo != <span class="keyword">null</span>) ? getRootView().findFocus() : <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (mParent != <span class="keyword">null</span>) &#123;</span><br><span class="line">                mParent.requestChildFocus(<span class="keyword">this</span>, <span class="keyword">this</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (mAttachInfo != <span class="keyword">null</span>) &#123;</span><br><span class="line">                mAttachInfo.mTreeObserver.dispatchOnGlobalFocusChange(oldFocus, <span class="keyword">this</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            onFocusChanged(<span class="keyword">true</span>, direction, previouslyFocusedRect);</span><br><span class="line">            refreshDrawableState();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>上面的逻辑如下：  </p>
+<ul>
+<li>先改变焦点标志位</li>
+<li>调用父 ViewGroup 的 requestChildFocus 方法。</li>
+<li>告诉整个 View 二叉树坚挺着，焦点变化了。</li>
+<li>调用自身 onFocusChanged 方法。</li>
+<li>刷新自身状态变化。</li>
+</ul>
+<p>上面唯一不清晰的逻辑是 <strong>mParent.requestChildFocus(this, this);</strong> 这里。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">requestChildFocus</span><span class="params">(View child, View focused)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (DBG) &#123;</span><br><span class="line">            System.out.println(<span class="keyword">this</span> + <span class="string">" requestChildFocus()"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (getDescendantFocusability() == FOCUS_BLOCK_DESCENDANTS) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Unfocus us, if necessary</span></span><br><span class="line">        <span class="keyword">super</span>.unFocus(focused);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// We had a previous notion of who had focus. Clear it.</span></span><br><span class="line">        <span class="keyword">if</span> (mFocused != child) &#123;</span><br><span class="line">            <span class="keyword">if</span> (mFocused != <span class="keyword">null</span>) &#123;</span><br><span class="line">                mFocused.unFocus(focused);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            mFocused = child;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mParent != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mParent.requestChildFocus(<span class="keyword">this</span>, focused);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里就是，</p>
+<ul>
+<li>先清除自己保存的之前获得焦点的 View ，并且保存新的。</li>
+<li>继续往上调用 mParent.requestChildFocus 方法，让整个 View 二叉树，对焦点的处理一致。  </li>
+</ul>
+<h4 id="ViewGroup_主动获得焦点">ViewGroup 主动获得焦点</h4><p>ViewGroup 只有一个方法 requestFocus：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">requestFocus</span><span class="params">(<span class="keyword">int</span> direction, Rect previouslyFocusedRect)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (DBG) &#123;</span><br><span class="line">            System.out.println(<span class="keyword">this</span> + <span class="string">" ViewGroup.requestFocus direction="</span></span><br><span class="line">                    + direction);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> descendantFocusability = getDescendantFocusability();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (descendantFocusability) &#123;</span><br><span class="line">            <span class="keyword">case</span> FOCUS_BLOCK_DESCENDANTS:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">super</span>.requestFocus(direction, previouslyFocusedRect);</span><br><span class="line">            <span class="keyword">case</span> FOCUS_BEFORE_DESCENDANTS: &#123;</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">boolean</span> took = <span class="keyword">super</span>.requestFocus(direction, previouslyFocusedRect);</span><br><span class="line">                <span class="keyword">return</span> took ? took : onRequestFocusInDescendants(direction, previouslyFocusedRect);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> FOCUS_AFTER_DESCENDANTS: &#123;</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">boolean</span> took = onRequestFocusInDescendants(direction, previouslyFocusedRect);</span><br><span class="line">                <span class="keyword">return</span> took ? took : <span class="keyword">super</span>.requestFocus(direction, previouslyFocusedRect);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"descendant focusability must be "</span></span><br><span class="line">                        + <span class="string">"one of FOCUS_BEFORE_DESCENDANTS, FOCUS_AFTER_DESCENDANTS, FOCUS_BLOCK_DESCENDANTS "</span></span><br><span class="line">                        + <span class="string">"but is "</span> + descendantFocusability);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>descendantFocusability 代表3种模式，方法 onRequestFocusInDescendants ，代表给<br>自己的子 View 来处理。</p>
+<ul>
+<li>FOCUS_BLOCK_DESCENDANTS ，只允许自己处理，并且交给自己的父类（即 View）处理。</li>
+<li>FOCUS_BEFORE_DESCENDANTS ，先尝试给自己的父类处理，如果不处理就交给子 Views 来处理。</li>
+<li>FOCUS_AFTER_DESCENDANTS ,先让子 View是 处理，如果读没人处理了，再给自己的父类处理。</li>
+</ul>
+<p>默认是 FOCUS_BEFORE_DESCENDANTS 。这个可以从 ViewGroup 的 initViewGroup 方法看出。</p>
+<h3 id="焦点的被动获得">焦点的被动获得</h3><p>这个涉及到整个事件的传递了，必须从 ViewRootImpl 里面找答案了。<br>…..<br>找到了，是在 ViewPostImeInputStage 的 processKeyEvent 方法里面。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">processKeyEvent</span><span class="params">(QueuedInputEvent q)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Deliver the key to the view hierarchy.</span></span><br><span class="line">             <span class="keyword">if</span> (mView.dispatchKeyEvent(event)) &#123;</span><br><span class="line">                 <span class="keyword">return</span> FINISH_HANDLED;</span><br><span class="line">             &#125;</span><br><span class="line">            删除了部分代码</span><br><span class="line"></span><br><span class="line">             <span class="comment">// Handle automatic focus changes.</span></span><br><span class="line">             <span class="keyword">if</span> (event.getAction() == KeyEvent.ACTION_DOWN) &#123;</span><br><span class="line">                 <span class="keyword">int</span> direction = <span class="number">0</span>;</span><br><span class="line">                 <span class="keyword">switch</span> (event.getKeyCode()) &#123;</span><br><span class="line">                     <span class="keyword">case</span> KeyEvent.KEYCODE_DPAD_LEFT:</span><br><span class="line">                         <span class="keyword">if</span> (event.hasNoModifiers()) &#123;</span><br><span class="line">                             direction = View.FOCUS_LEFT;</span><br><span class="line">                         &#125;</span><br><span class="line">                         <span class="keyword">break</span>;</span><br><span class="line">                     <span class="keyword">case</span> KeyEvent.KEYCODE_DPAD_RIGHT:</span><br><span class="line">                         <span class="keyword">if</span> (event.hasNoModifiers()) &#123;</span><br><span class="line">                             direction = View.FOCUS_RIGHT;</span><br><span class="line">                         &#125;</span><br><span class="line">                         <span class="keyword">break</span>;</span><br><span class="line">                     <span class="keyword">case</span> KeyEvent.KEYCODE_DPAD_UP:</span><br><span class="line">                         <span class="keyword">if</span> (event.hasNoModifiers()) &#123;</span><br><span class="line">                             direction = View.FOCUS_UP;</span><br><span class="line">                         &#125;</span><br><span class="line">                         <span class="keyword">break</span>;</span><br><span class="line">                     <span class="keyword">case</span> KeyEvent.KEYCODE_DPAD_DOWN:</span><br><span class="line">                         <span class="keyword">if</span> (event.hasNoModifiers()) &#123;</span><br><span class="line">                             direction = View.FOCUS_DOWN;</span><br><span class="line">                         &#125;</span><br><span class="line">                         <span class="keyword">break</span>;</span><br><span class="line">                     <span class="keyword">case</span> KeyEvent.KEYCODE_TAB:</span><br><span class="line">                         <span class="keyword">if</span> (event.hasNoModifiers()) &#123;</span><br><span class="line">                             direction = View.FOCUS_FORWARD;</span><br><span class="line">                         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.hasModifiers(KeyEvent.META_SHIFT_ON)) &#123;</span><br><span class="line">                             direction = View.FOCUS_BACKWARD;</span><br><span class="line">                         &#125;</span><br><span class="line">                         <span class="keyword">break</span>;</span><br><span class="line">                 &#125;</span><br><span class="line">                 <span class="keyword">if</span> (direction != <span class="number">0</span>) &#123;</span><br><span class="line">                     View focused = mView.findFocus();</span><br><span class="line">                     <span class="keyword">if</span> (focused != <span class="keyword">null</span>) &#123;</span><br><span class="line">                         View v = focused.focusSearch(direction);</span><br><span class="line">                         <span class="keyword">if</span> (v != <span class="keyword">null</span> &amp;&amp; v != focused) &#123;</span><br><span class="line">                             <span class="comment">// do the math the get the interesting rect</span></span><br><span class="line">                             <span class="comment">// of previous focused into the coord system of</span></span><br><span class="line">                             <span class="comment">// newly focused view</span></span><br><span class="line">                             focused.getFocusedRect(mTempRect);</span><br><span class="line">                             <span class="keyword">if</span> (mView <span class="keyword">instanceof</span> ViewGroup) &#123;</span><br><span class="line">                                 ((ViewGroup) mView).offsetDescendantRectToMyCoords(</span><br><span class="line">                                         focused, mTempRect);</span><br><span class="line">                                 ((ViewGroup) mView).offsetRectIntoDescendantCoords(</span><br><span class="line">                                         v, mTempRect);</span><br><span class="line">                             &#125;</span><br><span class="line">                             <span class="keyword">if</span> (v.requestFocus(direction, mTempRect)) &#123;</span><br><span class="line">                                 playSoundEffect(SoundEffectConstants</span><br><span class="line">                                         .getContantForFocusDirection(direction));</span><br><span class="line">                                 <span class="keyword">return</span> FINISH_HANDLED;</span><br><span class="line">                             &#125;</span><br><span class="line">                         &#125;</span><br><span class="line"></span><br><span class="line">                         <span class="comment">// Give the focused view a last chance to handle the dpad key.</span></span><br><span class="line">                         <span class="keyword">if</span> (mView.dispatchUnhandledMove(focused, direction)) &#123;</span><br><span class="line">                             <span class="keyword">return</span> FINISH_HANDLED;</span><br><span class="line">                         &#125;</span><br><span class="line">                     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                         <span class="comment">// find the best view to give focus to in this non-touch-mode with no-focus</span></span><br><span class="line">                         View v = focusSearch(<span class="keyword">null</span>, direction);</span><br><span class="line">                         <span class="keyword">if</span> (v != <span class="keyword">null</span> &amp;&amp; v.requestFocus(direction)) &#123;</span><br><span class="line">                             <span class="keyword">return</span> FINISH_HANDLED;</span><br><span class="line">                         &#125;</span><br><span class="line">                     &#125;</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;</span><br><span class="line">             <span class="keyword">return</span> FORWARD;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先这个事件传递路线和一般的触摸事件分发类似，顺序如下：  </p>
+<ul>
+<li>DecorView dispatchKeyEvent</li>
+<li>Activity dispatchKeyEvent</li>
+<li>PhoneWindow superDispatchKeyEvent</li>
+<li>DecorView superDispatchKeyEvent</li>
+<li>DecorView super.dispatchKeyEvent</li>
+<li>ViewRootImpl  ViewPostImeInputStage processKeyEvent</li>
+<li>DecorView dispatchUnhandledMove</li>
+</ul>
+<p>如果没有人处理，最后还是传递回到 ViewPostImeInputStage 中。继续看方法 processKeyEvent<br>把按键换算为方向，通过之前的有焦点的 View <strong>focused.focusSearch(direction)</strong> 。<br>先来看 View 的 focusSearch 方法：  </p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> View <span class="title">focusSearch</span><span class="params">(@FocusRealDirection <span class="keyword">int</span> direction)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mParent != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> mParent.focusSearch(<span class="keyword">this</span>, direction);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p> 啥都没干，只能看 ViewGroup 的了。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> View <span class="title">focusSearch</span><span class="params">(View focused, <span class="keyword">int</span> direction)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isRootNamespace()) &#123;</span><br><span class="line">            <span class="comment">// root namespace means we should consider ourselves the top of the</span></span><br><span class="line">            <span class="comment">// tree for focus searching; otherwise we could be focus searching</span></span><br><span class="line">            <span class="comment">// into other tabs.  see LocalActivityManager and TabHost for more info</span></span><br><span class="line">            <span class="keyword">return</span> FocusFinder.getInstance().findNextFocus(<span class="keyword">this</span>, focused, direction);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mParent != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> mParent.focusSearch(focused, direction);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p> 来到了 FocusFinder 的方法 findNextFocus 了。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> View <span class="title">findNextFocus</span><span class="params">(ViewGroup root, View focused, <span class="keyword">int</span> direction)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> findNextFocus(root, focused, <span class="keyword">null</span>, direction);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">private</span> View <span class="title">findNextFocus</span><span class="params">(ViewGroup root, View focused, Rect focusedRect, <span class="keyword">int</span> direction)</span> </span>&#123;</span><br><span class="line">         View next = <span class="keyword">null</span>;</span><br><span class="line">         <span class="keyword">if</span> (focused != <span class="keyword">null</span>) &#123;</span><br><span class="line">             next = findNextUserSpecifiedFocus(root, focused, direction);</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">if</span> (next != <span class="keyword">null</span>) &#123;</span><br><span class="line">             <span class="keyword">return</span> next;</span><br><span class="line">         &#125;</span><br><span class="line">         ArrayList&lt;View&gt; focusables = mTempList;</span><br><span class="line">         <span class="keyword">try</span> &#123;</span><br><span class="line">             focusables.clear();</span><br><span class="line">             root.addFocusables(focusables, direction);</span><br><span class="line">             <span class="keyword">if</span> (!focusables.isEmpty()) &#123;</span><br><span class="line">                 next = findNextFocus(root, focused, focusedRect, direction, focusables);</span><br><span class="line">             &#125;</span><br><span class="line">         &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">             focusables.clear();</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">return</span> next;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">private</span> View <span class="title">findNextUserSpecifiedFocus</span><span class="params">(ViewGroup root, View focused, <span class="keyword">int</span> direction)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// check for user specified next focus</span></span><br><span class="line">    View userSetNextFocus = focused.findUserSetNextFocus(root, direction);</span><br><span class="line">    <span class="keyword">if</span> (userSetNextFocus != <span class="keyword">null</span> &amp;&amp; userSetNextFocus.isFocusable()</span><br><span class="line">            &amp;&amp; (!userSetNextFocus.isInTouchMode()</span><br><span class="line">                    || userSetNextFocus.isFocusableInTouchMode())) &#123;</span><br><span class="line">        <span class="keyword">return</span> userSetNextFocus;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码，找下一个焦点 View 的时候，是通过 View.findUserSetNextFocus 方法，可以看出，是<br>通过设置 mNextFocusLeftId 等 id 来实现的。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">View <span class="title">findUserSetNextFocus</span><span class="params">(View root, @FocusDirection <span class="keyword">int</span> direction)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (direction) &#123;</span><br><span class="line">            <span class="keyword">case</span> FOCUS_LEFT:</span><br><span class="line">                <span class="keyword">if</span> (mNextFocusLeftId == View.NO_ID) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">return</span> findViewInsideOutShouldExist(root, mNextFocusLeftId);</span><br><span class="line">            <span class="keyword">case</span> FOCUS_RIGHT:</span><br><span class="line">                <span class="keyword">if</span> (mNextFocusRightId == View.NO_ID) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">return</span> findViewInsideOutShouldExist(root, mNextFocusRightId);</span><br><span class="line">            <span class="keyword">case</span> FOCUS_UP:</span><br><span class="line">                <span class="keyword">if</span> (mNextFocusUpId == View.NO_ID) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">return</span> findViewInsideOutShouldExist(root, mNextFocusUpId);</span><br><span class="line">            <span class="keyword">case</span> FOCUS_DOWN:</span><br><span class="line">                <span class="keyword">if</span> (mNextFocusDownId == View.NO_ID) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">return</span> findViewInsideOutShouldExist(root, mNextFocusDownId);</span><br><span class="line">            <span class="keyword">case</span> FOCUS_FORWARD:</span><br><span class="line">                <span class="keyword">if</span> (mNextFocusForwardId == View.NO_ID) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">return</span> findViewInsideOutShouldExist(root, mNextFocusForwardId);</span><br><span class="line">            <span class="keyword">case</span> FOCUS_BACKWARD: &#123;</span><br><span class="line">                <span class="keyword">if</span> (mID == View.NO_ID) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> id = mID;</span><br><span class="line">                <span class="keyword">return</span> root.findViewByPredicateInsideOut(<span class="keyword">this</span>, <span class="keyword">new</span> Predicate&lt;View&gt;() &#123;</span><br><span class="line">                    <span class="annotation">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">apply</span><span class="params">(View t)</span> </span>&#123;</span><br><span class="line">                        <span class="keyword">return</span> t.mNextFocusForwardId == id;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>如果没有设置这些 id ，那么最后是走到 DecorView dispatchUnhandledMove 方法里面，其实就<br>没有处理了。。当初还抱着 系统会根据位置默认给分给一个 View ，现在看下来系统根本没做这个处理。</p>
+<h2 id="焦点的清除">焦点的清除</h2><p>这个也分2种情况，被动和主动。</p>
+<ul>
+<li>被动的情况下就是当别人获得了焦点了，就会清除上一个获得焦点的 View 了，<br>可以从上面的分析得知。是直接调用了 unFocus 方法。</li>
+<li>主动清除焦点也比较简单，直接调用 clearFocus 方法即可。</li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/31/forMeeting/" rel="next" title="forMeeting">
+                <i class="fa fa-chevron-left"></i> forMeeting
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/23/AndroidTV-开发之焦点处理/"
+           data-title="AndroidTV 开发之焦点处理" data-url="http://www.aheadlcx.xyz/2016/09/23/AndroidTV-开发之焦点处理/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/32269?v=3&s=460" alt="aheadlcx" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">aheadlcx</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#焦点的获得"><span class="nav-number">1.</span> <span class="nav-text">焦点的获得</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主动获得焦点"><span class="nav-number">1.1.</span> <span class="nav-text">主动获得焦点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#View_主动获得焦点"><span class="nav-number">1.1.1.</span> <span class="nav-text">View 主动获得焦点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ViewGroup_主动获得焦点"><span class="nav-number">1.1.2.</span> <span class="nav-text">ViewGroup 主动获得焦点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#焦点的被动获得"><span class="nav-number">1.2.</span> <span class="nav-text">焦点的被动获得</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#焦点的清除"><span class="nav-number">2.</span> <span class="nav-text">焦点的清除</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aheadlcx</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"aheadlcx"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
