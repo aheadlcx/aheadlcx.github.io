@@ -57,7 +57,7 @@
 <meta property="og:url" content="http://www.aheadlcx.xyz/2016/03/23/Dagger2-学习笔记/index.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="Dagger2 学习笔记。">
-<meta property="og:updated_time" content="2016-03-25T03:49:08.000Z">
+<meta property="og:updated_time" content="2016-12-28T09:38:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dagger2 学习笔记">
 <meta name="twitter:description" content="Dagger2 学习笔记。">
@@ -319,6 +319,11 @@
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserPresent</span> </span>&#123;</span><br><span class="line">    AppModel mAppModel;</span><br><span class="line">    ActivityModel mActivityModel;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserPresent</span><span class="params">(AppModel appModel, ActivityModel activityModel)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mAppModel = appModel;</span><br><span class="line">        <span class="keyword">this</span>.mActivityModel = activityModel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AppModel <span class="title">getAppModel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mAppModel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ActivityModel <span class="title">getActivityModel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mActivityModel;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Component</span>(modules = &#123;UserModule.class&#125;, dependencies = ApplicationComponent</span><br><span class="line">        .class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserComponent</span> <span class="keyword">extends</span> <span class="title">ActivityComponent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(UserActivity userActivity)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Component">Component</h1><h2 id="Component_依赖">Component 依赖</h2><blockquote>
+<p>Component dependencies</p>
+<p>While subcomponents are the simplest way to compose subgraphs of bindings, subcomponents are tightly coupled with the parents; they may use any binding defined by their ancestor component and subcomponents. As an alternative, components can use bindings only from another component interface by declaring a component dependency. When a type is used as a component dependency, each provision method on the dependency is bound as a provider. Note that only the bindings exposed as provision methods are available through component dependencies.</p>
+</blockquote>
+<p>Component 依赖，如果 A 依赖 B ，那么 B 的 provision 方法就可以提供给 A 使用，类似<br>于 Module 中的 provider 方法</p>
 <h1 id="未明事项">未明事项</h1><p>在 Component 中有一个方法，返回了一个抽象类，甚至接口，但是这个 Component 上有 Module ，<br>这个 Module 同时，还用注解 Provide 标记了一个方法，返回了一个实现类。这个时候采用了是实现类。</p>
 </span>
       
@@ -419,7 +424,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -465,7 +470,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Dagger2_中关键词"><span class="nav-number">1.</span> <span class="nav-text">Dagger2 中关键词</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注入（赋值）触发的时间点"><span class="nav-number">2.</span> <span class="nav-text">注入（赋值）触发的时间点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自动生成的代码，实现原理"><span class="nav-number">3.</span> <span class="nav-text">自动生成的代码，实现原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些观察到的细节"><span class="nav-number">4.</span> <span class="nav-text">一些观察到的细节</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#未明事项"><span class="nav-number">5.</span> <span class="nav-text">未明事项</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Dagger2_中关键词"><span class="nav-number">1.</span> <span class="nav-text">Dagger2 中关键词</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注入（赋值）触发的时间点"><span class="nav-number">2.</span> <span class="nav-text">注入（赋值）触发的时间点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自动生成的代码，实现原理"><span class="nav-number">3.</span> <span class="nav-text">自动生成的代码，实现原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些观察到的细节"><span class="nav-number">4.</span> <span class="nav-text">一些观察到的细节</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Component"><span class="nav-number">5.</span> <span class="nav-text">Component</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Component_依赖"><span class="nav-number">5.1.</span> <span class="nav-text">Component 依赖</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#未明事项"><span class="nav-number">6.</span> <span class="nav-text">未明事项</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
@@ -486,7 +491,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="icon-next-heart fa fa-heart"></i>
   </span>
