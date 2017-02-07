@@ -271,7 +271,11 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">AssetManager mAssetManager;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            AssetManager assetManager = AssetManager.class.newInstance();</span><br><span class="line">            Method addAssetPath = assetManager.getClass().getMethod(<span class="string">"addAssetPath"</span>, String.class);</span><br><span class="line">            addAssetPath.invoke(assetManager, skinPath);</span><br><span class="line">            mAssetManager = assetManager;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Resources skinResources = <span class="keyword">new</span> Resources(mAssetManager, metrics, configuration());</span><br></pre></td></tr></table></figure>
 <p>但是 Activity 的 getResource 方法是 ContextThemeWrapper 提供的。这2个具体是怎么<br>结合起来的。</p>
 <ul>
-<li>其他组件包打包成 so 文件并存放在宿主中。这个到底是怎么安装的</li>
+<li><p>其他组件包打包成 so 文件并存放在宿主中。这个到底是怎么安装的</p>
+</li>
+<li><p>dex 会不会重复插入了</p>
+</li>
+<li>资源合并</li>
 </ul>
 <h2 id="Small_框架的_API_理解">Small 框架的 API 理解</h2><h3 id="Small_API_的调用顺序">Small API 的调用顺序</h3><ul>
 <li>Small.preSetUp(Application context)</li>
