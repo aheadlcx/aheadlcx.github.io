@@ -63,7 +63,7 @@
 资源加载AssetManager 的 addAssetPath 方法可以添加一个资源搜索路径，然后就可以拿到一个新的Resource 的了，代码如下：
 
 1234567891011AssetManager mAssetManager;        try &amp;#123;            AssetManager assetManager = AssetManager.class.ne">
-<meta property="og:updated_time" content="2017-02-07T04:02:07.000Z">
+<meta property="og:updated_time" content="2017-02-07T06:27:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Small 学习笔记">
 <meta name="twitter:description" content="疑问点
@@ -311,6 +311,15 @@
 <li>SoBundleLauncher。<br>不是 Host ，才会调用方法 resolveBundle 。<br>解析了插件的 XML 中的 application 等相关信息(versionCode，versionName)。解析了插件的路径等</li>
 </ul>
 <h4 id="public_void_loadBundle(Bundle_bundle)">public void loadBundle(Bundle bundle)</h4><p>重载了该方法的有 AssetBundleLauncher 和 ApkBundleLauncher 。<br>看看 ApkBundleLauncher 的。<br>把 dex 从 so 文件中加载了出来，变成了 optDex ,这时还没有插入进去。收集了所有的 Activity<br>和 intentFilter ，为以后启动做准备。</p>
+<h4 id="public_void_postSetUp()">public void postSetUp()</h4><p>只有 ApkBundleLauncher 重载了该方法.做了以下几个事情：  </p>
+<ul>
+<li>合并所有插件以及宿主的资源。</li>
+<li>把所有 dex 插入进去。</li>
+<li>插件的 so 文件的插入。</li>
+<li>手动调用插件的 application 的 onCreate 方法.</li>
+<li>延迟初始化 mLazyInitProviders .</li>
+</ul>
+<p><strong>todo ，查看资源的合并，资源的插入，dex 的插入兼容性方面，以及第二次插入会不会<br>造成重复插入的问题</strong></p>
 </span>
       
     </div>
@@ -446,7 +455,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#疑问点"><span class="nav-number">1.</span> <span class="nav-text">疑问点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Small_框架的_API_理解"><span class="nav-number">2.</span> <span class="nav-text">Small 框架的 API 理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Small_API_的调用顺序"><span class="nav-number">2.1.</span> <span class="nav-text">Small API 的调用顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BundleLauncher_类的方法的调用顺序"><span class="nav-number">2.2.</span> <span class="nav-text">BundleLauncher 类的方法的调用顺序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#public_void_onCreate(Application_app)"><span class="nav-number">2.2.1.</span> <span class="nav-text">public void onCreate(Application app)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#public_void_setUp(Context_context)"><span class="nav-number">2.2.2.</span> <span class="nav-text">public void setUp(Context context)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#public_boolean_resolveBundle(Bundle_bundle)"><span class="nav-number">2.2.3.</span> <span class="nav-text">public boolean resolveBundle(Bundle bundle)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#public_void_loadBundle(Bundle_bundle)"><span class="nav-number">2.2.4.</span> <span class="nav-text">public void loadBundle(Bundle bundle)</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#疑问点"><span class="nav-number">1.</span> <span class="nav-text">疑问点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Small_框架的_API_理解"><span class="nav-number">2.</span> <span class="nav-text">Small 框架的 API 理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Small_API_的调用顺序"><span class="nav-number">2.1.</span> <span class="nav-text">Small API 的调用顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BundleLauncher_类的方法的调用顺序"><span class="nav-number">2.2.</span> <span class="nav-text">BundleLauncher 类的方法的调用顺序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#public_void_onCreate(Application_app)"><span class="nav-number">2.2.1.</span> <span class="nav-text">public void onCreate(Application app)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#public_void_setUp(Context_context)"><span class="nav-number">2.2.2.</span> <span class="nav-text">public void setUp(Context context)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#public_boolean_resolveBundle(Bundle_bundle)"><span class="nav-number">2.2.3.</span> <span class="nav-text">public boolean resolveBundle(Bundle bundle)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#public_void_loadBundle(Bundle_bundle)"><span class="nav-number">2.2.4.</span> <span class="nav-text">public void loadBundle(Bundle bundle)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#public_void_postSetUp()"><span class="nav-number">2.2.5.</span> <span class="nav-text">public void postSetUp()</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
