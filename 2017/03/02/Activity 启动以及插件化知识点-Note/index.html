@@ -67,7 +67,7 @@ activitythread 和 AMS ,通讯，是怎么实现的。
 servicemanager 的服务 是什么时候注入的。 [undo]
 hook ,静态的，和实例的，分别如何实现。
 测试文件锁，是否可以跨进程锁。参考 MultiDex 的文件锁，">
-<meta property="og:updated_time" content="2017-03-13T02:59:21.000Z">
+<meta property="og:updated_time" content="2017-03-13T03:14:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activity 启动以及插件化知识点 Note">
 <meta name="twitter:description" content="activity 生命周期管理的 token
@@ -280,7 +280,7 @@ hook ,静态的，和实例的，分别如何实现。
 </ol>
 <h2 id="1-_activity_生命周期管理">1. activity 生命周期管理</h2><p>Activity里面有一个成员变量mToken代表的就是它，token可以唯一地标识一个Activity对象，<br>它在Activity的attach方法里面初始化，是一个 IBinder 对象。  </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> ArrayMap&lt;IBinder, ActivityClientRecord&gt; mActivities = <span class="keyword">new</span> ArrayMap&lt;&gt;();</span><br><span class="line">创建 Activity 的时候，会传递进去.</span><br><span class="line">mActivities.put(r.token, r);</span><br><span class="line"></span><br><span class="line">在进行其他生命周期的时候，则是( performResumeActivity 举例 )</span><br><span class="line">ActivityClientRecord r = mActivities.get(token);</span><br><span class="line">r.activity.performResume();</span><br></pre></td></tr></table></figure>
-<p>因此在插件化开发中，通过占坑的方式实现，动态加载 Activity ，生命周期得意实现。</p>
+<p>因此在插件化开发中，通过占坑的方式实现，动态加载 Activity ，送给 AMS 的是占坑的 Activity ，<br>但是在 ActivityThread 的回调中，操作的是，目标的 Activity ，因此生命周期得以实现。</p>
 <p>传入的值是 ActivityClientRecord.token . 而这个值，又是从何而来的呢。可以从调用链追<br>ApplicationThread 是 IBinder ，并且实现了 IApplicationThread 接口， 追查得知<br>远端调用是 ApplicationThreadNative .  </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ApplicationThread 的 scheduleLaunchActivity(IBinder token) -&gt;  </span><br><span class="line">ApplicationThreadNative 的 scheduleLaunchActivity (IBinder token) -&gt;  </span><br><span class="line">ActivityStackSupervisor 的 ealStartActivityLocked （ActivityRecord r）-&gt;  </span><br><span class="line">ActivityStackSupervisor 的 attachApplicationLocked (ProcessRecord app)</span><br><span class="line">ActivityRecord hr = stack.topRunningActivityLocked();</span><br></pre></td></tr></table></figure>
 <p>看到这里，可以直接看 ActivityRecord 的构造方法了，不再跟 AMS 源码调用链了，我们这里的目的是<br>想知道 Activity 里面的 token 是怎么构造的，而不是 AMS 本身的逻辑。  </p>
@@ -312,6 +312,10 @@ hook ,静态的，和实例的，分别如何实现。
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/20/postAndroid-多进程使用注意点/" rel="prev" title="Android 多进程使用注意点">
+                Android 多进程使用注意点 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -383,7 +387,7 @@ hook ,静态的，和实例的，分别如何实现。
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

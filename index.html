@@ -220,6 +220,94 @@
             
               
                 
+                <a class="post-title-link" href="/2017/03/20/postAndroid-多进程使用注意点/" itemprop="url">
+                  Android 多进程使用注意点
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2017-03-20T11:38:56+08:00" content="2017-03-20">
+              2017-03-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/20/postAndroid-多进程使用注意点/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/20/postAndroid-多进程使用注意点/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>记录一下 Android 上面多进程使用中，注意点以及对应方法<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/03/20/postAndroid-多进程使用注意点/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/02/Activity 启动以及插件化知识点-Note/" itemprop="url">
                   Activity 启动以及插件化知识点 Note
                 </a>
@@ -278,7 +366,7 @@
 </ol>
 <h2 id="1-_activity_生命周期管理">1. activity 生命周期管理</h2><p>Activity里面有一个成员变量mToken代表的就是它，token可以唯一地标识一个Activity对象，<br>它在Activity的attach方法里面初始化，是一个 IBinder 对象。  </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> ArrayMap&lt;IBinder, ActivityClientRecord&gt; mActivities = <span class="keyword">new</span> ArrayMap&lt;&gt;();</span><br><span class="line">创建 Activity 的时候，会传递进去.</span><br><span class="line">mActivities.put(r.token, r);</span><br><span class="line"></span><br><span class="line">在进行其他生命周期的时候，则是( performResumeActivity 举例 )</span><br><span class="line">ActivityClientRecord r = mActivities.get(token);</span><br><span class="line">r.activity.performResume();</span><br></pre></td></tr></table></figure>
-<p>因此在插件化开发中，通过占坑的方式实现，动态加载 Activity ，生命周期得意实现。</p>
+<p>因此在插件化开发中，通过占坑的方式实现，动态加载 Activity ，送给 AMS 的是占坑的 Activity ，<br>但是在 ActivityThread 的回调中，操作的是，目标的 Activity ，因此生命周期得以实现。</p>
 <p>传入的值是 ActivityClientRecord.token . 而这个值，又是从何而来的呢。可以从调用链追<br>ApplicationThread 是 IBinder ，并且实现了 IApplicationThread 接口， 追查得知<br>远端调用是 ApplicationThreadNative .  </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ApplicationThread 的 scheduleLaunchActivity(IBinder token) -&gt;  </span><br><span class="line">ApplicationThreadNative 的 scheduleLaunchActivity (IBinder token) -&gt;  </span><br><span class="line">ActivityStackSupervisor 的 ealStartActivityLocked （ActivityRecord r）-&gt;  </span><br><span class="line">ActivityStackSupervisor 的 attachApplicationLocked (ProcessRecord app)</span><br><span class="line">ActivityRecord hr = stack.topRunningActivityLocked();</span><br></pre></td></tr></table></figure>
 <p>看到这里，可以直接看 ActivityRecord 的构造方法了，不再跟 AMS 源码调用链了，我们这里的目的是<br>想知道 Activity 里面的 token 是怎么构造的，而不是 AMS 本身的逻辑。  </p>
@@ -728,100 +816,12 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/28/postEffective-Java-笔记/" itemprop="url">
-                  Effective Java 笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-07-28T17:18:34+08:00" content="2016-07-28">
-              2016-07-28
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/28/postEffective-Java-笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/28/postEffective-Java-笔记/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>记录一下 Effective Java 的读书笔记，以及当时的思考。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/28/postEffective-Java-笔记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -862,7 +862,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
