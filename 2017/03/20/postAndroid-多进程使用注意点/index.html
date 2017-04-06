@@ -57,7 +57,7 @@
 <meta property="og:url" content="http://www.aheadlcx.xyz/2017/03/20/postAndroid-多进程使用注意点/index.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="记录一下 Android 上面多进程使用中，注意点以及对应方法">
-<meta property="og:updated_time" content="2017-03-20T05:55:18.000Z">
+<meta property="og:updated_time" content="2017-04-06T10:33:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 多进程使用注意点">
 <meta name="twitter:description" content="记录一下 Android 上面多进程使用中，注意点以及对应方法">
@@ -246,11 +246,24 @@
 
       
         <span itemprop="articleBody"><p>记录一下 Android 上面多进程使用中，注意点以及对应方法<br><a id="more"></a></p>
-<h2 id="注意点">注意点</h2><ul>
+<h2 id="多进程常见需求点">多进程常见需求点</h2><ul>
 <li>SharedPreference ，多进程不靠谱。</li>
 <li>业务中往往需要，有一个保存在内存中的全局变量，各进程中获取到的变量值，需要保持一致。</li>
-<li>业务代码，有需求需要知道，当前运行在哪个进程。<h2 id="对应的方法">对应的方法</h2></li>
+<li>业务代码，有需求需要知道，当前运行在哪个进程。<h2 id="对应的方法">对应的方法</h2><h3 id="解决_SharedPreference_在多进程中的问题">解决 SharedPreference 在多进程中的问题</h3>每个进程在内存中，都保留一份 key value 的 map 容器。</li>
 </ul>
+<p>put 的时候</p>
+<ul>
+<li>往多个进程内存中，把 map 容器，都设置一下值。</li>
+<li>通过 contentProvider ，设置一下 SharedPreference ，保存值。</li>
+</ul>
+<p>get 的时候</p>
+<ul>
+<li>先把自己进程的内存 map 容器，查找一下。</li>
+<li>如果进程内存中没有找到，就通过 contentProvider 查找一下。</li>
+</ul>
+<h3 id="跨进程的全局变量，保持一致。">跨进程的全局变量，保持一致。</h3><p>利用 binder ，进程 A 每次设置变量值的时候，都把另外一个进程的值也设置了。</p>
+<h3 id="判断在什么进程。">判断在什么进程。</h3><p>通过对比进程名字。每个进程名字，我们是可以预设的，然后在运行时获取一下进程名字。<br>运行时获取进程名字代码如下：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">getCurrentProcessName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> pid = android.os.Process.myPid();</span><br><span class="line">        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line">        List&lt;ActivityManager.RunningAppProcessInfo&gt; infos = am.getRunningAppProcesses();</span><br><span class="line">        <span class="keyword">if</span> (infos != <span class="keyword">null</span> &amp;&amp; infos.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (ActivityManager.RunningAppProcessInfo appProcess : infos) &#123;</span><br><span class="line">                <span class="keyword">if</span> (appProcess.pid == pid) &#123;</span><br><span class="line">                    <span class="keyword">return</span> appProcess.processName;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -382,7 +395,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#注意点"><span class="nav-number">1.</span> <span class="nav-text">注意点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对应的方法"><span class="nav-number">2.</span> <span class="nav-text">对应的方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#多进程常见需求点"><span class="nav-number">1.</span> <span class="nav-text">多进程常见需求点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对应的方法"><span class="nav-number">2.</span> <span class="nav-text">对应的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解决_SharedPreference_在多进程中的问题"><span class="nav-number">2.1.</span> <span class="nav-text">解决 SharedPreference 在多进程中的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跨进程的全局变量，保持一致。"><span class="nav-number">2.2.</span> <span class="nav-text">跨进程的全局变量，保持一致。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#判断在什么进程。"><span class="nav-number">2.3.</span> <span class="nav-text">判断在什么进程。</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
