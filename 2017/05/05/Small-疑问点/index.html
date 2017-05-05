@@ -51,37 +51,16 @@
 
 
 
-<meta name="description" content="设计原则
-依赖倒转依赖抽象，不依赖具体。在工厂方法中，就体现了这一点， creator 中的公共主体逻辑可以先写好，写个抽象方法来延迟实现，让子类是具体实现。在 Volley 中的 http client 就体现了这一点。它会根据 SDK level 来采取不同的实现。常见设计模式
-工厂模式分为，简单工厂、抽象工厂和工厂方法，一共3种。
-外观模式
-适配者模式
-工厂方法模式
-抽象工厂方法
-原型模式">
+<meta name="description" content="记录 Small 疑惑点">
 <meta property="og:type" content="article">
-<meta property="og:title" content="常用设计模式">
-<meta property="og:url" content="http://www.aheadlcx.xyz/2016/05/14/常用设计模式/index.html">
+<meta property="og:title" content="Small 学习笔记-疑问点">
+<meta property="og:url" content="http://www.aheadlcx.xyz/2017/05/05/Small-疑问点/index.html">
 <meta property="og:site_name" content="believe yourself">
-<meta property="og:description" content="设计原则
-依赖倒转依赖抽象，不依赖具体。在工厂方法中，就体现了这一点， creator 中的公共主体逻辑可以先写好，写个抽象方法来延迟实现，让子类是具体实现。在 Volley 中的 http client 就体现了这一点。它会根据 SDK level 来采取不同的实现。常见设计模式
-工厂模式分为，简单工厂、抽象工厂和工厂方法，一共3种。
-外观模式
-适配者模式
-工厂方法模式
-抽象工厂方法
-原型模式">
-<meta property="og:updated_time" content="2016-06-01T09:20:14.000Z">
+<meta property="og:description" content="记录 Small 疑惑点">
+<meta property="og:updated_time" content="2017-05-05T08:16:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="常用设计模式">
-<meta name="twitter:description" content="设计原则
-依赖倒转依赖抽象，不依赖具体。在工厂方法中，就体现了这一点， creator 中的公共主体逻辑可以先写好，写个抽象方法来延迟实现，让子类是具体实现。在 Volley 中的 http client 就体现了这一点。它会根据 SDK level 来采取不同的实现。常见设计模式
-工厂模式分为，简单工厂、抽象工厂和工厂方法，一共3种。
-外观模式
-适配者模式
-工厂方法模式
-抽象工厂方法
-原型模式">
+<meta name="twitter:title" content="Small 学习笔记-疑问点">
+<meta name="twitter:description" content="记录 Small 疑惑点">
 
 
 
@@ -93,7 +72,7 @@
   };
 </script>
 
-  <title> 常用设计模式 | believe yourself </title>
+  <title> Small 学习笔记-疑问点 | believe yourself </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -233,7 +212,7 @@
             
             
               
-                常用设计模式
+                Small 学习笔记-疑问点
               
             
           </h1>
@@ -242,8 +221,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-05-14T11:37:28+08:00" content="2016-05-14">
-              2016-05-14
+            <time itemprop="dateCreated" datetime="2017-05-05T16:14:59+08:00" content="2017-05-05">
+              2017-05-05
             </time>
           </span>
 
@@ -266,36 +245,36 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="设计原则">设计原则</h1><ol>
-<li>依赖倒转<br>依赖抽象，不依赖具体。<br>在工厂方法中，就体现了这一点， creator 中的公共主体逻辑可以先写好，写个抽象方法来延迟实现，<br>让子类是具体实现。在 Volley 中的 http client 就体现了这一点。它会根据 SDK level 来<br>采取不同的实现。<h1 id="常见设计模式">常见设计模式</h1></li>
-<li>工厂模式<br>分为，简单工厂、抽象工厂和工厂方法，一共3种。</li>
-<li>外观模式</li>
-<li>适配者模式</li>
-<li>工厂方法模式</li>
-<li>抽象工厂方法</li>
-<li>原型模式</li>
-<li>中介模式</li>
-<li>代理模式</li>
-<li>观察者模式</li>
-<li>命令模式</li>
-</ol>
-<h2 id="设计模式的具体实现和理解">设计模式的具体实现和理解</h2><h3 id="简单工厂">简单工厂</h3><p><strong>使用情景</strong>：<br>不想让调用者，知道具体实现，直接返回一个接口，让操作者去调用。对外仅仅暴漏接口和<br>简单工厂，具体的实现隐藏起来。<br><strong>结构说明</strong>：<br>接口和具体实现类，以及工厂，处于一层，调用者处于另外一层。<br>如果需要调用不同的实现，可以选择  </p>
-<ol>
-<li>带入参</li>
-<li>或者自己读取配置文件。<br>带入参，就意味着，调用者需要知道内部具体实现的<br>部分细节了，这加大了，调用者的学习成本，值得注意的一点。<br><strong>优缺点</strong>：<br>改模式的优点是：调用者不关心具体的实现。把调用者和具体实现类解耦。<br>缺点：如果需要带入参，那么调用者就需要知道部分具体实现细节。</li>
-</ol>
-<h3 id="外观模式">外观模式</h3><p><strong>使用情景</strong>：调用者需要分别调用不同子模块的方法，来实现一个需求。外观模式，就是用了一个<br>对各子模块的包装( Facade )了，调用者只需要调用 Facade 就可以实现分别调用各子模块了。<br><strong>结构说明</strong>：<br>  Facade 包装一下各子模块的功能，对外提供一个包装后的功能方法，对外提供。<br><strong>优缺点</strong>：<br>优点是：调用者不关心那么多子模块的实现了，直接调用包装后的 Facade 。<br>缺点： 如果一些简单的功能，不知道是直接调用具体的模块好，还是用 Facade 好。<br><strong>和相关模式的区别</strong>：  </p>
-<ol>
-<li>简单工厂模式<br><strong>相同点是</strong> 都是不让调用者知道具体的实现细节，节省调用者的理解成本。<br><strong>不同点是</strong> 简单工厂返回的是接口，外观，是通过一个包装类来提供的。  </li>
-</ol>
-<h3 id="适配器模式">适配器模式</h3><p>简单来举例说，比如，第一版本一个类 A，有方法 A1 和 A2 ，现在第二版本，类 A 的升级类 B ，<br>有方法 B1 , B2 , B3 , B4 。但是呢，现在是处于第一版本向第二版本的过渡期，既要保持第二版本<br>的实现（虽然不大稳定），也要拥有之前版本的实现。一般来说，如果从业务角度，如果 A1  方法和 B1<br>方法，较接近，而且参数之类也可以兼容的话，就可以在类 B 的方法 B1 中，调用类 A  的方法 A1 。<br>至于类 A  什么时候传入到类 B 中，可以随意选择了，但是必须得在调用方法 B1 之前。</p>
-<h2 id="工厂方法模式">工厂方法模式</h2><p>和简单工厂比较像。他把公共逻辑写完，剩下的未知的（或者个性化）实现，写一个抽象方法，<br>留给子类去定制化实现。</p>
-<h2 id="抽象工厂方法">抽象工厂方法</h2><p>和工厂方法类似，并且会常常一起使用，主要特点，就是为一个特定的产品，实现定制化一个 Factory 。</p>
-<h2 id="原型模式">原型模式</h2><p>java 中的 clone 是浅度克隆，基本类型没问题，但是引用类型的话，clone 是直接把对象的值，<br>拷贝过去的。因此需要自己重新复制。</p>
-<h2 id="中介模式">中介模式</h2><p>和外观模式有点像，对象之间通信比较复杂，并且频繁的话，可以抽离出来，让 Mediator 来做<br>这些复杂的操作，中介模式的结构并不固定。</p>
-<h2 id="代理模式">代理模式</h2><p>在调用者和被访问的对象之间，引入一定程度上的中间者，试图不让调用者和被访问的对象直接联系。<br>这么做的原因可能各种各样。例如，目标对象，可能有很多公开方法，但是这些公开方法，大部分只是<br>希望给自己内部使用，仅有小部分是对开公开的。因此可以封装一层。</p>
-<h2 id="观察者模式">观察者模式</h2><p>一对多的关系，被观察者的改变，会引起众多观察者的关注。需要注意观察者的生命周期，需要及时注销。</p>
-<h2 id="命令模式">命令模式</h2><p>就是调用者，不关心具体的实现，</p>
+        <span itemprop="articleBody"><p>记录 Small 疑惑点<br><a id="more"></a></p>
+<h2 id="疑问点">疑问点</h2><ul>
+<li>资源加载<br>AssetManager 的 addAssetPath 方法可以添加一个资源搜索路径，然后就可以拿到一个新的<br>Resource 的了，代码如下：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">AssetManager mAssetManager;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            AssetManager assetManager = AssetManager.class.newInstance();</span><br><span class="line">            Method addAssetPath = assetManager.getClass().getMethod(<span class="string">"addAssetPath"</span>, String.class);</span><br><span class="line">            addAssetPath.invoke(assetManager, skinPath);</span><br><span class="line">            mAssetManager = assetManager;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Resources skinResources = <span class="keyword">new</span> Resources(mAssetManager, metrics, configuration());</span><br></pre></td></tr></table></figure>
+<p>但是 Activity 的 getResource 方法是 ContextThemeWrapper 提供的。这2个具体是怎么<br>结合起来的。</p>
+<ul>
+<li><p>其他组件包打包成 so 文件并存放在宿主中。这个到底是怎么安装的</p>
+</li>
+<li><p>dex 会不会重复插入了</p>
+</li>
+<li>资源合并</li>
+<li>Small.open(Uri uri)<br>查询参数</li>
+<li>assets 目录下的文件 bundle.json 可以这样打开</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sPatchManifestFile = <span class="keyword">new</span> File(Small.getContext().getFilesDir(), <span class="string">"bundle.json"</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>AssetManager 打开 xml<br>其中一段代码如下<br>用 AssetManager 添加一个资源路径，返回的 cookie ，然后用这个 cookie 和 想要打开的 xml 文件名<br>即可得到想要打开的 xml 的 XmlResourceParser 。  </li>
+</ul>
+<p><strong>undo 这里，添加一个路径，是不限制文件格式的么。 apk so 都可以？</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> cookie = ReflectAccelerator.addAssetPath(assmgr, mArchiveSourcePath);</span><br><span class="line">            <span class="keyword">if</span>(cookie != <span class="number">0</span>) &#123;</span><br><span class="line">                parser = assmgr.openXmlResourceParser(cookie, <span class="string">"AndroidManifest.xml"</span>);</span><br><span class="line">                assetError = <span class="keyword">false</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                Log.w(TAG, <span class="string">"Failed adding asset path:"</span>+mArchiveSourcePath);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>判断插件，是否有资源<br>用了变量 nonResources 保存。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> flags = parser.getAttributeIntValue(<span class="keyword">null</span>, <span class="string">"platformBuildVersionCode"</span>, <span class="number">0</span>);</span><br><span class="line">            <span class="keyword">int</span> abiFlags = (flags &amp; <span class="number">0xFFFFF000</span>) &gt;&gt; <span class="number">12</span>;</span><br><span class="line">            mNonResources = (flags &amp; <span class="number">0x800</span>) != <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>插件更新，原理<br>目前看到的相关代码如下  </li>
+</ul>
+<p>ApkBundleLauncher 的 postSetUp 方法里面<br><strong>目前未明白，为何删除了 optDexFile  ，下次重启就可以更新插件了。</strong>初步推测，是删了之后，下次<br>DexFile.loadDex 就会返回新的 DexFile 了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (LoadedApk apk : apks) &#123;</span><br><span class="line">    dexPaths[i] = apk.path;</span><br><span class="line">    dexFiles[i] = apk.dexFile;</span><br><span class="line">    <span class="keyword">if</span> (Small.getBundleUpgraded(apk.packageName)) &#123;</span><br><span class="line">        <span class="comment">// If upgraded, delete the opt dex file for recreating</span></span><br><span class="line">        <span class="keyword">if</span> (apk.optDexFile.exists()) apk.optDexFile.delete();</span><br><span class="line">        Small.setBundleUpgraded(apk.packageName, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    i++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -307,17 +286,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/17/再读-volley/" rel="next" title="再读 volley">
-                <i class="fa fa-chevron-left"></i> 再读 volley
+              <a href="/2017/03/20/postAndroid-多进程使用注意点/" rel="next" title="Android 多进程使用注意点">
+                <i class="fa fa-chevron-left"></i> Android 多进程使用注意点
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/06/12/CoordinatorLayout-源码学习/" rel="prev" title="CoordinatorLayout 源码学习">
-                CoordinatorLayout 源码学习 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -431,7 +406,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#设计原则"><span class="nav-number">1.</span> <span class="nav-text">设计原则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常见设计模式"><span class="nav-number">2.</span> <span class="nav-text">常见设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计模式的具体实现和理解"><span class="nav-number">2.1.</span> <span class="nav-text">设计模式的具体实现和理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单工厂"><span class="nav-number">2.1.1.</span> <span class="nav-text">简单工厂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外观模式"><span class="nav-number">2.1.2.</span> <span class="nav-text">外观模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#适配器模式"><span class="nav-number">2.1.3.</span> <span class="nav-text">适配器模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂方法模式"><span class="nav-number">2.2.</span> <span class="nav-text">工厂方法模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象工厂方法"><span class="nav-number">2.3.</span> <span class="nav-text">抽象工厂方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原型模式"><span class="nav-number">2.4.</span> <span class="nav-text">原型模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中介模式"><span class="nav-number">2.5.</span> <span class="nav-text">中介模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理模式"><span class="nav-number">2.6.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察者模式"><span class="nav-number">2.7.</span> <span class="nav-text">观察者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令模式"><span class="nav-number">2.8.</span> <span class="nav-text">命令模式</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#疑问点"><span class="nav-number">1.</span> <span class="nav-text">疑问点</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
