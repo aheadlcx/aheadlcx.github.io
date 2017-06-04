@@ -57,7 +57,7 @@
 <meta property="og:url" content="http://www.aheadlcx.xyz/2017/05/05/Small-疑问点/index.html">
 <meta property="og:site_name" content="believe yourself">
 <meta property="og:description" content="记录 Small 疑惑点">
-<meta property="og:updated_time" content="2017-05-05T08:16:51.000Z">
+<meta property="og:updated_time" content="2017-05-06T09:17:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Small 学习笔记-疑问点">
 <meta name="twitter:description" content="记录 Small 疑惑点">
@@ -275,6 +275,9 @@
 </ul>
 <p>ApkBundleLauncher 的 postSetUp 方法里面<br><strong>目前未明白，为何删除了 optDexFile  ，下次重启就可以更新插件了。</strong>初步推测，是删了之后，下次<br>DexFile.loadDex 就会返回新的 DexFile 了。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (LoadedApk apk : apks) &#123;</span><br><span class="line">    dexPaths[i] = apk.path;</span><br><span class="line">    dexFiles[i] = apk.dexFile;</span><br><span class="line">    <span class="keyword">if</span> (Small.getBundleUpgraded(apk.packageName)) &#123;</span><br><span class="line">        <span class="comment">// If upgraded, delete the opt dex file for recreating</span></span><br><span class="line">        <span class="keyword">if</span> (apk.optDexFile.exists()) apk.optDexFile.delete();</span><br><span class="line">        Small.setBundleUpgraded(apk.packageName, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    i++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>public.txt 更新和删除<br>这份文件是保存的 R 文件的 id ，目前还没搞清楚，删除和更新的时机。</li>
+</ul>
 </span>
       
     </div>
@@ -293,6 +296,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/04/small-gradle-plugin-插件整理/" rel="prev" title="small-gradle-plugin 插件整理">
+                small-gradle-plugin 插件整理 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -360,7 +367,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -374,7 +381,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
