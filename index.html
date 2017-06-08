@@ -381,6 +381,11 @@
 <li>运行阶段</li>
 </ul>
 <p>beforeEvaluate 是指配置阶段开始前做的事情。<br>afterEvaluate 是指配置阶段后面做的事情。</p>
+<h3 id="疑问点">疑问点</h3><ul>
+<li>rootSmall.preLinkJarDir 什么时候赋值的。</li>
+<li>AppPlugin 中的 configureReleaseVariant 方法中的 symbolFile rJavaFile 和 splitRJavaFile ，到底是什么关系和区别</li>
+<li>在 LibraryPlugin 的 configureReleaseVariant 方法中，会把 small.symbolFile 复制到  small.publicSymbolFile 。（除去了styleable） .small.symbolFile 路径地址赋值是在  AppPlugin 的 configureReleaseVariant 方法，但是内容什么时候赋值，未知。</li>
+</ul>
 
             
           </span>
