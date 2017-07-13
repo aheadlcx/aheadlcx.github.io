@@ -1,0 +1,742 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android,学习笔记," />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="从源码角度，学习下拉刷新的学习笔记.">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" 下拉刷新学习">
+<meta property="og:url" content="http://www.aheadlcx.xyz/2016/03/09/下拉刷新学习/index.html">
+<meta property="og:site_name" content="Believe yourself">
+<meta property="og:description" content="从源码角度，学习下拉刷新的学习笔记.">
+<meta property="og:updated_time" content="2016-04-06T15:29:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content=" 下拉刷新学习">
+<meta name="twitter:description" content="从源码角度，学习下拉刷新的学习笔记.">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title>  下拉刷新学习 | Believe yourself </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Believe yourself</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                 下拉刷新学习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-03-09T14:47:21+08:00" content="2016-03-09">
+              2016-03-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>从源码角度，学习下拉刷新的学习笔记.<br><a id="more"></a></p>
+<h1 id="Ultra-Pull-To-Refresh">Ultra-Pull-To-Refresh</h1><p><a href="https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh" target="_blank" rel="external">项目地址</a></p>
+<h2 id="关键类介绍">关键类介绍</h2><ol>
+<li>PtrFrameLayout<br>这是下拉刷新控件。</li>
+<li>PtrIndicator<br>这个是下拉刷新控件，帮助类，负责记录各种位置信息.</li>
+<li>PtrHandler<br>业务接口，判断是否可以刷新，以及刷新开始回调</li>
+<li>PtrUIHandler<br>下拉刷新 UI 接口，主要用于头部 View 的各种定义</li>
+</ol>
+<h2 id="PtrFrameLayout_绘制流程">PtrFrameLayout 绘制流程</h2><h3 id="meature_过程">meature 过程</h3><p>分别测量，headView 和 contentView。这个没什么特别，和一般的 FrameLayout 一样。<br>measure 之后，就拿到了 mHeaderHeight 。</p>
+<h3 id="Layout_过程">Layout 过程</h3><ol>
+<li>PtrFrameLayout 自身在 父 View 中的相对位置，是在方法 layout -&gt; setFrame 中确定的。</li>
+<li>PtrFrameLayout 的子 View 在 PtrFrameLayout 中的 相对位置，在 PtrFrameLayout 的<br>onLayout -&gt; layoutChildren 方法中确定。<br>oofSetX  是当前下来的位置。默认值 0.<br>mHeaderView 的 top 位置 =  PtrFrameLayout 的 paddingTop + mHeaderView 的 marginTop   <ul>
+<li>offSetX - mHeaderHeight（头部 View 高度）。<br>这里，巧妙的是 offSetX 这个值，可以动态的拿到下拉的位置。如果说下拉之后，某个原因导致 整个 View 二叉树<br>绘制的话， PtrFrameLayout 的位置还是正确的。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">layoutChildren</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> offsetX = mPtrIndicator.getCurrentPosY();</span><br><span class="line">        <span class="keyword">int</span> paddingLeft = getPaddingLeft();</span><br><span class="line">        <span class="keyword">int</span> paddingTop = getPaddingTop();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mHeaderView != <span class="keyword">null</span>) &#123;</span><br><span class="line">            MarginLayoutParams lp = (MarginLayoutParams) mHeaderView.getLayoutParams();</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> left = paddingLeft + lp.leftMargin;</span><br><span class="line">            <span class="comment">//TIPS: 16/3/9 为什么是这个值, 明白了，初始值，就是需要把mHeaderView 移除界外</span></span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> top = paddingTop + lp.topMargin + offsetX - mHeaderHeight;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> right = left + mHeaderView.getMeasuredWidth();</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> bottom = top + mHeaderView.getMeasuredHeight();</span><br><span class="line">            mHeaderView.layout(left, top, right, bottom);</span><br><span class="line">            <span class="keyword">if</span> (DEBUG &amp;&amp; DEBUG_LAYOUT) &#123;</span><br><span class="line">                PtrCLog.d(LOG_TAG, <span class="string">"onLayout header: %s %s %s %s"</span>, left, top, right, bottom);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mContent != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (isPinContent()) &#123;</span><br><span class="line">                offsetX = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            MarginLayoutParams lp = (MarginLayoutParams) mContent.getLayoutParams();</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> left = paddingLeft + lp.leftMargin;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> top = paddingTop + lp.topMargin + offsetX;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> right = left + mContent.getMeasuredWidth();</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> bottom = top + mContent.getMeasuredHeight();</span><br><span class="line">            <span class="keyword">if</span> (DEBUG &amp;&amp; DEBUG_LAYOUT) &#123;</span><br><span class="line">                PtrCLog.d(LOG_TAG, <span class="string">"onLayout content: %s %s %s %s"</span>, left, top, right, bottom);</span><br><span class="line">            &#125;</span><br><span class="line">            mContent.layout(left, top, right, bottom);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="更改_HeadView_和_contentView_的方式">更改 HeadView 和 contentView 的方式</h3><ol>
+<li>在刚开始的时候<br>在 onLayout 方法中，把 HeadView 移出去外面，通过设置 top 值，应有的 top 值 减去 HeadViewHeight.(头部 View 高度)</li>
+<li>在 触摸 Move 事件的时候。<br>采用的是 View 的 offsetTopAndBottom 方法。这个方式改变的是 top 值。<br>这个方法，不会总是触发 View 的 measure 和 layout 方法。实际测试中，如果不断调用，仅仅会<br>调用一次。</li>
+</ol>
+<h3 id="事件分发过程中的绘制">事件分发过程中的绘制</h3><h4 id="ACTION_DOWN_事件">ACTION_DOWN 事件</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">    mHasSendCancelEvent = <span class="keyword">false</span>;</span><br><span class="line">    mPtrIndicator.onPressDown(e.getX(), e.getY());</span><br><span class="line"></span><br><span class="line">    mScrollChecker.abortIfWorking();</span><br><span class="line"></span><br><span class="line">    mPreventForHorizontal = <span class="keyword">false</span>;</span><br><span class="line">    <span class="comment">//TIPS: 16/3/10 未明白</span></span><br><span class="line">    <span class="comment">// The cancel event will be sent once the position is moved.</span></span><br><span class="line">    <span class="comment">// So let the event pass to children.</span></span><br><span class="line">    <span class="comment">// fix #93, #102</span></span><br><span class="line">    dispatchTouchEventSupper(e);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br></pre></td></tr></table></figure>
+<p>这里做的事情:  </p>
+<ol>
+<li>每次 down 事件都是一个全新的开始，所以把2个标志位 mHasSendCancelEvent 和 mPreventForHorizontal<br>改为 false ，这2个标志位，下面 MOVE 事件再说。</li>
+<li>mPtrIndicator 记录目前位置。是否按下状态 mIsUnderTouch ，改为 true .这里有点奇怪，按下的<br>坐标 mPressedPos 赋值为 mCurrentPos，这个 mCurrentPos 改变的时机目前只有接受 MOVE 事件的时候。<br>放手，接受到 UP 或者 Cancel 事件，会调用 release(false) -&gt; move(change)<br>最终会改变 mCurrentPos 值。</li>
+<li>如果还在滚动，终止滚动.这里有一个情况，没想明白，如果滑动了一会儿，松开手，马上有按下的逻辑。</li>
+<li>dispatchTouchEventSupper  这个方法是直接把事件传递给 ViewGroup 的 dispatchTouchEvent 方法<br><strong>undo</strong> 交给子 View 。注解中说到，这是因为 第一次 MOVE 事件的时候，会发送一个 Cancel 事件，这是为了解决<br>bugs。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//按下的记录</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPressDown</span><span class="params">(<span class="keyword">float</span> x, <span class="keyword">float</span> y)</span> </span>&#123;</span><br><span class="line">        mIsUnderTouch = <span class="keyword">true</span>;</span><br><span class="line">        mPressedPos = mCurrentPos;</span><br><span class="line">        mPtLastMove.set(x, y);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="MOVE_事件">MOVE 事件</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> MotionEvent.ACTION_MOVE:</span><br><span class="line">                mLastMoveEvent = e;</span><br><span class="line">                mPtrIndicator.onMove(e.getX(), e.getY());</span><br><span class="line">                <span class="keyword">float</span> offsetX = mPtrIndicator.getOffsetX();</span><br><span class="line">                <span class="keyword">float</span> offsetY = mPtrIndicator.getOffsetY();</span><br><span class="line"></span><br><span class="line">                <span class="comment">//这个是为了，当包含一个viewpager的时候，当处于原始状态的时候，就直接把事件分发，直接交给ViewGroup来处理</span></span><br><span class="line">                <span class="comment">//start</span></span><br><span class="line">                <span class="comment">//当处于原始位置，并且水平滑动 &gt; 竖直方向滑动</span></span><br><span class="line">                <span class="keyword">if</span> (mDisableWhenHorizontalMove &amp;&amp; !mPreventForHorizontal &amp;&amp; (Math.abs(offsetX) &gt; mPagingTouchSlop &amp;&amp; Math.abs(offsetX) &gt; Math.abs(offsetY))) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (mPtrIndicator.isInStartPosition()) &#123;</span><br><span class="line">                        mPreventForHorizontal = <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (mPreventForHorizontal) &#123;</span><br><span class="line">                    <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//end</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">boolean</span> moveDown = offsetY &gt; <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">boolean</span> moveUp = !moveDown;</span><br><span class="line">                <span class="keyword">boolean</span> canMoveUp = mPtrIndicator.hasLeftStartPosition();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                    <span class="keyword">boolean</span> canMoveDown = mPtrHandler != <span class="keyword">null</span> &amp;&amp; mPtrHandler.checkCanDoRefresh(<span class="keyword">this</span>, mContent, mHeaderView);</span><br><span class="line">                    PtrCLog.v(LOG_TAG, <span class="string">"ACTION_MOVE: offsetY:%s, currentPos: %s, moveUp: %s, canMoveUp: %s, moveDown: %s: canMoveDown: %s"</span>, offsetY, mPtrIndicator.getCurrentPosY(), moveUp, canMoveUp, moveDown, canMoveDown);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// disable move when header not reach top</span></span><br><span class="line">                <span class="comment">//向下移动，并且不可以下拉刷新的时候，直接把事件分发交给ViewGroup</span></span><br><span class="line">                <span class="keyword">if</span> (moveDown &amp;&amp; mPtrHandler != <span class="keyword">null</span> &amp;&amp; !mPtrHandler.checkCanDoRefresh(<span class="keyword">this</span>, mContent, mHeaderView)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//可以向上并且是向上移动，或者是向下移动，那么就移动，并且消费事件。</span></span><br><span class="line">                <span class="keyword">if</span> ((moveUp &amp;&amp; canMoveUp) || moveDown) &#123;</span><br><span class="line">                    movePos(offsetY);</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+<p> MOVE 事件里，做了的事情</p>
+<h5 id="记录了相关位置值">记录了相关位置值</h5><p>记录了和上次 Move 点的位置距离 ,这里暂时还没有记录 mCurrentPos 。感觉作者对这个值是，UI 操作了<br>实时的位置值。<br>PtrIndicator 类代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">onMove</span><span class="params">(<span class="keyword">float</span> x, <span class="keyword">float</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">float</span> offsetX = x - mPtLastMove.x;</span><br><span class="line">    <span class="keyword">float</span> offsetY = (y - mPtLastMove.y);</span><br><span class="line">    processOnMove(x, y, offsetX, offsetY);</span><br><span class="line">    mPtLastMove.set(x, y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="兼容，下拉刷新控件_，包裹_ViewPager">兼容，下拉刷新控件 ，包裹 ViewPager</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这个是为了，当包含一个viewpager的时候，当处于原始状态的时候，就直接把事件分发，直接交给ViewGroup来处理</span></span><br><span class="line">                <span class="comment">//start</span></span><br><span class="line">                <span class="comment">//当处于原始位置，并且水平滑动 &gt; 竖直方向滑动</span></span><br><span class="line">                <span class="keyword">if</span> (mDisableWhenHorizontalMove &amp;&amp; !mPreventForHorizontal &amp;&amp; (Math.abs(offsetX) &gt; mPagingTouchSlop &amp;&amp; Math.abs(offsetX) &gt; Math.abs(offsetY))) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (mPtrIndicator.isInStartPosition()) &#123;</span><br><span class="line">                        mPreventForHorizontal = <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (mPreventForHorizontal) &#123;</span><br><span class="line">                    <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//end</span></span><br></pre></td></tr></table></figure>
+<h5 id="下拉（如果可以）或者上拉">下拉（如果可以）或者上拉</h5><p>重点在方法 movePos(offsetY)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">movePos</span><span class="params">(<span class="keyword">float</span> deltaY)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// has reached the top</span></span><br><span class="line">        <span class="keyword">if</span> ((deltaY &lt; <span class="number">0</span> &amp;&amp; mPtrIndicator.isInStartPosition())) &#123;</span><br><span class="line">            <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                PtrCLog.e(LOG_TAG, String.format(<span class="string">"has reached the top"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> to = mPtrIndicator.getCurrentPosY() + (<span class="keyword">int</span>) deltaY;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// over top</span></span><br><span class="line">        <span class="keyword">if</span> (mPtrIndicator.willOverTop(to)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                PtrCLog.e(LOG_TAG, String.format(<span class="string">"over top"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            to = PtrIndicator.POS_START;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mPtrIndicator.setCurrentPos(to);</span><br><span class="line">        <span class="keyword">int</span> change = to - mPtrIndicator.getLastPosY();</span><br><span class="line">        <span class="comment">//如果是下拉的话，change &gt; 0</span></span><br><span class="line">        updatePos(change);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里有几个值的转换，没明白什么意思。<br>deltaY = 真正的触摸位移 offsetY 除去 阻尼系数mResistance<br>int to = mPtrIndicator.getCurrentPosY() + (int) deltaY;<br>这里的 to 是真正需要移动到的地方。<br>如果没有超过 原始位置，change 和 deltaY 应该基本相等的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mPtrIndicator.setCurrentPos(to);</span><br><span class="line"><span class="keyword">int</span> change = to - mPtrIndicator.getLastPosY();</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * Update current position before update the UI</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setCurrentPos</span><span class="params">(<span class="keyword">int</span> current)</span> </span>&#123;</span><br><span class="line">        mLastPos = mCurrentPos;</span><br><span class="line">        mCurrentPos = current;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>接着跟 updatePos(change) 方法看看。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * 1,  在第一次接收到 MOVE 事件发送一个CANCEL事件</span><br><span class="line">     * 2，  （刚刚离开初始状态），或者，（刚刚完成刷新，并且可以同时进行下一次刷新）Status 由 PTR_STATUS_INIT - &gt; PTR_STATUS_PREPARE</span><br><span class="line">     *      并且调用 mPtrUIHandlerHolder.onUIRefreshPrepare</span><br><span class="line">     * 3，  达到刷新高度时，调用 mPtrUIHandlerHolder.onUIRefreshBegin</span><br><span class="line">     *      Status  PTR_STATUS_PREPARE - &gt; PTR_STATUS_LOADING</span><br><span class="line">     * 4, 通过 View.offsetTopAndBottom 和  invalidate 来让滚动实现</span><br><span class="line">     * 5, 调用 mPtrUIHandlerHolder.onUIPositionChange</span><br><span class="line">     * <span class="doctag">@param</span> change</span><br><span class="line">     */</span></span><br><span class="line">    <span class="comment">//TIPS: 16/3/10 注意上面第四点，滚动的实现，在Layout方法中可以看到，但是在View.offsetTopAndBottom也实现了，会不会有冲突，待查</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updatePos</span><span class="params">(<span class="keyword">int</span> change)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (change == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">boolean</span> isUnderTouch = mPtrIndicator.isUnderTouch();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// once moved, cancel event will be sent to child</span></span><br><span class="line">        <span class="comment">//TIPS: 16/3/10 每次移动之前，都发送一次 ACTION_CANCEL fix 93 102,回头得看看issuse</span></span><br><span class="line">        <span class="keyword">if</span> (isUnderTouch &amp;&amp; !mHasSendCancelEvent &amp;&amp; mPtrIndicator.hasMovedAfterPressedDown()) &#123;</span><br><span class="line">            mHasSendCancelEvent = <span class="keyword">true</span>;</span><br><span class="line">            sendCancelEvent();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// leave initiated position or just refresh complete</span></span><br><span class="line">        <span class="comment">//刚刚离开初始状态， 或者刚刚完成刷新，是否可以同时完成下一次刷新状态。这应该是，防止，刚刚才完成刷新状态，</span></span><br><span class="line">        <span class="comment">// mHeaderView 还没恢复到正常位置，用户又下拉刷新了</span></span><br><span class="line">        <span class="keyword">if</span> ((mPtrIndicator.hasJustLeftStartPosition() &amp;&amp; mStatus == PTR_STATUS_INIT) ||</span><br><span class="line">                (mPtrIndicator.goDownCrossFinishPosition() &amp;&amp; mStatus == PTR_STATUS_COMPLETE &amp;&amp; isEnabledNextPtrAtOnce())) &#123;</span><br><span class="line"></span><br><span class="line">            mStatus = PTR_STATUS_PREPARE;</span><br><span class="line">            mPtrUIHandlerHolder.onUIRefreshPrepare(<span class="keyword">this</span>);</span><br><span class="line">            <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                PtrCLog.i(LOG_TAG, <span class="string">"PtrUIHandler: onUIRefreshPrepare, mFlag %s"</span>, mFlag);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//TIPS: 16/3/10 暂时不知道为什么要做这样处理, 如果是刚刚恢复到初始状态，就RESET，并且发送一个DOWN事件</span></span><br><span class="line">        <span class="comment">// back to initiated position</span></span><br><span class="line">        <span class="keyword">if</span> (mPtrIndicator.hasJustBackToStartPosition()) &#123;</span><br><span class="line">            tryToNotifyReset();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// recover event to children</span></span><br><span class="line">            <span class="keyword">if</span> (isUnderTouch) &#123;</span><br><span class="line">                sendDownEvent();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Pull to Refresh</span></span><br><span class="line">        <span class="keyword">if</span> (mStatus == PTR_STATUS_PREPARE) &#123;</span><br><span class="line">            <span class="comment">// reach fresh height while moving from top to bottom</span></span><br><span class="line">            <span class="keyword">if</span> (isUnderTouch &amp;&amp; !isAutoRefresh() &amp;&amp; mPullToRefresh</span><br><span class="line">                    &amp;&amp; mPtrIndicator.crossRefreshLineFromTopToBottom()) &#123;</span><br><span class="line">                <span class="comment">//不是自动刷新，并且是下拉刷新（而不是释放刷新），并且刚刚从top -&gt; bottom，经过刷新距离</span></span><br><span class="line">                tryToPerformRefresh();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// reach header height while auto refresh</span></span><br><span class="line">            <span class="comment">//当自动刷新时，达到头部高度</span></span><br><span class="line">            <span class="keyword">if</span> (performAutoRefreshButLater() &amp;&amp; mPtrIndicator.hasJustReachedHeaderHeightFromTopToBottom()) &#123;</span><br><span class="line">                tryToPerformRefresh();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">            PtrCLog.v(LOG_TAG, <span class="string">"updatePos: change: %s, current: %s last: %s, top: %s, headerHeight: %s"</span>,</span><br><span class="line">                    change, mPtrIndicator.getCurrentPosY(), mPtrIndicator.getLastPosY(), mContent.getTop(), mHeaderHeight);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mHeaderView.offsetTopAndBottom(change);</span><br><span class="line">        <span class="keyword">if</span> (!isPinContent()) &#123;</span><br><span class="line">            mContent.offsetTopAndBottom(change);</span><br><span class="line">        &#125;</span><br><span class="line">        invalidate();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mPtrUIHandlerHolder.hasHandler()) &#123;</span><br><span class="line">            mPtrUIHandlerHolder.onUIPositionChange(<span class="keyword">this</span>, isUnderTouch, mStatus, mPtrIndicator);</span><br><span class="line">        &#125;</span><br><span class="line">        onPositionChange(isUnderTouch, mStatus, mPtrIndicator);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里做了的事情有：</p>
+<ol>
+<li>如果是按下状态并且没有发过 cancel 事件，而且离开了按下的位置，其实这就是希望第一次接受到 MOVE<br>事件之后，发送一个 cancel 事件给 ViewGroup （对象是 PtrFrameLayout ）处理。</li>
+<li>如果刚刚离开原始位置，或者超过了下拉刷新距离，并且允许刚刚完成刷新，没恢复到初始状态，马上进行下一次刷新的时候，<br>回调 PtrUIHandler onUIRefreshPrepare 接口。</li>
+<li>如果刚恢复到原始位置，就把各参数，恢复到原始状态，并且发送一个 down 事件给 子 View 。</li>
+<li>如果是按下状态，不是自动刷新，并且是下拉刷新，并且刚刚超过刷新距离，就调用方法 tryToPerformRefresh<br>回调 mPtrHandler.onRefreshBegin(this) 和 PtrUIHandler.onUIRefreshBegin 并且改变状态为 PTR_STATUS_LOADING</li>
+<li>改变 mHeaderView 和 contentView 的位置（如果需要）。</li>
+</ol>
+<h4 id="UP_或者_Cancel_事件">UP 或者 Cancel 事件</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line"><span class="keyword">case</span> MotionEvent.ACTION_CANCEL:</span><br><span class="line">    mPtrIndicator.onRelease();</span><br><span class="line">    <span class="comment">//是否已经离开原始位置</span></span><br><span class="line">    <span class="keyword">if</span> (mPtrIndicator.hasLeftStartPosition()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">            PtrCLog.d(LOG_TAG, <span class="string">"call onRelease when user release"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        onRelease(<span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">if</span> (mPtrIndicator.hasMovedAfterPressedDown()) &#123;</span><br><span class="line">            sendCancelEvent();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里做的事情有</p>
+<ol>
+<li>取消按下状态</li>
+<li>如果离开了初始状态，就调用 onRelease 方法。<br>这意思就是，如果离开了原始状态，代表 PtrFrameLayout 进行了滑动。 onRelease 方法代表松手，应该<br>进行的动作。</li>
+<li>如果按下之后进行过移动，就发送一个 cancel 事件给 ViewGroup 。并且 return true.</li>
+</ol>
+<p>接下来看看 onRelease  方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">onRelease</span><span class="params">(<span class="keyword">boolean</span> stayForLoading)</span> </span>&#123;</span><br><span class="line">        tryToPerformRefresh();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mStatus == PTR_STATUS_LOADING) &#123;</span><br><span class="line">            <span class="comment">// keep header for fresh</span></span><br><span class="line">            <span class="keyword">if</span> (mKeepHeaderWhenRefresh) &#123;</span><br><span class="line">                <span class="comment">// scroll header back</span></span><br><span class="line">                <span class="comment">//怀疑这里写错了， 后面的逻辑，不应该带上 !</span></span><br><span class="line">                <span class="comment">//TIPS: 16/3/31 这里，发现调用时机，只有在 cancel 和 up 事件时，stayForLoading 才会为 false</span></span><br><span class="line">                <span class="comment">//逻辑应该是对的</span></span><br><span class="line">                <span class="keyword">if</span> (mPtrIndicator.isOverOffsetToKeepHeaderWhileLoading() &amp;&amp; !stayForLoading) &#123;</span><br><span class="line">                    <span class="comment">//滚到刷新保持头部距离</span></span><br><span class="line">                    mScrollChecker.tryToScrollTo(mPtrIndicator.getOffsetToKeepHeaderWhileLoading(), mDurationToClose);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// do nothing</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//滚回头部</span></span><br><span class="line">                tryScrollBackToTopWhileLoading();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (mStatus == PTR_STATUS_COMPLETE) &#123;</span><br><span class="line">                notifyUIRefreshComplete(<span class="keyword">false</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                tryScrollBackToTopAbortRefresh();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//触发对外接口的回调，但是不会做刷新的UI动作</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">tryToPerformRefresh</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mStatus != PTR_STATUS_PREPARE) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//（是否超过刷新距离，并且是自动刷新），或者（超过了刷新距离）</span></span><br><span class="line">        <span class="keyword">if</span> ((mPtrIndicator.isOverOffsetToKeepHeaderWhileLoading() &amp;&amp; isAutoRefresh()) || mPtrIndicator.isOverOffsetToRefresh()) &#123;</span><br><span class="line">            mStatus = PTR_STATUS_LOADING;</span><br><span class="line">            performRefresh();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//做了一些，通知，PtrHandler.onRefreshBegin 还有 PtrUIHandler.onUIRefreshBegin</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">performRefresh</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mLoadingStartTime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">if</span> (mPtrUIHandlerHolder.hasHandler()) &#123;</span><br><span class="line">            mPtrUIHandlerHolder.onUIRefreshBegin(<span class="keyword">this</span>);</span><br><span class="line">            <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                PtrCLog.i(LOG_TAG, <span class="string">"PtrUIHandler: onUIRefreshBegin"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mPtrHandler != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mPtrHandler.onRefreshBegin(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="移动_View_方式小结">移动 View 方式小结</h3><p>通过调用 View 的 offsetTopAndBottom 方法，改变 View 的 top 值。这个过程，本身只会一次调用 layout<br>过程，因此不会消耗很大的性能。即使后期因为其他原因，触发了整个 View 二叉树的绘制， 在 layout 过程中，<br>因为通过 PtrIndicator 记录了当前滑动的距离，因此 View 的位置还是正确的。</p>
+<h2 id="事件分发过程-整体逻辑">事件分发过程-整体逻辑</h2><h3 id="DOWN_事件">DOWN 事件</h3><ol>
+<li>直接把事件传递给 ViewGroup 。</li>
+<li>return true 。</li>
+</ol>
+<p>这里这么做，一来，可以保证，子 View 可以接受到 DOWN 事件，二来，又可以让 PtrFrameLayout<br>可以捕获 Down 事件，以及接下来的一系列事件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">     dispatchTouchEventSupper(e);</span><br><span class="line">             <span class="keyword">return</span> <span class="keyword">true</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="DOWN_事件小结">DOWN 事件小结</h4><p>让 ViewGroup 可以接受到 DOWN 事件，并且 PtrFrameLayout 本身也消费了 DOWN 事件，并且记录了<br>相关的值，这样对于整个分发流程，在 DOWN 事件上，其实没有任何干扰了。</p>
+<h3 id="MOVE_事件-1">MOVE 事件</h3><h4 id="嵌套_ViewPager_的情况">嵌套 ViewPager 的情况</h4><p>做了一些逻辑检查，以判断是否直接将事件传递给子 View 。并且自身不做其他处理了。涉及的逻辑判断条件  </p>
+<ol>
+<li>是否设置标志位 ， mDisableWhenHorizontalMove ，当嵌套 ViewPager 时，需要设置为 True。<br>需要有当 mDisableWhenHorizontalMove 为 true 。</li>
+<li>检查标志位， mPreventForHorizontal ，该标志位，每次在 Down 事件，恢复为 false。需要该<br>mPreventForHorizontal == false。</li>
+<li>X 轴滑动的最小距离，大于阀值，并且大于 Y 轴上的滑动距离。</li>
+<li>需要 Y 轴上，需要开始状态的位置。</li>
+</ol>
+<p>满足上面所有条件的话， 则会直接把所有 MOVE 事件交给 ViewGroup 来处理。 返回值就用 ViewGroup 的返回值。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (mDisableWhenHorizontalMove &amp;&amp; !mPreventForHorizontal &amp;&amp; (Math.abs(offsetX) &gt; mPagingTouchSlop &amp;&amp; Math.abs(offsetX) &gt; Math.abs(offsetY))) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (mPtrIndicator.isInStartPosition()) &#123;</span><br><span class="line">                        mPreventForHorizontal = <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (mPreventForHorizontal) &#123;</span><br><span class="line">                    <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="一般的场景，没有嵌套需要左右滑动的控件">一般的场景，没有嵌套需要左右滑动的控件</h4><h5 id="当向下滑动，但是业务接口，表示并不可以下拉刷新了">当向下滑动，但是业务接口，表示并不可以下拉刷新了</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (moveDown &amp;&amp; mPtrHandler != <span class="keyword">null</span> &amp;&amp; !mPtrHandler.checkCanDoRefresh(<span class="keyword">this</span>, mContent, mHeaderView)) &#123;</span><br><span class="line">    <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>向下移动，并且不可以下拉刷新的时候，直接把事件分发交给ViewGroup</p>
+<h5 id="下拉或者上拉（可以的时候）">下拉或者上拉（可以的时候）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((moveUp &amp;&amp; canMoveUp) || moveDown) &#123;</span><br><span class="line">                  movePos(offsetY);</span><br><span class="line">                  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">              &#125;</span><br></pre></td></tr></table></figure>
+<p>直接消费事件， return  true 。</p>
+<h4 id="MOVE_事件小结">MOVE 事件小结</h4><p>当时左右滑动的时候，交给 ViewGroup 来处理，返回值也取 ViewGroup 的，这样也算是没有干扰 MOVE<br>事件分发流程了。可是当第一个 MOVE 滑动是左右滑动，但是之后的是竖直滑动的话，也必须交给 ViewGroup<br>来处理了。这个逻辑，其实也是合理的，试想一下，如果 ViewPager 滑动了半屏，再下拉刷新，这个场面也挺<br>奇葩的。</p>
+<p>业务接口，不允许下拉刷新，并且是下拉的时候，事件是直接交给 ViewGroup 来处理了。</p>
+<p>如果是上下拉，就自身 PtrFrameLayout 消费了事件，返回了 true 。<br>ViewGroup 能接受到 MOVE 事件，一个可能情况，那就是第一个 MOVE 事件是左右滑动，并且只有的 MOVE 事件都交给<br>ViewGroup 来处理了。<br><strong>mark</strong> 还有一个可能的情况是 这是一个上拉 MOVE 事件， PtrFrameLayout 没有离开原始位置的时候，<br>就直接交给 ViewGroup 来处理了。</p>
+<h3 id="UP_OR_CANCEL_事件">UP OR CANCEL 事件</h3><h4 id="没有离开开始位置">没有离开开始位置</h4><p>直接交给 ViewGroup 来处理，返回值取 ViewGroup 的返回值。</p>
+<h4 id="离开了开始位置">离开了开始位置</h4><h5 id="按下后移动过">按下后移动过</h5><p>发送一个 Cancel 事件(根据 最后一个 Move 事件相关参数，来伪造一个 Cancel 事件)给<br>ViewGroup 来处理。并且 返回 true，消费事件。</p>
+<h5 id="按下后没有移动过">按下后没有移动过</h5><p>交给 ViewGroup 来处理这事件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mPtrIndicator.onRelease();</span><br><span class="line">               <span class="comment">//是否已经离开原始位置</span></span><br><span class="line">               <span class="keyword">if</span> (mPtrIndicator.hasLeftStartPosition()) &#123;</span><br><span class="line">                   <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                       PtrCLog.d(LOG_TAG, <span class="string">"call onRelease when user release"</span>);</span><br><span class="line">                   &#125;</span><br><span class="line">                   onRelease(<span class="keyword">false</span>);</span><br><span class="line">                   <span class="keyword">if</span> (mPtrIndicator.hasMovedAfterPressedDown()) &#123;</span><br><span class="line">                       sendCancelEvent();</span><br><span class="line">                       <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">               &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                   <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">               &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="UP_OR_CANCEL_事件小结">UP OR CANCEL 事件小结</h4><p>如果没有离开开始的位置，要么是移动过，但是现在已经回到开始位置了，要么就是没有移动过。 PtrFrameLayout<br>对 UP 事件，在滑动上，其实需求不大。<strong>mark</strong> 但是这里其实有一种可能是，我移动过，而且是下拉刷新，<br>这样，就即使触发 UI 接口的刷新完成，直到 DOWN 事件，才会触发。</p>
+<p>如果已经离开了开始位置，并且在按下之后移动过，就发送一个 CANCEL 事件给 ViewGroup，并且返回 TRUE 。<br><strong>mark</strong> 这里，为什么要发送一个 CANCEL 事件给 ViewGroup ，有点奇怪。<br>这里主要是，解决下拉过程中，内容的点击问题。详细见下文。</p>
+<p>如果在按下后没有移动过，就直接交给 ViewGroup 来处理了。</p>
+<!-- ### 事件分发小结 -->
+<h3 id="疑难问题点">疑难问题点</h3><h4 id="下拉过程中，子_View_的点击事件">下拉过程中，子 View 的点击事件</h4><p>要想响应 onClick 需要具备的条件：</p>
+<ol>
+<li>接收到了 DOWN 事件，处于按下状态。</li>
+<li>接收到了 UP 事件。这才会响应 onClick .<br>此外，如果接收 UP 事件之前，接收到了 Cancel 事件，按下效果就会被取消，之后再接收到 UP 事件，也<br>不会响应 onClick 了。</li>
+</ol>
+<p>View 的 onclick 事件想相应，那么他就必须是在按下状态，并且收到 ACTION_UP 事件。这里可以见 View<br>源码注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Only perform take click actions if we were in the pressed state</span></span><br><span class="line">                           <span class="keyword">if</span> (!focusTaken) &#123;</span><br><span class="line">                               <span class="comment">// Use a Runnable and post this rather than calling</span></span><br><span class="line">                               <span class="comment">// performClick directly. This lets other visual state</span></span><br><span class="line">                               <span class="comment">// of the view update before click actions start.</span></span><br><span class="line">                               <span class="keyword">if</span> (mPerformClick == <span class="keyword">null</span>) &#123;</span><br><span class="line">                                   mPerformClick = <span class="keyword">new</span> PerformClick();</span><br><span class="line">                               &#125;</span><br><span class="line">                               <span class="keyword">if</span> (!post(mPerformClick)) &#123;</span><br><span class="line">                                   performClick();</span><br><span class="line">                               &#125;</span><br><span class="line">                           &#125;</span><br></pre></td></tr></table></figure>
+<p>PtrFrameLayout 在 DOWN 事件时，无论如何都分发给了 ViewGroup  。在 Move 事件时，如果 Move<br>事件被 PtrFrameLayout 消耗了，并且进行了 滑动，那么 PtrFrameLayout 的子 View 就不应该<br>响应 onClick 了，因此作者选择了，在第一次 Move 事件的时候，利用这个 Move Event 的坐标，伪造了<br>一个 CANCEL Action 分发给了 ViewGroup 。这样的话，PtrFrameLayout 的子 View ，就不会错误的<br>响应 onClick 了。<strong>mark</strong> 这里，其实还有一个效果，就是可以取消 子 View 的按下效果。<br><strong>mark</strong> 当面对下拉刷新的时候，先按下，到底 是否显示按下的效果， Move 的时候才 取消这个按下的效果。<br>不知道 IOS 是否采取一样的处理。</p>
+<p> 为了解决，在下拉的过程中的点击事件，作者在 UP OR CANCEL 事件中，做了如下逻辑处理:<br> 如果已经离开了开始状态的位置，并且在按下之后没有移动过，事件就交给 ViewGroup 来处理。<br> 这样使得子 View ，就有机会响应 onClick 事件了。当然了，如果没有移动过，没有离开开始状态<br> 也是会把事件传递给子 View 的。相关的源码，再次贴出，方便查看</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (mPtrIndicator.hasLeftStartPosition()) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                        PtrCLog.d(LOG_TAG, <span class="string">"call onRelease when user release"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    onRelease(<span class="keyword">false</span>);</span><br><span class="line">                    <span class="keyword">if</span> (mPtrIndicator.hasMovedAfterPressedDown()) &#123;</span><br><span class="line">                        sendCancelEvent();</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> dispatchTouchEventSupper(e);</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag">#android</a>
+          
+            <a href="/tags/学习笔记/" rel="tag">#学习笔记</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/04/postFlux-学习笔记/" rel="next" title="Flux 学习笔记">
+                <i class="fa fa-chevron-left"></i> Flux 学习笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/23/Dagger2-学习笔记/" rel="prev" title="Dagger2 学习笔记">
+                Dagger2 学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="aheadlcx" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">aheadlcx</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ultra-Pull-To-Refresh"><span class="nav-number">1.</span> <span class="nav-text">Ultra-Pull-To-Refresh</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关键类介绍"><span class="nav-number">1.1.</span> <span class="nav-text">关键类介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PtrFrameLayout_绘制流程"><span class="nav-number">1.2.</span> <span class="nav-text">PtrFrameLayout 绘制流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#meature_过程"><span class="nav-number">1.2.1.</span> <span class="nav-text">meature 过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Layout_过程"><span class="nav-number">1.2.2.</span> <span class="nav-text">Layout 过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更改_HeadView_和_contentView_的方式"><span class="nav-number">1.2.3.</span> <span class="nav-text">更改 HeadView 和 contentView 的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件分发过程中的绘制"><span class="nav-number">1.2.4.</span> <span class="nav-text">事件分发过程中的绘制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ACTION_DOWN_事件"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">ACTION_DOWN 事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MOVE_事件"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">MOVE 事件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#记录了相关位置值"><span class="nav-number">1.2.4.2.1.</span> <span class="nav-text">记录了相关位置值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#兼容，下拉刷新控件_，包裹_ViewPager"><span class="nav-number">1.2.4.2.2.</span> <span class="nav-text">兼容，下拉刷新控件 ，包裹 ViewPager</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#下拉（如果可以）或者上拉"><span class="nav-number">1.2.4.2.3.</span> <span class="nav-text">下拉（如果可以）或者上拉</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UP_或者_Cancel_事件"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">UP 或者 Cancel 事件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移动_View_方式小结"><span class="nav-number">1.2.5.</span> <span class="nav-text">移动 View 方式小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件分发过程-整体逻辑"><span class="nav-number">1.3.</span> <span class="nav-text">事件分发过程-整体逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DOWN_事件"><span class="nav-number">1.3.1.</span> <span class="nav-text">DOWN 事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DOWN_事件小结"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">DOWN 事件小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MOVE_事件-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">MOVE 事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#嵌套_ViewPager_的情况"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">嵌套 ViewPager 的情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一般的场景，没有嵌套需要左右滑动的控件"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">一般的场景，没有嵌套需要左右滑动的控件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#当向下滑动，但是业务接口，表示并不可以下拉刷新了"><span class="nav-number">1.3.2.2.1.</span> <span class="nav-text">当向下滑动，但是业务接口，表示并不可以下拉刷新了</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#下拉或者上拉（可以的时候）"><span class="nav-number">1.3.2.2.2.</span> <span class="nav-text">下拉或者上拉（可以的时候）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MOVE_事件小结"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">MOVE 事件小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UP_OR_CANCEL_事件"><span class="nav-number">1.3.3.</span> <span class="nav-text">UP OR CANCEL 事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#没有离开开始位置"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">没有离开开始位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#离开了开始位置"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">离开了开始位置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#按下后移动过"><span class="nav-number">1.3.3.2.1.</span> <span class="nav-text">按下后移动过</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#按下后没有移动过"><span class="nav-number">1.3.3.2.2.</span> <span class="nav-text">按下后没有移动过</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UP_OR_CANCEL_事件小结"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">UP OR CANCEL 事件小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#疑难问题点"><span class="nav-number">1.3.4.</span> <span class="nav-text">疑难问题点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下拉过程中，子_View_的点击事件"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">下拉过程中，子 View 的点击事件</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aheadlcx</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

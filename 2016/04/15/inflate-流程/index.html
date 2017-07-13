@@ -1,0 +1,722 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="源码学习," />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言我们要加载 xml 上的 View 时，大抵都会用上下面几种方法。
+
+inflater.inflate(R.layout.frag_home_detail_scroll, null)
+inflater.inflate(R.layout.frag_home_detail_scroll, null, false)
+LayoutInflater.from(mContext).inflater()">
+<meta property="og:type" content="article">
+<meta property="og:title" content="inflate 流程">
+<meta property="og:url" content="http://www.aheadlcx.xyz/2016/04/15/inflate-流程/index.html">
+<meta property="og:site_name" content="Believe yourself">
+<meta property="og:description" content="前言我们要加载 xml 上的 View 时，大抵都会用上下面几种方法。
+
+inflater.inflate(R.layout.frag_home_detail_scroll, null)
+inflater.inflate(R.layout.frag_home_detail_scroll, null, false)
+LayoutInflater.from(mContext).inflater()">
+<meta property="og:updated_time" content="2016-04-17T09:21:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="inflate 流程">
+<meta name="twitter:description" content="前言我们要加载 xml 上的 View 时，大抵都会用上下面几种方法。
+
+inflater.inflate(R.layout.frag_home_detail_scroll, null)
+inflater.inflate(R.layout.frag_home_detail_scroll, null, false)
+LayoutInflater.from(mContext).inflater()">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> inflate 流程 | Believe yourself </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Believe yourself</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                inflate 流程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-04-15T10:24:52+08:00" content="2016-04-15">
+              2016-04-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="前言">前言</h1><p>我们要加载 xml 上的 View 时，大抵都会用上下面几种方法。</p>
+<ol>
+<li>inflater.inflate(R.layout.frag_home_detail_scroll, null)</li>
+<li>inflater.inflate(R.layout.frag_home_detail_scroll, null, false)</li>
+<li>LayoutInflater.from(mContext).inflater()<a id="more"></a>
+先看看第三种，可以看到，其实也是获取一个 LayoutInflater 实例，和前面2种方法，没区别。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LayoutInflater <span class="title">from</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        LayoutInflater LayoutInflater =</span><br><span class="line">                (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);</span><br><span class="line">        <span class="keyword">if</span> (LayoutInflater == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AssertionError(<span class="string">"LayoutInflater not found."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> LayoutInflater;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，继续看前面2种方法的源码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> View <span class="title">inflate</span><span class="params">(@LayoutRes <span class="keyword">int</span> resource, @Nullable ViewGroup root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> inflate(resource, root, root != <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>第一个方法，就是直接调用第二个方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> View <span class="title">inflate</span><span class="params">(@LayoutRes <span class="keyword">int</span> resource, @Nullable ViewGroup root, <span class="keyword">boolean</span> attachToRoot)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Resources res = getContext().getResources();</span><br><span class="line">        <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">            Log.d(TAG, <span class="string">"INFLATING from resource: \""</span> + res.getResourceName(resource) + <span class="string">"\" ("</span></span><br><span class="line">                    + Integer.toHexString(resource) + <span class="string">")"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> XmlResourceParser parser = res.getLayout(resource);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> inflate(parser, root, attachToRoot);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            parser.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到最终是调用了<br>public View inflate(XmlPullParser parser, @Nullable ViewGroup root, boolean attachToRoot)<br>方法。</p>
+<h1 id="inflate_真正干活的方法">inflate 真正干活的方法</h1><h2 id="方法签名注解">方法签名注解</h2><p>方法签名的注解很重要 ，先来看看。这是一个加载 View 层的方法。为了性能，View 的 inflate 过程<br>严重依赖 构建过程中预处理的 xml 文件。因此，目前在运行时，是不可以直接加载一个原生的 xml 文件  </p>
+<h3 id="方法几个入参">方法几个入参</h3><p>parser 是一个 dom 解析的 。root 是一个可选参数，如果 attachToRoot 为 true<br>那么 root 就成为要加载的 xml View 的 parentView 。如果 attachToRoot 为 false ，那么<br>root 仅仅是帮助 xml 上的 root view 产生 合适的 LayoutParams 。</p>
+<h3 id="出参">出参</h3><p>如果 root 不为 null ， 并且 attachToRoot == true 的话，那么 返回 root .<br>其余情况，均返回 xml 上的 root view 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * Inflate a new view hierarchy from the specified XML node. Throws</span><br><span class="line">     * &#123;<span class="doctag">@link</span> InflateException&#125; if there is an error.</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * &lt;em&gt;&lt;strong&gt;Important&lt;/strong&gt;&lt;/em&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;For performance</span><br><span class="line">     * reasons, view inflation relies heavily on pre-processing of XML files</span><br><span class="line">     * that is done at build time. Therefore, it is not currently possible to</span><br><span class="line">     * use LayoutInflater with an XmlPullParser over a plain XML file at runtime.</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> parser XML dom node containing the description of the view</span><br><span class="line">     *        hierarchy.</span><br><span class="line">     * <span class="doctag">@param</span> root Optional view to be the parent of the generated hierarchy (if</span><br><span class="line">     *        &lt;em&gt;attachToRoot&lt;/em&gt; is true), or else simply an object that</span><br><span class="line">     *        provides a set of LayoutParams values for root of the returned</span><br><span class="line">     *        hierarchy (if &lt;em&gt;attachToRoot&lt;/em&gt; is false.)</span><br><span class="line">     * <span class="doctag">@param</span> attachToRoot Whether the inflated hierarchy should be attached to</span><br><span class="line">     *        the root parameter? If false, root is only used to create the</span><br><span class="line">     *        correct subclass of LayoutParams for the root view in the XML.</span><br><span class="line">     * <span class="doctag">@return</span> The root View of the inflated hierarchy. If root was supplied and</span><br><span class="line">     *         attachToRoot is true, this is root; otherwise it is the root of</span><br><span class="line">     *         the inflated XML file.</span><br><span class="line">     */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> View <span class="title">inflate</span><span class="params">(XmlPullParser parser, @Nullable ViewGroup root, <span class="keyword">boolean</span> attachToRoot)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (mConstructorArgs) &#123;</span><br><span class="line">            Trace.traceBegin(Trace.TRACE_TAG_VIEW, <span class="string">"inflate"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">final</span> Context inflaterContext = mContext;</span><br><span class="line">            <span class="keyword">final</span> AttributeSet attrs = Xml.asAttributeSet(parser);</span><br><span class="line">            Context lastContext = (Context) mConstructorArgs[<span class="number">0</span>];</span><br><span class="line">            mConstructorArgs[<span class="number">0</span>] = inflaterContext;</span><br><span class="line">            View result = root;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// Look for the root node.</span></span><br><span class="line">                <span class="keyword">int</span> type;</span><br><span class="line">                <span class="keyword">while</span> ((type = parser.next()) != XmlPullParser.START_TAG &amp;&amp;</span><br><span class="line">                        type != XmlPullParser.END_DOCUMENT) &#123;</span><br><span class="line">                    <span class="comment">// Empty</span></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (type != XmlPullParser.START_TAG) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> InflateException(parser.getPositionDescription()</span><br><span class="line">                            + <span class="string">": No start tag found!"</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">final</span> String name = parser.getName();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                    System.out.println(<span class="string">"**************************"</span>);</span><br><span class="line">                    System.out.println(<span class="string">"Creating root view: "</span></span><br><span class="line">                            + name);</span><br><span class="line">                    System.out.println(<span class="string">"**************************"</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (TAG_MERGE.equals(name)) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (root == <span class="keyword">null</span> || !attachToRoot) &#123;</span><br><span class="line">                        <span class="keyword">throw</span> <span class="keyword">new</span> InflateException(<span class="string">"&lt;merge /&gt; can be used only with a valid "</span></span><br><span class="line">                                + <span class="string">"ViewGroup root and attachToRoot=true"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    rInflate(parser, root, inflaterContext, attrs, <span class="keyword">false</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// Temp is the root view that was found in the xml</span></span><br><span class="line">                    <span class="keyword">final</span> View temp = createViewFromTag(root, name, inflaterContext, attrs);</span><br><span class="line"></span><br><span class="line">                    ViewGroup.LayoutParams params = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (root != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                            System.out.println(<span class="string">"Creating params from root: "</span> +</span><br><span class="line">                                    root);</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="comment">// Create layout params that match root, if supplied</span></span><br><span class="line">                        params = root.generateLayoutParams(attrs);</span><br><span class="line">                        <span class="keyword">if</span> (!attachToRoot) &#123;</span><br><span class="line">                            <span class="comment">// Set the layout params for temp if we are not</span></span><br><span class="line">                            <span class="comment">// attaching. (If we are, we use addView, below)</span></span><br><span class="line">                            temp.setLayoutParams(params);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                        System.out.println(<span class="string">"-----&gt; start inflating children"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Inflate all children under temp against its context.</span></span><br><span class="line">                    rInflateChildren(parser, temp, attrs, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                        System.out.println(<span class="string">"-----&gt; done inflating children"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// We are supposed to attach all the views we found (int temp)</span></span><br><span class="line">                    <span class="comment">// to root. Do that now.</span></span><br><span class="line">                    <span class="keyword">if</span> (root != <span class="keyword">null</span> &amp;&amp; attachToRoot) &#123;</span><br><span class="line">                        root.addView(temp, params);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Decide whether to return the root that was passed in or the</span></span><br><span class="line">                    <span class="comment">// top view found in xml.</span></span><br><span class="line">                    <span class="keyword">if</span> (root == <span class="keyword">null</span> || !attachToRoot) &#123;</span><br><span class="line">                        result = temp;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">catch</span> (XmlPullParserException e) &#123;</span><br><span class="line">                InflateException ex = <span class="keyword">new</span> InflateException(e.getMessage());</span><br><span class="line">                ex.initCause(e);</span><br><span class="line">                <span class="keyword">throw</span> ex;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                InflateException ex = <span class="keyword">new</span> InflateException(</span><br><span class="line">                        parser.getPositionDescription()</span><br><span class="line">                                + <span class="string">": "</span> + e.getMessage());</span><br><span class="line">                ex.initCause(e);</span><br><span class="line">                <span class="keyword">throw</span> ex;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                <span class="comment">// Don't retain static reference on context.</span></span><br><span class="line">                mConstructorArgs[<span class="number">0</span>] = lastContext;</span><br><span class="line">                mConstructorArgs[<span class="number">1</span>] = <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Trace.traceEnd(Trace.TRACE_TAG_VIEW);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="方法源码">方法源码</h2><p>先定义返回值，并且初始值为 root 。View result = root<br>接着过滤了不合法的 xml 标签。再接下来，是分开了2种情况了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Recursive method used to descend down the xml hierarchy and instantiate</span><br><span class="line"> * views, instantiate their children, and then call onFinishInflate().</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> * &lt;strong&gt;Note:&lt;/strong&gt; Default visibility so the BridgeInflater can</span><br><span class="line"> * override it.</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rInflate</span><span class="params">(XmlPullParser parser, View parent, Context context,</span><br><span class="line">        AttributeSet attrs, <span class="keyword">boolean</span> finishInflate)</span> <span class="keyword">throws</span> XmlPullParserException, IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> depth = parser.getDepth();</span><br><span class="line">    <span class="keyword">int</span> type;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (((type = parser.next()) != XmlPullParser.END_TAG ||</span><br><span class="line">            parser.getDepth() &gt; depth) &amp;&amp; type != XmlPullParser.END_DOCUMENT) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (type != XmlPullParser.START_TAG) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> String name = parser.getName();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (TAG_REQUEST_FOCUS.equals(name)) &#123;</span><br><span class="line">            parseRequestFocus(parser, parent);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (TAG_TAG.equals(name)) &#123;</span><br><span class="line">            parseViewTag(parser, parent, attrs);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (TAG_INCLUDE.equals(name)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (parser.getDepth() == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InflateException(<span class="string">"&lt;include /&gt; cannot be the root element"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            parseInclude(parser, context, parent, attrs);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (TAG_MERGE.equals(name)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InflateException(<span class="string">"&lt;merge /&gt; must be the root element"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> View view = createViewFromTag(parent, name, context, attrs);</span><br><span class="line">            <span class="keyword">final</span> ViewGroup viewGroup = (ViewGroup) parent;</span><br><span class="line">            <span class="keyword">final</span> ViewGroup.LayoutParams params = viewGroup.generateLayoutParams(attrs);</span><br><span class="line">            rInflateChildren(parser, view, attrs, <span class="keyword">true</span>);</span><br><span class="line">            viewGroup.addView(view, params);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (finishInflate) &#123;</span><br><span class="line">        parent.onFinishInflate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="xml_标签是_merge">xml 标签是 merge</h3><h4 id="如果_root_为空，或者_attachToRoot_为_false_的话，就抛出异常。">如果 root 为空，或者 attachToRoot 为 false 的话，就抛出异常。</h4><p>这是合理的，merge 标签，尤其是对比 include ，主要是省了一层布局，如果你 root 为空或者<br>attachToRoot 为 false，merge下面的子 View 怎么样添加上去呢。</p>
+<h4 id="进入到方法_rInflate(parser,_root,_inflaterContext,_attrs,_false);_中">进入到方法 rInflate(parser, root, inflaterContext, attrs, false); 中</h4><p>从注解中可以了解到，这是一个递归的方法，去解析 xml 的 View 。最后就调用 onFinishInflate 方法。<br>接着解析标签的时候，有2个标签很奇怪，没见过。</p>
+<h5 id="一个是_requestFocus_，其中_requestFocus，标签主要给_parent-requestFocus()_-">一个是 requestFocus ，其中  requestFocus，标签主要给 parent.requestFocus() .</h5><h5 id="另一个是_tag_。而_tag_标签，则给_parent-setTag(key,_value)-_其中_key_取自_ViewTag_id_，">另一个是 tag 。而 tag 标签，则给 parent.setTag(key, value).  其中 key 取自 ViewTag_id ，</h5><p> value 取自 ViewTag_value。来源是 attrs。</p>
+<h5 id="merge_标签，则是不应存在这里的，仅仅适用于_xml_中顶级标签。">merge 标签，则是不应存在这里的，仅仅适用于 xml 中顶级标签。</h5><h5 id="include">include</h5><p>进入到方法 parseInclude(parser, context, parent, attrs);</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">parseInclude</span><span class="params">(XmlPullParser parser, Context context, View parent,</span><br><span class="line">        AttributeSet attrs)</span> <span class="keyword">throws</span> XmlPullParserException, IOException </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> type;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (parent <span class="keyword">instanceof</span> ViewGroup) &#123;</span><br><span class="line">        <span class="comment">// Apply a theme wrapper, if requested. This is sort of a weird</span></span><br><span class="line">        <span class="comment">// edge case, since developers think the &lt;include&gt; overwrites</span></span><br><span class="line">        <span class="comment">// values in the AttributeSet of the included View. So, if the</span></span><br><span class="line">        <span class="comment">// included View has a theme attribute, we'll need to ignore it.</span></span><br><span class="line">        <span class="keyword">final</span> TypedArray ta = context.obtainStyledAttributes(attrs, ATTRS_THEME);</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> themeResId = ta.getResourceId(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> hasThemeOverride = themeResId != <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (hasThemeOverride) &#123;</span><br><span class="line">            context = <span class="keyword">new</span> ContextThemeWrapper(context, themeResId);</span><br><span class="line">        &#125;</span><br><span class="line">        ta.recycle();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If the layout is pointing to a theme attribute, we have to</span></span><br><span class="line">        <span class="comment">// massage the value to get a resource identifier out of it.</span></span><br><span class="line">        <span class="keyword">int</span> layout = attrs.getAttributeResourceValue(<span class="keyword">null</span>, ATTR_LAYOUT, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (layout == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">final</span> String value = attrs.getAttributeValue(<span class="keyword">null</span>, ATTR_LAYOUT);</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="keyword">null</span> || value.length() &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InflateException(<span class="string">"You must specify a layout in the"</span></span><br><span class="line">                        + <span class="string">" include tag: &lt;include layout=\"@layout/layoutID\" /&gt;"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Attempt to resolve the "?attr/name" string to an identifier.</span></span><br><span class="line">            layout = context.getResources().getIdentifier(value.substring(<span class="number">1</span>), <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// The layout might be referencing a theme attribute.</span></span><br><span class="line">        <span class="keyword">if</span> (mTempValue == <span class="keyword">null</span>) &#123;</span><br><span class="line">            mTempValue = <span class="keyword">new</span> TypedValue();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (layout != <span class="number">0</span> &amp;&amp; context.getTheme().resolveAttribute(layout, mTempValue, <span class="keyword">true</span>)) &#123;</span><br><span class="line">            layout = mTempValue.resourceId;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (layout == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">final</span> String value = attrs.getAttributeValue(<span class="keyword">null</span>, ATTR_LAYOUT);</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InflateException(<span class="string">"You must specify a valid layout "</span></span><br><span class="line">                    + <span class="string">"reference. The layout ID "</span> + value + <span class="string">" is not valid."</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> XmlResourceParser childParser = context.getResources().getLayout(layout);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">final</span> AttributeSet childAttrs = Xml.asAttributeSet(childParser);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">while</span> ((type = childParser.next()) != XmlPullParser.START_TAG &amp;&amp;</span><br><span class="line">                        type != XmlPullParser.END_DOCUMENT) &#123;</span><br><span class="line">                    <span class="comment">// Empty.</span></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (type != XmlPullParser.START_TAG) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> InflateException(childParser.getPositionDescription() +</span><br><span class="line">                            <span class="string">": No start tag found!"</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">final</span> String childName = childParser.getName();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (TAG_MERGE.equals(childName)) &#123;</span><br><span class="line">                    <span class="comment">// The &lt;merge&gt; tag doesn't support android:theme, so</span></span><br><span class="line">                    <span class="comment">// nothing special to do here.</span></span><br><span class="line">                    rInflate(childParser, parent, context, childAttrs, <span class="keyword">false</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">final</span> View view = createViewFromTag(parent, childName,</span><br><span class="line">                            context, childAttrs, hasThemeOverride);</span><br><span class="line">                    <span class="keyword">final</span> ViewGroup group = (ViewGroup) parent;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">final</span> TypedArray a = context.obtainStyledAttributes(</span><br><span class="line">                            attrs, R.styleable.Include);</span><br><span class="line">                    <span class="keyword">final</span> <span class="keyword">int</span> id = a.getResourceId(R.styleable.Include_id, View.NO_ID);</span><br><span class="line">                    <span class="keyword">final</span> <span class="keyword">int</span> visibility = a.getInt(R.styleable.Include_visibility, -<span class="number">1</span>);</span><br><span class="line">                    a.recycle();</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// We try to load the layout params set in the &lt;include /&gt; tag.</span></span><br><span class="line">                    <span class="comment">// If the parent can't generate layout params (ex. missing width</span></span><br><span class="line">                    <span class="comment">// or height for the framework ViewGroups, though this is not</span></span><br><span class="line">                    <span class="comment">// necessarily true of all ViewGroups) then we expect it to throw</span></span><br><span class="line">                    <span class="comment">// a runtime exception.</span></span><br><span class="line">                    <span class="comment">// We catch this exception and set localParams accordingly: true</span></span><br><span class="line">                    <span class="comment">// means we successfully loaded layout params from the &lt;include&gt;</span></span><br><span class="line">                    <span class="comment">// tag, false means we need to rely on the included layout params.</span></span><br><span class="line">                    ViewGroup.LayoutParams params = <span class="keyword">null</span>;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        params = group.generateLayoutParams(attrs);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</span><br><span class="line">                        <span class="comment">// Ignore, just fail over to child attrs.</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (params == <span class="keyword">null</span>) &#123;</span><br><span class="line">                        params = group.generateLayoutParams(childAttrs);</span><br><span class="line">                    &#125;</span><br><span class="line">                    view.setLayoutParams(params);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Inflate all children.</span></span><br><span class="line">                    rInflateChildren(childParser, view, childAttrs, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (id != View.NO_ID) &#123;</span><br><span class="line">                        view.setId(id);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">switch</span> (visibility) &#123;</span><br><span class="line">                        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">                            view.setVisibility(View.VISIBLE);</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                            view.setVisibility(View.INVISIBLE);</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                            view.setVisibility(View.GONE);</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    group.addView(view);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                childParser.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> InflateException(<span class="string">"&lt;include /&gt; can only be used inside of a ViewGroup"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    LayoutInflater.consumeChildElements(parser);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法体，做了一系列的异常检查，最后检查到，如果标签是 merge 的话，那么就调用 rInflate 方法<br>如果用 include ，xml 里面顶级标签是 merge 的话，的确可以省一层布局。<br>View view = createViewFromTag() ,通过这个方法，可以找到标签对应的 View 。 然后，尽量为 view<br>设置 LayoutParams .如果 include 里面 宽高都有的话，就有 include 的。如果没有就只能用 include<br>里面的 xml 的宽高了。<br>调用方法  rInflateChildren(childParser, view, childAttrs, true);<br>这个方法，其实也是调用方法 rInflate，继续加载 View 。<br>设置 View id，以及设置 visibility ,最后就是 group.addView(view)</p>
+<h5 id="others">others</h5><p>其他的话，其实就是 View 了。接下来做的事情是，加载出 View 来，再根据属性 attrs 来设置 view 的<br>LayoutParams 了。最后就是，viewGroup.addView(view, params);<br><strong>值得注意的是</strong> 这里的 params 是 addView 的时候加上去的，而在 include 标签中，是直接用<br>view.setLayoutParams 的，这里其实是没有本质区别的。</p>
+<h4 id="小结">小结</h4><p>xml 顶级标签是 merge的情况下，inflate 参数必须 root 不为空，并且 attachToRoot 必须等于 true .<br>返回的 View 是 root .</p>
+<h3 id="xml_标签不是_merge">xml 标签不是 merge</h3><h4 id="在这个代码块内，做的事情，按照顺序如下：">在这个代码块内，做的事情，按照顺序如下：</h4><ol>
+<li><p>加载出 View 来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Temp is the root view that was found in the xml</span></span><br><span class="line">                    <span class="keyword">final</span> View temp = createViewFromTag(root, name, inflaterContext, attrs);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果 root 不为空<br>为 ViewGroup.LayoutParams params 赋值。如果 attachToRoot 是 false 的话，就直接把<br>这个 params 设置给 temp .</p>
+</li>
+<li><p>递归加载所有子 View</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Inflate all children under temp against its context.</span></span><br><span class="line">                    rInflateChildren(parser, temp, attrs, <span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果需要，把 xml 上的 topView 添加到 root 上。</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// We are supposed to attach all the views we found (int temp)</span></span><br><span class="line">                    <span class="comment">// to root. Do that now.</span></span><br><span class="line">                    <span class="keyword">if</span> (root != <span class="keyword">null</span> &amp;&amp; attachToRoot) &#123;</span><br><span class="line">                        root.addView(temp, params);</span><br><span class="line">                    &#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>看是否需要为 result 重新赋值</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Decide whether to return the root that was passed in or the</span></span><br><span class="line">                    <span class="comment">// top view found in xml.</span></span><br><span class="line">                    <span class="keyword">if</span> (root == <span class="keyword">null</span> || !attachToRoot) &#123;</span><br><span class="line">                        result = temp;</span><br><span class="line">                    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="小结-1">小结</h4><p>这里，我们需要关心的2个问题是：</p>
+<ol>
+<li><p>返回的 view ，到底是什么鬼。<br>如果 root 为空，或者 attachToRoot 为 false，那么返回的就是 xml 上的 TopView 。其余情况，<br>其实其余情况，就剩下当 root 不为空，并且 attachToRoot 为 true 的时候了，这个时候返回的就是<br>root.</p>
+</li>
+<li><p>还有，我在 xml 上设置的属性，到底有没有生效了。<br>首先我们需要明白，在 xml 设置的宽高属性，android:layout_width ,这个应该理解为，相对父 View<br>的期望宽高，在 View 的绘制 measure 过程中，更能体现这个意思。<br>因此在 inflate 过程中，只要传入的 root 不为空，xml上设置的就有效果。那么问题来了，如果我<br>inflate 的时候不传入 root，xml 上的 View 的 LayoutParams 就由 viewGroup.addView(childView,params).<br>这时候决定了。恩，viewGroup.addView(childView) ，这样也是可以的，这个时候 params 的值，就<br>采用了默认值。代码如下  </p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addView</span><span class="params">(View child)</span> </span>&#123;</span><br><span class="line">        addView(child, -<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addView</span><span class="params">(View child, <span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (child == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Cannot add a null child view to a ViewGroup"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        LayoutParams params = child.getLayoutParams();</span><br><span class="line">        <span class="keyword">if</span> (params == <span class="keyword">null</span>) &#123;</span><br><span class="line">            params = generateDefaultLayoutParams();</span><br><span class="line">            <span class="keyword">if</span> (params == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"generateDefaultLayoutParams() cannot return null"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        addView(child, index, params);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * Returns a set of default layout parameters. These parameters are requested</span><br><span class="line">     * when the View passed to &#123;<span class="doctag">@link</span> #addView(View)&#125; has no layout parameters</span><br><span class="line">     * already set. If null is returned, an exception is thrown from addView.</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@return</span> a set of default layout parameters or null</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> LayoutParams <span class="title">generateDefaultLayoutParams</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="注意事项">注意事项</h2><h3 id="inflate_xml_merge_标签">inflate xml merge 标签</h3><p>如果 inflate 的 xml 顶级标签是 merge 的话，inflate 参数必须 root 不为空，并且 attachToRoot<br>必须等于 true .</p>
+<h3 id="root_不为空，并且_attachToRoot_为_true_时">root 不为空，并且 attachToRoot 为 true 时</h3><p>这个时候会调用 rootView.addView(temp,params) .并且返回的是 root。</p>
+<h1 id="题外话">题外话</h1><h2 id="关于学习方法">关于学习方法</h2><p>之前看过一些相关的文章（十分感谢），会给出一些结论，例如 root 和 attachToRoot 分别在不同情况<br>下，返回的值以及 xml 上的属性到底有没效果。本人大概看懂之后，还略刻意的去记住了相关的结论，<br>可是纸上得来终觉浅，遇到问题或者别人问到了，都会感觉有点忘了，自己心里都是有点虚的，<br>不敢给出肯定的答案。要么直接给别人一个可能的情况，再去看看源码，确定一下，万一回答错了，<br>还得（抱歉状）跟别人说。要么，回答，让先看看代码，待会再回答。这个时候，给别人的感觉，这丫的，<br>不靠谱，还不如自己看代码去好了。也许，源码，最好都撸一篇，熟练于心就好了。可是现实是，<br>不会让你有那么多时间的，能把基础的源码和重要的源码，看熟就很不错了（起码对于本人而言）。<br>现在的社会，感觉有点信息爆炸了，各种新的技术出来，都得去看看学习下。  </p>
+<h2 id="关于追求">关于追求</h2><p>今早，看【APP研发实录】 中，提到做 APP 开发的同学，到底追求应该是什么。熟练各种 API ，做出各种炫酷的<br>动画交互和 APP 么。 最近越来越感觉自己基础知识不够扎实，不懂的也越来越多，而想法较多。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/源码学习/" rel="tag">#源码学习</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/25/Clean-架构学习笔记/" rel="next" title="Clean 架构学习笔记">
+                <i class="fa fa-chevron-left"></i> Clean 架构学习笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/17/再读-volley/" rel="prev" title="再读 volley">
+                再读 volley <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="aheadlcx" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">aheadlcx</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#inflate_真正干活的方法"><span class="nav-number">2.</span> <span class="nav-text">inflate 真正干活的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法签名注解"><span class="nav-number">2.1.</span> <span class="nav-text">方法签名注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法几个入参"><span class="nav-number">2.1.1.</span> <span class="nav-text">方法几个入参</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#出参"><span class="nav-number">2.1.2.</span> <span class="nav-text">出参</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法源码"><span class="nav-number">2.2.</span> <span class="nav-text">方法源码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#xml_标签是_merge"><span class="nav-number">2.2.1.</span> <span class="nav-text">xml 标签是 merge</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如果_root_为空，或者_attachToRoot_为_false_的话，就抛出异常。"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">如果 root 为空，或者 attachToRoot 为 false 的话，就抛出异常。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进入到方法_rInflate(parser,_root,_inflaterContext,_attrs,_false);_中"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">进入到方法 rInflate(parser, root, inflaterContext, attrs, false); 中</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一个是_requestFocus_，其中_requestFocus，标签主要给_parent-requestFocus()_-"><span class="nav-number">2.2.1.2.1.</span> <span class="nav-text">一个是 requestFocus ，其中  requestFocus，标签主要给 parent.requestFocus() .</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#另一个是_tag_。而_tag_标签，则给_parent-setTag(key,_value)-_其中_key_取自_ViewTag_id_，"><span class="nav-number">2.2.1.2.2.</span> <span class="nav-text">另一个是 tag 。而 tag 标签，则给 parent.setTag(key, value).  其中 key 取自 ViewTag_id ，</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#merge_标签，则是不应存在这里的，仅仅适用于_xml_中顶级标签。"><span class="nav-number">2.2.1.2.3.</span> <span class="nav-text">merge 标签，则是不应存在这里的，仅仅适用于 xml 中顶级标签。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#include"><span class="nav-number">2.2.1.2.4.</span> <span class="nav-text">include</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#others"><span class="nav-number">2.2.1.2.5.</span> <span class="nav-text">others</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小结"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xml_标签不是_merge"><span class="nav-number">2.2.2.</span> <span class="nav-text">xml 标签不是 merge</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在这个代码块内，做的事情，按照顺序如下："><span class="nav-number">2.2.2.1.</span> <span class="nav-text">在这个代码块内，做的事情，按照顺序如下：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小结-1"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">2.3.</span> <span class="nav-text">注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#inflate_xml_merge_标签"><span class="nav-number">2.3.1.</span> <span class="nav-text">inflate xml merge 标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#root_不为空，并且_attachToRoot_为_true_时"><span class="nav-number">2.3.2.</span> <span class="nav-text">root 不为空，并且 attachToRoot 为 true 时</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#题外话"><span class="nav-number">3.</span> <span class="nav-text">题外话</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于学习方法"><span class="nav-number">3.1.</span> <span class="nav-text">关于学习方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于追求"><span class="nav-number">3.2.</span> <span class="nav-text">关于追求</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aheadlcx</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

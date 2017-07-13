@@ -1,0 +1,682 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="设计原则
+依赖倒转依赖抽象，不依赖具体。在工厂方法中，就体现了这一点， creator 中的公共主体逻辑可以先写好，写个抽象方法来延迟实现，让子类是具体实现。在 Volley 中的 http client 就体现了这一点。它会根据 SDK level 来采取不同的实现。常见设计模式
+工厂模式分为，简单工厂、抽象工厂和工厂方法，一共3种。
+外观模式
+适配者模式
+工厂方法模式
+抽象工厂方法
+原型模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用设计模式">
+<meta property="og:url" content="http://www.aheadlcx.xyz/2016/05/14/常用设计模式/index.html">
+<meta property="og:site_name" content="Believe yourself">
+<meta property="og:description" content="设计原则
+依赖倒转依赖抽象，不依赖具体。在工厂方法中，就体现了这一点， creator 中的公共主体逻辑可以先写好，写个抽象方法来延迟实现，让子类是具体实现。在 Volley 中的 http client 就体现了这一点。它会根据 SDK level 来采取不同的实现。常见设计模式
+工厂模式分为，简单工厂、抽象工厂和工厂方法，一共3种。
+外观模式
+适配者模式
+工厂方法模式
+抽象工厂方法
+原型模式">
+<meta property="og:updated_time" content="2016-06-01T09:20:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常用设计模式">
+<meta name="twitter:description" content="设计原则
+依赖倒转依赖抽象，不依赖具体。在工厂方法中，就体现了这一点， creator 中的公共主体逻辑可以先写好，写个抽象方法来延迟实现，让子类是具体实现。在 Volley 中的 http client 就体现了这一点。它会根据 SDK level 来采取不同的实现。常见设计模式
+工厂模式分为，简单工厂、抽象工厂和工厂方法，一共3种。
+外观模式
+适配者模式
+工厂方法模式
+抽象工厂方法
+原型模式">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 常用设计模式 | Believe yourself </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Believe yourself</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                常用设计模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-14T11:37:28+08:00" content="2016-05-14">
+              2016-05-14
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="设计原则">设计原则</h1><ol>
+<li>依赖倒转<br>依赖抽象，不依赖具体。<br>在工厂方法中，就体现了这一点， creator 中的公共主体逻辑可以先写好，写个抽象方法来延迟实现，<br>让子类是具体实现。在 Volley 中的 http client 就体现了这一点。它会根据 SDK level 来<br>采取不同的实现。<h1 id="常见设计模式">常见设计模式</h1></li>
+<li>工厂模式<br>分为，简单工厂、抽象工厂和工厂方法，一共3种。</li>
+<li>外观模式</li>
+<li>适配者模式</li>
+<li>工厂方法模式</li>
+<li>抽象工厂方法</li>
+<li>原型模式</li>
+<li>中介模式</li>
+<li>代理模式</li>
+<li>观察者模式</li>
+<li>命令模式</li>
+</ol>
+<h2 id="设计模式的具体实现和理解">设计模式的具体实现和理解</h2><h3 id="简单工厂">简单工厂</h3><p><strong>使用情景</strong>：<br>不想让调用者，知道具体实现，直接返回一个接口，让操作者去调用。对外仅仅暴漏接口和<br>简单工厂，具体的实现隐藏起来。<br><strong>结构说明</strong>：<br>接口和具体实现类，以及工厂，处于一层，调用者处于另外一层。<br>如果需要调用不同的实现，可以选择  </p>
+<ol>
+<li>带入参</li>
+<li>或者自己读取配置文件。<br>带入参，就意味着，调用者需要知道内部具体实现的<br>部分细节了，这加大了，调用者的学习成本，值得注意的一点。<br><strong>优缺点</strong>：<br>改模式的优点是：调用者不关心具体的实现。把调用者和具体实现类解耦。<br>缺点：如果需要带入参，那么调用者就需要知道部分具体实现细节。</li>
+</ol>
+<h3 id="外观模式">外观模式</h3><p><strong>使用情景</strong>：调用者需要分别调用不同子模块的方法，来实现一个需求。外观模式，就是用了一个<br>对各子模块的包装( Facade )了，调用者只需要调用 Facade 就可以实现分别调用各子模块了。<br><strong>结构说明</strong>：<br>  Facade 包装一下各子模块的功能，对外提供一个包装后的功能方法，对外提供。<br><strong>优缺点</strong>：<br>优点是：调用者不关心那么多子模块的实现了，直接调用包装后的 Facade 。<br>缺点： 如果一些简单的功能，不知道是直接调用具体的模块好，还是用 Facade 好。<br><strong>和相关模式的区别</strong>：  </p>
+<ol>
+<li>简单工厂模式<br><strong>相同点是</strong> 都是不让调用者知道具体的实现细节，节省调用者的理解成本。<br><strong>不同点是</strong> 简单工厂返回的是接口，外观，是通过一个包装类来提供的。  </li>
+</ol>
+<h3 id="适配器模式">适配器模式</h3><p>简单来举例说，比如，第一版本一个类 A，有方法 A1 和 A2 ，现在第二版本，类 A 的升级类 B ，<br>有方法 B1 , B2 , B3 , B4 。但是呢，现在是处于第一版本向第二版本的过渡期，既要保持第二版本<br>的实现（虽然不大稳定），也要拥有之前版本的实现。一般来说，如果从业务角度，如果 A1  方法和 B1<br>方法，较接近，而且参数之类也可以兼容的话，就可以在类 B 的方法 B1 中，调用类 A  的方法 A1 。<br>至于类 A  什么时候传入到类 B 中，可以随意选择了，但是必须得在调用方法 B1 之前。</p>
+<h2 id="工厂方法模式">工厂方法模式</h2><p>和简单工厂比较像。他把公共逻辑写完，剩下的未知的（或者个性化）实现，写一个抽象方法，<br>留给子类去定制化实现。</p>
+<h2 id="抽象工厂方法">抽象工厂方法</h2><p>和工厂方法类似，并且会常常一起使用，主要特点，就是为一个特定的产品，实现定制化一个 Factory 。</p>
+<h2 id="原型模式">原型模式</h2><p>java 中的 clone 是浅度克隆，基本类型没问题，但是引用类型的话，clone 是直接把对象的值，<br>拷贝过去的。因此需要自己重新复制。</p>
+<h2 id="中介模式">中介模式</h2><p>和外观模式有点像，对象之间通信比较复杂，并且频繁的话，可以抽离出来，让 Mediator 来做<br>这些复杂的操作，中介模式的结构并不固定。</p>
+<h2 id="代理模式">代理模式</h2><p>在调用者和被访问的对象之间，引入一定程度上的中间者，试图不让调用者和被访问的对象直接联系。<br>这么做的原因可能各种各样。例如，目标对象，可能有很多公开方法，但是这些公开方法，大部分只是<br>希望给自己内部使用，仅有小部分是对开公开的。因此可以封装一层。</p>
+<h2 id="观察者模式">观察者模式</h2><p>一对多的关系，被观察者的改变，会引起众多观察者的关注。需要注意观察者的生命周期，需要及时注销。</p>
+<h2 id="命令模式">命令模式</h2><p>就是调用者，不关心具体的实现，</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/17/再读-volley/" rel="next" title="再读 volley">
+                <i class="fa fa-chevron-left"></i> 再读 volley
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/12/CoordinatorLayout-源码学习/" rel="prev" title="CoordinatorLayout 源码学习">
+                CoordinatorLayout 源码学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="aheadlcx" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">aheadlcx</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#设计原则"><span class="nav-number">1.</span> <span class="nav-text">设计原则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常见设计模式"><span class="nav-number">2.</span> <span class="nav-text">常见设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计模式的具体实现和理解"><span class="nav-number">2.1.</span> <span class="nav-text">设计模式的具体实现和理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单工厂"><span class="nav-number">2.1.1.</span> <span class="nav-text">简单工厂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外观模式"><span class="nav-number">2.1.2.</span> <span class="nav-text">外观模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#适配器模式"><span class="nav-number">2.1.3.</span> <span class="nav-text">适配器模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂方法模式"><span class="nav-number">2.2.</span> <span class="nav-text">工厂方法模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象工厂方法"><span class="nav-number">2.3.</span> <span class="nav-text">抽象工厂方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原型模式"><span class="nav-number">2.4.</span> <span class="nav-text">原型模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中介模式"><span class="nav-number">2.5.</span> <span class="nav-text">中介模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理模式"><span class="nav-number">2.6.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察者模式"><span class="nav-number">2.7.</span> <span class="nav-text">观察者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令模式"><span class="nav-number">2.8.</span> <span class="nav-text">命令模式</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aheadlcx</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
