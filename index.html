@@ -397,12 +397,46 @@
 <li>MergeSourceSetFolders<br>+</li>
 </ul>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">File mergerDir = variant<span class="class">.mergeResources</span><span class="class">.incrementalFolder</span></span><br></pre></td></tr></table></figure>
-<h3 id="笔记">笔记</h3><h4 id="AppPlugin-prepareSplit_方法">AppPlugin.prepareSplit 方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">small.idMaps = staticIdMaps</span><br><span class="line">small.idStrMaps = staticIdStrMaps</span><br><span class="line">small.retainedTypes = retainedTypes</span><br><span class="line">small.retainedStyleables = retainedStyleables</span><br><span class="line"></span><br><span class="line">small.allTypes = allTypes</span><br><span class="line">small.allStyleables = allStyleables</span><br><span class="line"></span><br><span class="line">small.vendorTypes = vendorTypes</span><br><span class="line">small.vendorStyleables = vendorStyleables</span><br></pre></td></tr></table></figure>
-<h3 id="疑问点">疑问点</h3><ul>
+<h3 id="笔记">笔记</h3><h4 id="AppPlugin-prepareSplit_方法">AppPlugin.prepareSplit 方法</h4><ul>
+<li>符号表 symbolFile 文件不存在就返回。</li>
+<li>用 libEntries 保存 宿主 host 的符号表</li>
+<li>用 libEntries 保存 mTransitiveDependentLibProjects 的 public.txt ，应该也是上次保存的 符号表</li>
+<li>small.publicSymbolFile 指的是这个 project 下面的 publix.txt</li>
+<li>在 SymbolParser 的解析 符号表的时候，<ul>
+<li>vtype 表示第一个，一般是 int 或者 int[]  </li>
+<li>type 表示 类型，dimen anim color 等.</li>
+<li>key 表示 这个资源的 key ，平时 R.type.key 这样  使用的。</li>
+<li>typeId 表示 在 R 文件中的 id 的 pp 字段。</li>
+<li>entryId 表示 typeId 后面的4位。  </li>
+<li>idStr 表示完整的 id 的字符串，</li>
+<li>id 就是 idStr 的 Integr 化了。</li>
+</ul>
+</li>
+</ul>
+<p><strong>几个重要的变量</strong>  </p>
+<ul>
+<li>publicEntries 就是 project 下面的 符号表  </li>
+<li>bundleEntries 当前 aaptTask 之后的 符号表</li>
+<li>libEntries 是宿主和 mTransitiveDependentLibProjects 的 符号表</li>
+<li>retainedPublicEntries 在当前 bundleEntries  还保持的 publicEntries</li>
+<li>retainedEntries 在当前 bundleEntries 中的符号表，去除了 publicEntries 部分。</li>
+<li>retainedStyleables 类似 retainedEntries ，不过他仅仅包含了 styleable 部分。</li>
+<li>staticIdMaps.put(bundleEntry.id, libEntry.id)</li>
+<li>staticIdMaps 会在 重造 resId 之后，staticIdMaps.put(e.id, newResId)</li>
+<li>staticIdStrMaps.put(bundleEntry.idStr, libEntry.idStr)</li>
+<li>staticIdStrMaps 同样，会在重造 resId 之后，staticIdStrMaps.put(e.idStr, newResIdStr)</li>
+<li>vendorEntries 指的是 aar 中的 符号表</li>
+<li>vendorStyleableKeys 指的是 aar 中的 styleable 部分。</li>
+<li>allTypes 包含 libEntries 、retainedTypes 和 vendorEntries 的。名字冲突部分，已经处理了。</li>
+<li>allStyleables ，类似 allTypes .</li>
+</ul>
+<h5 id="疑问"><strong>疑问</strong></h5><h6 id="small-publicSymbolFile_和_small-symbolFile_分别是什么时候生成的。">small.publicSymbolFile 和 small.symbolFile 分别是什么时候生成的。</h6><h6 id="project_的_public-txt_的_unusedTypeIds_以及_unusedEntryIds_是怎么产生的">project 的 public.txt 的 unusedTypeIds 以及 unusedEntryIds 是怎么产生的</h6><p>unusedTypeIds 是 public.txt 中 typeId 不是从 0 开始就会产生这个问题。但是 需要 继续看 public.txt 为什么会产生这个问题。 unusedEntryIds 问题的产生类似。</p>
+<h6 id="transitiveVendorAars_和_mTransitiveDependentLibProjects_的区别和联系">transitiveVendorAars 和 mTransitiveDependentLibProjects 的区别和联系</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">staticIdMaps</span><br><span class="line">small.idMaps = staticIdMaps  </span><br><span class="line">small.idStrMaps = staticIdStrMaps</span><br><span class="line">small.retainedTypes = retainedTypes</span><br><span class="line">small.retainedStyleables = retainedStyleables</span><br><span class="line"></span><br><span class="line">small.allTypes = allTypes</span><br><span class="line">small.allStyleables = allStyleables</span><br><span class="line"></span><br><span class="line">small.vendorTypes = vendorTypes</span><br><span class="line">small.vendorStyleables = vendorStyleables</span><br></pre></td></tr></table></figure>
+<h4 id="AppPlugin-hookAapt_方法">AppPlugin.hookAapt 方法</h4><h3 id="疑问点">疑问点</h3><ul>
 <li>rootSmall.preLinkJarDir 什么时候赋值的。</li>
 <li>AppPlugin 中的 configureReleaseVariant 方法中的 symbolFile rJavaFile 和 splitRJavaFile ，到底是什么关系和区别</li>
 </ul>
-<p>symbolFile 是符号表，<br>rJavaFile 是 R 文件，<br>splitRJavaFile ，目前<strong>未知</strong> <strong>undo</strong></p>
+<p>symbolFile 是符号表，路径位置的确认，是通过 aapt.textSymbolOutputDir 。<br>rJavaFile 是 R 文件，  路径位置的确认是通过 aapt.sourceOutputDir<br>splitRJavaFile ，目前<strong>未知</strong> <strong>undo</strong></p>
 <ul>
 <li>在 LibraryPlugin 的 configureReleaseVariant 方法中，会把 small.symbolFile 复制到  small.publicSymbolFile 。（除去了styleable） .small.symbolFile 路径地址赋值是在  AppPlugin 的 configureReleaseVariant 方法，但是内容什么时候赋值，未知。这些都是在  variant.assemble doLast 做的。</li>
 <li>small.jar = project.jarReleaseClasses</li>
