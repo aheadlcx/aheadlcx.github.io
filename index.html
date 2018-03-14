@@ -220,114 +220,6 @@
             
               
                 
-                <a class="post-title-link" href="/2018/03/04/small-关键点小结.md1/" itemprop="url">
-                  small 关键点小结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2018-03-04T14:41:57+08:00" content="2018-03-04">
-              2018-03-04
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h3 id="hookVariantTask_方法">hookVariantTask 方法</h3><p>hookVariantTask 方法是 small plugin 插件的核心所在。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">hookVariantTask</span><span class="params">(BaseVariant variant)</span> </span>&#123;</span><br><span class="line">    hookMergeAssets(variant.mergeAssets)</span><br><span class="line"></span><br><span class="line">    hookProcessManifest(small.processManifest)</span><br><span class="line"></span><br><span class="line">    hookAapt(small.aapt)</span><br><span class="line"></span><br><span class="line">    hookJavac(small.javac, variant)</span><br><span class="line"></span><br><span class="line">    hookKotlinCompile()</span><br><span class="line"></span><br><span class="line">    def transformTasks = project.tasks.withType(TransformTask.class)</span><br><span class="line">    def mergeJniLibsTask = transformTasks.find &#123;</span><br><span class="line">        it.transform.name == <span class="string">'mergeJniLibs'</span> &amp;&amp; it.variantName == variant.name</span><br><span class="line">    &#125;</span><br><span class="line">    hookMergeJniLibs(mergeJniLibsTask)</span><br><span class="line"></span><br><span class="line">    def mergeJavaResTask = transformTasks.find &#123;</span><br><span class="line">        it.transform.name == <span class="string">'mergeJavaRes'</span> &amp;&amp; it.variantName == variant.name</span><br><span class="line">    &#125;</span><br><span class="line">    hookMergeJavaRes(mergeJavaResTask)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Hook clean task to unset package id</span></span><br><span class="line">    project.clean.doLast &#123;</span><br><span class="line">        sPackageIds.remove(project.name)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>hookMergeAssets 方法，先放下，先跟主流程。先来跟踪 hookProcessManifest 方法。</p>
-<h4 id="hookProcessManifest_方法">hookProcessManifest 方法</h4><p>合并 manifest中，有可能会 application@name 冲突，因此方法体内，做了如下几件事</p>
-<ul>
-<li>把 providers 清空</li>
-<li>移除了自身依赖 libs 中，rootExtension 的 libProjects 。</li>
-<li>移除 ‘android:icon’, ‘android:label’,’android:allowBackup’, ‘android:supportsRtl’ 这几个标识。</li>
-</ul>
-<h4 id="hookAapt_方法">hookAapt 方法</h4><p>解析库资源ID </p>
-<ul>
-<li>在 tash ProcessAndroidResources 最后，把 ap_ 文件 解压到临时文件 ap_unzip 中。</li>
-<li>接着调用 prepareSplit 方法，该方法作用是 把资源包，保持资源类型和ID。后面，该方法见下面详细分析。</li>
-</ul>
-<h5 id="prepareSplit_方法">prepareSplit 方法</h5><p>几个重要变量</p>
-<ul>
-<li>small.symbolFile 本 project 的符号表</li>
-<li>rootSmall.strictSplitResources 严格模式下，插件不允许使用第三方aar，需要在宿主里同时申明，或者将strictSplitResources设置为false。即“非强制模式” 为什么默认为严格模式是因为 最初的设想是第三方依赖一般变动少，可以直接放宿主定义。这样插件里就可以剥离，达到插件最小化。后为了灵活性，增加了strictSplitResources的关闭选项。</li>
-<li>mUserLibAars ，</li>
-<li>small.retainedAars    <a href="https://github.com/wequick/Small/issues/194" target="_blank" rel="external">issue 194</a></li>
-<li>transitiveVendorAars</li>
-<li>firstLevelVendorAars</li>
-<li>libEntries 是加上宿主的 符号表 +  mTransitiveDependentLibProjects 的符号表</li>
-<li>mTransitiveDependentLibProjects</li>
-</ul>
-<p>这个方法，最终是给下面几个变量赋值了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">small.idMaps            </span><br><span class="line">small.idStrMaps         </span><br><span class="line">small.retainedTypes     </span><br><span class="line">small.retainedStyleables</span><br><span class="line">small.allTypes          </span><br><span class="line">small.allStyleables     </span><br><span class="line">small.vendorTypes       </span><br><span class="line">small.vendorStyleables</span><br></pre></td></tr></table></figure>
-<h4 id="buildLib_方法">buildLib 方法</h4><p>+ </p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2017/06/04/small-gradle-plugin-插件整理/" itemprop="url">
                   small-gradle-plugin 插件整理
                 </a>
@@ -913,6 +805,87 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/04/Small-学习笔记/" itemprop="url">
+                  Small 学习笔记 - 流程篇
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2017-02-04T15:08:09+08:00" content="2017-02-04">
+              2017-02-04
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>记录 Small 启动流程<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/02/04/Small-学习笔记/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
 
   </section>
 
@@ -959,7 +932,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
