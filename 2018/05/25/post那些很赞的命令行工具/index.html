@@ -51,16 +51,49 @@
 
 
 
-<meta name="description" content="记录 Small 疑惑点">
+<meta name="description" content="整理好用的终端软件
+
+tiggit 查看变更 history
+ag递归查找ag “search word”
+bat查看文件，超级 nicebat filename
+fzf模糊搜索
+
+control + R 再输入命令，会给出模糊搜索
+
+暂时未完全摸清楚优点
+icdiff分屏显示 diff
+pandoc可以把 md 文件转 pdf 。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Small 学习笔记-疑问点">
-<meta property="og:url" content="http://www.aheadlcx.xyz/2017/05/05/Small-疑问点/index.html">
+<meta property="og:title" content="那些很赞的命令行工具">
+<meta property="og:url" content="http://www.aheadlcx.xyz/2018/05/25/post那些很赞的命令行工具/index.html">
 <meta property="og:site_name" content="Believe yourself">
-<meta property="og:description" content="记录 Small 疑惑点">
-<meta property="og:updated_time" content="2017-05-06T09:17:47.000Z">
+<meta property="og:description" content="整理好用的终端软件
+
+tiggit 查看变更 history
+ag递归查找ag “search word”
+bat查看文件，超级 nicebat filename
+fzf模糊搜索
+
+control + R 再输入命令，会给出模糊搜索
+
+暂时未完全摸清楚优点
+icdiff分屏显示 diff
+pandoc可以把 md 文件转 pdf 。">
+<meta property="og:updated_time" content="2018-05-25T11:01:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Small 学习笔记-疑问点">
-<meta name="twitter:description" content="记录 Small 疑惑点">
+<meta name="twitter:title" content="那些很赞的命令行工具">
+<meta name="twitter:description" content="整理好用的终端软件
+
+tiggit 查看变更 history
+ag递归查找ag “search word”
+bat查看文件，超级 nicebat filename
+fzf模糊搜索
+
+control + R 再输入命令，会给出模糊搜索
+
+暂时未完全摸清楚优点
+icdiff分屏显示 diff
+pandoc可以把 md 文件转 pdf 。">
 
 
 
@@ -72,7 +105,7 @@
   };
 </script>
 
-  <title> Small 学习笔记-疑问点 | Believe yourself </title>
+  <title> 那些很赞的命令行工具 | Believe yourself </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -212,7 +245,7 @@
             
             
               
-                Small 学习笔记-疑问点
+                那些很赞的命令行工具
               
             
           </h1>
@@ -221,8 +254,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2017-05-05T16:14:59+08:00" content="2017-05-05">
-              2017-05-05
+            <time itemprop="dateCreated" datetime="2018-05-25T17:53:08+08:00" content="2018-05-25">
+              2018-05-25
             </time>
           </span>
 
@@ -245,39 +278,19 @@
       
 
       
-        <span itemprop="articleBody"><p>记录 Small 疑惑点<br><a id="more"></a></p>
-<h2 id="疑问点">疑问点</h2><ul>
-<li>资源加载<br>AssetManager 的 addAssetPath 方法可以添加一个资源搜索路径，然后就可以拿到一个新的<br>Resource 的了，代码如下：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">AssetManager mAssetManager;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            AssetManager assetManager = AssetManager.class.newInstance();</span><br><span class="line">            Method addAssetPath = assetManager.getClass().getMethod(<span class="string">"addAssetPath"</span>, String.class);</span><br><span class="line">            addAssetPath.invoke(assetManager, skinPath);</span><br><span class="line">            mAssetManager = assetManager;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Resources skinResources = <span class="keyword">new</span> Resources(mAssetManager, metrics, configuration());</span><br></pre></td></tr></table></figure>
-<p>但是 Activity 的 getResource 方法是 ContextThemeWrapper 提供的。这2个具体是怎么<br>结合起来的。</p>
+        <span itemprop="articleBody"><blockquote>
+<p>整理好用的终端软件</p>
+</blockquote>
+<h2 id="tig">tig</h2><p>git 查看变更 history</p>
+<h2 id="ag">ag</h2><p>递归查找<br>ag “search word”</p>
+<h2 id="bat">bat</h2><p>查看文件，超级 nice<br>bat filename</p>
+<h2 id="fzf">fzf</h2><p>模糊搜索</p>
 <ul>
-<li><p>其他组件包打包成 so 文件并存放在宿主中。这个到底是怎么安装的</p>
-</li>
-<li><p>dex 会不会重复插入了</p>
-</li>
-<li>资源合并</li>
-<li>Small.open(Uri uri)<br>查询参数</li>
-<li>assets 目录下的文件 bundle.json 可以这样打开</li>
+<li>control + R 再输入命令，会给出模糊搜索</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sPatchManifestFile = <span class="keyword">new</span> File(Small.getContext().getFilesDir(), <span class="string">"bundle.json"</span>);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>AssetManager 打开 xml<br>其中一段代码如下<br>用 AssetManager 添加一个资源路径，返回的 cookie ，然后用这个 cookie 和 想要打开的 xml 文件名<br>即可得到想要打开的 xml 的 XmlResourceParser 。  </li>
-</ul>
-<p><strong>undo 这里，添加一个路径，是不限制文件格式的么。 apk so 都可以？</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> cookie = ReflectAccelerator.addAssetPath(assmgr, mArchiveSourcePath);</span><br><span class="line">            <span class="keyword">if</span>(cookie != <span class="number">0</span>) &#123;</span><br><span class="line">                parser = assmgr.openXmlResourceParser(cookie, <span class="string">"AndroidManifest.xml"</span>);</span><br><span class="line">                assetError = <span class="keyword">false</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                Log.w(TAG, <span class="string">"Failed adding asset path:"</span>+mArchiveSourcePath);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>判断插件，是否有资源<br>用了变量 nonResources 保存。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> flags = parser.getAttributeIntValue(<span class="keyword">null</span>, <span class="string">"platformBuildVersionCode"</span>, <span class="number">0</span>);</span><br><span class="line">            <span class="keyword">int</span> abiFlags = (flags &amp; <span class="number">0xFFFFF000</span>) &gt;&gt; <span class="number">12</span>;</span><br><span class="line">            mNonResources = (flags &amp; <span class="number">0x800</span>) != <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>插件更新，原理<br>目前看到的相关代码如下  </li>
-</ul>
-<p>ApkBundleLauncher 的 postSetUp 方法里面<br><strong>目前未明白，为何删除了 optDexFile  ，下次重启就可以更新插件了。</strong>初步推测，是删了之后，下次<br>DexFile.loadDex 就会返回新的 DexFile 了。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (LoadedApk apk : apks) &#123;</span><br><span class="line">    dexPaths[i] = apk.path;</span><br><span class="line">    dexFiles[i] = apk.dexFile;</span><br><span class="line">    <span class="keyword">if</span> (Small.getBundleUpgraded(apk.packageName)) &#123;</span><br><span class="line">        <span class="comment">// If upgraded, delete the opt dex file for recreating</span></span><br><span class="line">        <span class="keyword">if</span> (apk.optDexFile.exists()) apk.optDexFile.delete();</span><br><span class="line">        Small.setBundleUpgraded(apk.packageName, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    i++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>public.txt 更新和删除<br>这份文件是保存的 R 文件的 id ，目前还没搞清楚，删除和更新的时机。</li>
-</ul>
+<p>暂时未完全摸清楚优点</p>
+<h2 id="icdiff">icdiff</h2><p>分屏显示 diff</p>
+<h2 id="pandoc">pandoc</h2><p>可以把 md 文件转 pdf 。</p>
 </span>
       
     </div>
@@ -289,17 +302,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/20/postAndroid-多进程使用注意点/" rel="next" title="Android 多进程使用注意点">
-                <i class="fa fa-chevron-left"></i> Android 多进程使用注意点
+              <a href="/2017/06/04/small-gradle-plugin-插件整理/" rel="next" title="small-gradle-plugin 插件整理">
+                <i class="fa fa-chevron-left"></i> small-gradle-plugin 插件整理
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/04/small-gradle-plugin-插件整理/" rel="prev" title="small-gradle-plugin 插件整理">
-                small-gradle-plugin 插件整理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -413,7 +422,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#疑问点"><span class="nav-number">1.</span> <span class="nav-text">疑问点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tig"><span class="nav-number">1.</span> <span class="nav-text">tig</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ag"><span class="nav-number">2.</span> <span class="nav-text">ag</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bat"><span class="nav-number">3.</span> <span class="nav-text">bat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fzf"><span class="nav-number">4.</span> <span class="nav-text">fzf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#icdiff"><span class="nav-number">5.</span> <span class="nav-text">icdiff</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pandoc"><span class="nav-number">6.</span> <span class="nav-text">pandoc</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

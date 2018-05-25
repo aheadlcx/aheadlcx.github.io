@@ -51,19 +51,19 @@
 
 
 
-<meta name="description" content="hookVariantTask 方法hookVariantTask 方法是 small plugin 插件的核心所在。
-123456789101112131415161718192021222324252627protected void hookVariantTask(BaseVariant variant) &amp;#123;    hookMergeAssets(variant.mergeAsse">
+<meta name="description" content="AppPlugin 怎么区分哪些资源是自身 module 的。在 variant.mergeResources.incrementalFolder 目录下的 merger.xml 记录了，这个 app 的所有资源，(small.mergerXml)。格式如下：属于自身 module 的时候，是  
+12345678910&amp;lt;dataSet config=&quot;main&quot; generated-set">
 <meta property="og:type" content="website">
 <meta property="og:title" content="small 关键点小结">
 <meta property="og:url" content="http://www.aheadlcx.xyz/small-关键点小结.md1.html">
 <meta property="og:site_name" content="Believe yourself">
-<meta property="og:description" content="hookVariantTask 方法hookVariantTask 方法是 small plugin 插件的核心所在。
-123456789101112131415161718192021222324252627protected void hookVariantTask(BaseVariant variant) &amp;#123;    hookMergeAssets(variant.mergeAsse">
-<meta property="og:updated_time" content="2018-03-05T09:03:05.000Z">
+<meta property="og:description" content="AppPlugin 怎么区分哪些资源是自身 module 的。在 variant.mergeResources.incrementalFolder 目录下的 merger.xml 记录了，这个 app 的所有资源，(small.mergerXml)。格式如下：属于自身 module 的时候，是  
+12345678910&amp;lt;dataSet config=&quot;main&quot; generated-set">
+<meta property="og:updated_time" content="2018-03-14T06:47:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="small 关键点小结">
-<meta name="twitter:description" content="hookVariantTask 方法hookVariantTask 方法是 small plugin 插件的核心所在。
-123456789101112131415161718192021222324252627protected void hookVariantTask(BaseVariant variant) &amp;#123;    hookMergeAssets(variant.mergeAsse">
+<meta name="twitter:description" content="AppPlugin 怎么区分哪些资源是自身 module 的。在 variant.mergeResources.incrementalFolder 目录下的 merger.xml 记录了，这个 app 的所有资源，(small.mergerXml)。格式如下：属于自身 module 的时候，是  
+12345678910&amp;lt;dataSet config=&quot;main&quot; generated-set">
 
 
 
@@ -203,7 +203,11 @@
   <div id="posts" class="posts-expand">
     
     
-      <h3 id="hookVariantTask_方法">hookVariantTask 方法</h3><p>hookVariantTask 方法是 small plugin 插件的核心所在。</p>
+      <h3 id="AppPlugin_怎么区分哪些资源是自身_module_的。">AppPlugin 怎么区分哪些资源是自身 module 的。</h3><p>在 variant.mergeResources.incrementalFolder 目录下的 merger.xml 记录了，这个 app 的所有资源，(small.mergerXml)。格式如下：<br>属于自身 module 的时候，是  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataSet config="main" generated-set="main$Generated"&gt;</span><br><span class="line">    &lt;source</span><br><span class="line">        path="/Users/apple/mycode/androidFile/github/Small/Android/Sample/app.mine/src/main/res"&gt;</span><br><span class="line">        &lt;file name="activity_main"</span><br><span class="line">              path="/Users/apple/mycode/androidFile/github/Small/Android/Sample/app.mine/src/main/res/layout/activity_main.xml"</span><br><span class="line">              qualifiers="" type="layout"/&gt;</span><br><span class="line">              ....</span><br><span class="line"></span><br><span class="line">    &lt;/source&gt;</span><br><span class="line">&lt;/dataSet&gt;</span><br></pre></td></tr></table></figure>
+<p>非自身 module 的资源是这样格式的 </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataSet config="default" from-dependency="true" generated-set="default$Generated"&gt;</span><br><span class="line">    &lt;source</span><br><span class="line">        path="/Users/apple/mycode/androidFile/github/Small/Android/Sample/lib.style/build/intermediates/bundles/default/res"&gt;</span><br><span class="line">        &lt;file name="my_fade_in"</span><br><span class="line">              path="/Users/apple/mycode/androidFile/github/Small/Android/Sample/lib.style/build/intermediates/bundles/default/res/anim/my_fade_in.xml"</span><br><span class="line">              qualifiers="" type="anim"/&gt;</span><br><span class="line">              ....</span><br><span class="line"></span><br><span class="line">    &lt;/source&gt;</span><br><span class="line">&lt;/dataSet&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="hookVariantTask_方法">hookVariantTask 方法</h3><p>hookVariantTask 方法是 small plugin 插件的核心所在。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">hookVariantTask</span><span class="params">(BaseVariant variant)</span> </span>&#123;</span><br><span class="line">    hookMergeAssets(variant.mergeAssets)</span><br><span class="line"></span><br><span class="line">    hookProcessManifest(small.processManifest)</span><br><span class="line"></span><br><span class="line">    hookAapt(small.aapt)</span><br><span class="line"></span><br><span class="line">    hookJavac(small.javac, variant)</span><br><span class="line"></span><br><span class="line">    hookKotlinCompile()</span><br><span class="line"></span><br><span class="line">    def transformTasks = project.tasks.withType(TransformTask.class)</span><br><span class="line">    def mergeJniLibsTask = transformTasks.find &#123;</span><br><span class="line">        it.transform.name == <span class="string">'mergeJniLibs'</span> &amp;&amp; it.variantName == variant.name</span><br><span class="line">    &#125;</span><br><span class="line">    hookMergeJniLibs(mergeJniLibsTask)</span><br><span class="line"></span><br><span class="line">    def mergeJavaResTask = transformTasks.find &#123;</span><br><span class="line">        it.transform.name == <span class="string">'mergeJavaRes'</span> &amp;&amp; it.variantName == variant.name</span><br><span class="line">    &#125;</span><br><span class="line">    hookMergeJavaRes(mergeJavaResTask)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Hook clean task to unset package id</span></span><br><span class="line">    project.clean.doLast &#123;</span><br><span class="line">        sPackageIds.remove(project.name)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>hookMergeAssets 方法，先放下，先跟主流程。先来跟踪 hookProcessManifest 方法。</p>
 <h4 id="hookProcessManifest_方法">hookProcessManifest 方法</h4><p>合并 manifest中，有可能会 application@name 冲突，因此方法体内，做了如下几件事</p>
@@ -276,7 +280,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
